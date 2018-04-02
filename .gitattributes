@@ -1,0 +1,19 @@
+* text=auto
+
+*.cs     diff=csharp
+*.cshtml diff=html
+*.css    diff=css
+*.tex    diff=tex
+
+*.sh     eol=lf
+
+*.jpg    binary
+*.png    binary
+*.gif    binary
+*.svg    binary
+*.ico    binary
+
+*.doc   diff=astextplain
+*.docx  diff=astextplain
+*.pdf   diff=astextplain
+
