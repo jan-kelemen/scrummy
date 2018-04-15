@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Scrummy.Application.Web.Core.ViewModels
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -36,6 +37,40 @@
         </div>
     </nav>
     <div class="container body-content">
+        @if (TempData["Message"] != null)
+        {
+            <div style="margin: 10px">
+                @switch ((MessageType)TempData["Status"])
+                {
+                    case MessageType.Error:
+                        <div class="alert alert-danger fade in">
+                            <strong>Error!</strong> @TempData["Message"]
+                        </div>
+                        break;
+                    case MessageType.Warning:
+                        <div class="alert alert-warning fade in">
+                            <strong>Warning!</strong> @TempData["Message"]
+                        </div>
+                        break;
+                    case MessageType.Success:
+                        <div class="alert alert-success fade in">
+                            <strong>Success!</strong> @TempData["Message"]
+                        </div>
+                        break;
+                    case MessageType.Information:
+                        <div class="alert alert-info fade in">
+                            <strong>Info!</strong> @TempData["Message"]
+                        </div>
+                        break;
+                    default:
+                        <div class="alert fade in">
+                            @TempData["Message"]
+                        </div>
+                        break;
+                }
+            </div>
+        }
+
         @RenderBody()
         <hr />
         <footer>

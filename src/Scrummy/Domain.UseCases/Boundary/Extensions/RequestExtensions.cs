@@ -1,5 +1,4 @@
-﻿using Scrummy.Domain.UseCases.Exceptions;
-using Scrummy.Domain.UseCases.Exceptions.Boundary;
+﻿using Scrummy.Domain.UseCases.Exceptions.Boundary;
 
 namespace Scrummy.Domain.UseCases.Boundary.Extensions
 {
@@ -7,7 +6,7 @@ namespace Scrummy.Domain.UseCases.Boundary.Extensions
     {
         public static void ThrowExceptionIfInvalid(this BaseRequest request)
         {
-            if (!request)
+            if (!request.Validate())
             {
                 throw new InvalidRequestException();
             }

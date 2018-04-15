@@ -1,7 +1,6 @@
 ﻿using System;
 using Scrummy.Domain.Repositories.Exceptions;
 using Scrummy.Domain.Repositories.Interfaces.Entities;
-using Scrummy.Domain.UseCases.Boundary;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Entities.Person;
@@ -17,7 +16,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Entities.Person
             _personRepository = personRepository;
         }
 
-        public BaseResponse Execute(CreatePersonRequest request)
+        public CreatePersonResponse Execute(CreatePersonRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -31,7 +30,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Entities.Person
                 var entity = ToDomainEntity(request);
                 var result = _personRepository.CreatePerson(entity);
 
-                return new CreatePersonResponse
+                return new CreatePersonResponse(string.Format("Person {0} sucessfuly created.", entity.DisplayName))
                 {
                     Id = result,
                 };

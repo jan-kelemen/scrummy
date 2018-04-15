@@ -16,5 +16,8 @@ namespace Scrummy.Domain.UseCases.Implementation.Entities.Factories
 
         public ICreatePersonUseCase CreatePerson => 
             new CreatePersonUseCase(_repositoryFactory.PersonRepository);
+
+        public IViewPersonUseCase ViewPerson =>
+            new ViewPersonUseCase(_repositoryFactory.PersonRepository);
     }
 }

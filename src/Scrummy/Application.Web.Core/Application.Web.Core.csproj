@@ -6,4 +6,8 @@
     <RootNamespace>Scrummy.Application.Web.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.UseCases\Domain.UseCases.csproj" />
+  </ItemGroup>
+
 </Project>

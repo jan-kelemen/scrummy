@@ -2,7 +2,7 @@
 {
     public abstract class BaseResponse
     {
-        protected BaseResponse(string message = null)
+        protected BaseResponse(string message)
         {
             Message = message;
         }

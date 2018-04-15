@@ -16,22 +16,22 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
 
         protected override void ValidateCore()
         {
-            if (PersonValidator.ValidateFirstName(FirstName))
+            if (!PersonValidator.ValidateFirstName(FirstName))
             {
                 AddError(PersonValidator.FirstNameErrorKey, PersonValidator.FirstNameIsInvalidMessage, FirstName);
             }
 
-            if (PersonValidator.ValidateLastName(LastName))
+            if (!PersonValidator.ValidateLastName(LastName))
             {
                 AddError(PersonValidator.LastNameErrorKey, PersonValidator.LastNameIsInvalidMessage, LastName);
             }
 
-            if (PersonValidator.ValidateDisplayName(DisplayName))
+            if (!PersonValidator.ValidateDisplayName(DisplayName))
             {
                 AddError(PersonValidator.DisplayNameErrorKey, PersonValidator.DisplayNameIsInvalidMessage, DisplayName);
             }
 
-            if (PersonValidator.ValidateEmail(Email))
+            if (!PersonValidator.ValidateEmail(Email))
             {
                 AddError(PersonValidator.EmailErrorKey, PersonValidator.EmailIsInvalidMessage, Email);
             }
@@ -40,11 +40,13 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
 
     public class CreatePersonResponse : BaseResponse
     {
+        public CreatePersonResponse(string message) : base(message) { }
+
         public Identity Id { get; set; }
     }
 
     public interface ICreatePersonUseCase
     {
-        BaseResponse Execute(CreatePersonRequest request);
+        CreatePersonResponse Execute(CreatePersonRequest request);
     }
 }
