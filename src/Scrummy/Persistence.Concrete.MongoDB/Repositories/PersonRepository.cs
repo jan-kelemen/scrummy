@@ -20,7 +20,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public Identity CreatePerson(Person person)
         {
-            if (person == null) { throw CreateInvalidEntityException(); }
+            if (person == null || _personCollection.Find(x => x.Id == person.Id.ToPersistenceIdentity()).FirstOrDefault() != null)
+            {
+                throw CreateInvalidEntityException();
+            }
 
             var entity = person.ToPersistenceEntity();
             _personCollection.InsertOne(entity);
