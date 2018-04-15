@@ -2,16 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>Scrummy.Persistence.Concrete.MongoDB</AssemblyName>
-    <RootNamespace>Scrummy.Persistence.Concrete.MongoDB</RootNamespace>
+    <AssemblyName>Scrummy.Domain.UseCases</AssemblyName>
+    <RootNamespace>Scrummy.Domain.UseCases</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Domain.Core\Domain.Core.csproj" />
     <ProjectReference Include="..\Domain.Repositories\Domain.Repositories.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
   </ItemGroup>
 
 </Project>
