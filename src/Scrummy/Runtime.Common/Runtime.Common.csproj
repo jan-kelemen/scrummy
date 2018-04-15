@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Scrummy.Runtime.Common</AssemblyName>
+    <RootNamespace>Scrummy.Runtime.Common</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Repositories\Domain.Repositories.csproj" />
+    <ProjectReference Include="..\Domain.UseCases\Domain.UseCases.csproj" />
+    <ProjectReference Include="..\Persistence.Infrastructure\Persistence.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
