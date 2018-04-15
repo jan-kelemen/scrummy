@@ -29,7 +29,7 @@ namespace Scrummy.Domain.Core.Test.Unit.Entities
             var lastName = new string('b', lastNameLength);
             var displayName = new string('c', displayNameLength);
             var email = new string('d', emailLength);
-            Assert.ThrowsException<EntityException>(() => new Person(identity, firstName, lastName, displayName, email));
+            Assert.ThrowsException<EntityValidationException>(() => new Person(identity, firstName, lastName, displayName, email));
         }
     }
 }

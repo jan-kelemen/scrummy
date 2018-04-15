@@ -12,5 +12,7 @@ namespace Scrummy.Domain.Repositories.Interfaces.Entities
         void UpdatePerson(Person person);
 
         void DeletePerson(Identity id);
+
+        bool CheckIfEmailExists(string email);
     }
 }

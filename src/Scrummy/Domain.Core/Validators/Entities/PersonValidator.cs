@@ -1,4 +1,4 @@
-﻿using Scrummy.Domain.Core.Entities;
+﻿     using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Exceptions;
 
 namespace Scrummy.Domain.Core.Validators.Entities
@@ -57,12 +57,12 @@ namespace Scrummy.Domain.Core.Validators.Entities
             if (!ValidateEmail(email)) throw CreateException(persion, EmailErrorKey, EmailIsInvalidMessage, email);
         }
 
-        private static EntityException CreateException<T>(T entity, string errorKey, string message, params object[] values) where T : Person
+        private static EntityValidationException CreateException<T>(T entity, string errorKey, string message, params object[] values) where T : Person
         {
-            return new EntityException
+            return new EntityValidationException
             {
                 EntityName = nameof(T),
-                EntityIdentity = entity.Id,
+                Identity = entity.Id,
                 ErrorKey = errorKey,
                 ErrorMessage = string.Format(message, values),
             };

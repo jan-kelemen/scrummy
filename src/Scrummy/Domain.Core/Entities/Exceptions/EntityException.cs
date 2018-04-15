@@ -22,12 +22,8 @@ namespace Scrummy.Domain.Core.Entities.Exceptions
         {
         }
 
-        public Identity EntityIdentity { get; set; }
+        public Identity Identity { get; set; }
 
         public string EntityName { get; set; }
-
-        public string ErrorKey { get; set; }
-
-        public string ErrorMessage { get; set; }
     }
 }

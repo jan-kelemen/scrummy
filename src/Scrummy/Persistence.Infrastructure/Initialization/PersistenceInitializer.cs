@@ -11,7 +11,7 @@ namespace Scrummy.Persistence.Infrastructure.Initialization
             switch (type)
             {
                 case SupportedPersistenceType.MongoDB:
-                    return MongoInitializer.Initialize();
+                    return MongoInitializer.Initialize("mongodb://localhost:27017", "Scrummy");
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
