@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Scrummy.Persistence.Concrete.MongoDB</AssemblyName>
+    <RootNamespace>Scrummy.Persistence.Concrete.MongoDB</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Repositories\Domain.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

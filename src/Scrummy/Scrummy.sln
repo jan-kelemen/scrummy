@@ -5,13 +5,21 @@ VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{424B9F6E-B57A-44F2-B84C-8867425A7459}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Core", "Domain.Core\Domain.Core.csproj", "{FEA6D5F2-35F1-493E-964F-7A6142C7CE0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Core", "Domain.Core\Domain.Core.csproj", "{FEA6D5F2-35F1-493E-964F-7A6142C7CE0A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Core.Test.Unit", "Tests\Domain.Core.Test.Unit\Domain.Core.Test.Unit.csproj", "{79A70883-82C0-4F0F-AA9C-0D0BABD7390E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Repositories", "Domain.Repositories\Domain.Repositories.csproj", "{EA2EA2E9-1BA9-493A-92F5-A98CA52392CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Repositories", "Domain.Repositories\Domain.Repositories.csproj", "{EA2EA2E9-1BA9-493A-92F5-A98CA52392CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Repositories.Test.Unit", "Tests\Domain.Repositories.Test.Unit\Domain.Repositories.Test.Unit.csproj", "{E9E42D4B-31E5-4C0E-8E33-3A2567F16B6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Infrastructure", "Persistence.Infrastructure\Persistence.Infrastructure.csproj", "{5A44769E-523A-4411-B615-4D3B3807C3D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Concrete.MongoDB", "Persistence.Concrete.MongoDB\Persistence.Concrete.MongoDB.csproj", "{98CFF3AF-CD76-4C18-B2E5-E3188EF052FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Infrastructure.Test.Unit", "Tests\Persistence.Infrastructure.Test.Unit\Persistence.Infrastructure.Test.Unit.csproj", "{2450A53F-CD24-471D-9A4A-5145C0501EF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Concrete.MongoDB.Test.Unit", "Tests\Persistence.Concrete.MongoDB.Test.Unit\Persistence.Concrete.MongoDB.Test.Unit.csproj", "{10955359-7DA9-4B8E-9336-7CBDAC11818D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +43,22 @@ Global
 		{E9E42D4B-31E5-4C0E-8E33-3A2567F16B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9E42D4B-31E5-4C0E-8E33-3A2567F16B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9E42D4B-31E5-4C0E-8E33-3A2567F16B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A44769E-523A-4411-B615-4D3B3807C3D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A44769E-523A-4411-B615-4D3B3807C3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A44769E-523A-4411-B615-4D3B3807C3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A44769E-523A-4411-B615-4D3B3807C3D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98CFF3AF-CD76-4C18-B2E5-E3188EF052FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98CFF3AF-CD76-4C18-B2E5-E3188EF052FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98CFF3AF-CD76-4C18-B2E5-E3188EF052FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98CFF3AF-CD76-4C18-B2E5-E3188EF052FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2450A53F-CD24-471D-9A4A-5145C0501EF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2450A53F-CD24-471D-9A4A-5145C0501EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2450A53F-CD24-471D-9A4A-5145C0501EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2450A53F-CD24-471D-9A4A-5145C0501EF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10955359-7DA9-4B8E-9336-7CBDAC11818D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10955359-7DA9-4B8E-9336-7CBDAC11818D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10955359-7DA9-4B8E-9336-7CBDAC11818D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10955359-7DA9-4B8E-9336-7CBDAC11818D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +66,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{79A70883-82C0-4F0F-AA9C-0D0BABD7390E} = {424B9F6E-B57A-44F2-B84C-8867425A7459}
 		{E9E42D4B-31E5-4C0E-8E33-3A2567F16B6E} = {424B9F6E-B57A-44F2-B84C-8867425A7459}
+		{2450A53F-CD24-471D-9A4A-5145C0501EF5} = {424B9F6E-B57A-44F2-B84C-8867425A7459}
+		{10955359-7DA9-4B8E-9336-7CBDAC11818D} = {424B9F6E-B57A-44F2-B84C-8867425A7459}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA151507-8A60-4D4D-AB8A-7FB0B3F98689}
