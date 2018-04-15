@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Scrummy.Domain.UseCases.Interfaces;
+using Scrummy.Runtime.Common.Initialization;
 
 namespace Scrummy.Application.Web.MVC
 {
@@ -17,7 +19,9 @@ namespace Scrummy.Application.Web.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            RuntimeInitializer.Initialize();
             services.AddMvc();
+            services.AddSingleton(RuntimeInitializer.UseCaseFactoryProvider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

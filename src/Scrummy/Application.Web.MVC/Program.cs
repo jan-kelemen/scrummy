@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Scrummy.Runtime.Common.Initialization;
 
 namespace Scrummy.Application.Web.MVC
 {
@@ -8,7 +7,6 @@ namespace Scrummy.Application.Web.MVC
     {
         public static void Main(string[] args)
         {
-            RuntimeInitializer.Initialize();
             BuildWebHost(args).Run();
         }
 
