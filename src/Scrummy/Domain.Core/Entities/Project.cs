@@ -1,5 +1,4 @@
-﻿using Scrummy.Domain.Core.Entities.Artifacts;
-using Scrummy.Domain.Core.Entities.Common;
+﻿using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Validators.Entities;
 
 namespace Scrummy.Domain.Core.Entities

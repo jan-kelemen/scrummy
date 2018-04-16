@@ -1,5 +1,4 @@
 ﻿using Scrummy.Domain.Core.Entities;
-using Scrummy.Domain.Core.Entities.Artifacts;
 using Scrummy.Domain.Core.Entities.Common;
 
 namespace Scrummy.Domain.Repositories.Interfaces.Entities

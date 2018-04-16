@@ -2,7 +2,6 @@
 using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
-using Scrummy.Domain.Core.Entities.Artifacts;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;

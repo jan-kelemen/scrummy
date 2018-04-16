@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Scrummy.Domain.Core.Entities;
-using Scrummy.Domain.Core.Entities.Artifacts;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Person;
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
