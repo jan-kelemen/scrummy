@@ -1,9 +1,9 @@
 ﻿using Scrummy.Domain.UseCases.Interfaces.Entities.Factories;
 
-namespace Scrummy.Domain.UseCases.Interfaces
+namespace Scrummy.Domain.UseCases
 {
     public interface IUseCaseFactoryProvider
     {
-        IPersonUseCaseFactory PersonUseCaseFactory { get; }
+        IPersonUseCaseFactory Person { get; }
     }
 }

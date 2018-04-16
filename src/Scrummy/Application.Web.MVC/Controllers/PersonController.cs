@@ -4,8 +4,8 @@ using Scrummy.Application.Web.Core.Mapping.Extensions;
 using Scrummy.Application.Web.Core.Presenters.Entities.Person;
 using Scrummy.Application.Web.Core.ViewModels;
 using Scrummy.Application.Web.Core.ViewModels.Entities.Person;
+using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
-using Scrummy.Domain.UseCases.Interfaces;
 using Scrummy.Domain.UseCases.Interfaces.Entities.Person;
 
 namespace Scrummy.Application.Web.MVC.Controllers
@@ -24,7 +24,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         {
             var request = new ViewPersonRequest {Id = id,};
             var presenter = new ViewPersonPresenter(MessageHandler, ErrorHandler);
-            var uc = _useCaseFactoryProvider.PersonUseCaseFactory.ViewPerson;
+            var uc = _useCaseFactoryProvider.Person.View;
             try
             {
                 var response = uc.Execute(request);
@@ -59,7 +59,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         {
             var request = vm.AsRequest();
             var presenter = new CreatePersonPresenter(MessageHandler, ErrorHandler);
-            var uc = _useCaseFactoryProvider.PersonUseCaseFactory.CreatePerson;
+            var uc = _useCaseFactoryProvider.Person.Create;
             try
             {
                 var response = uc.Execute(request);

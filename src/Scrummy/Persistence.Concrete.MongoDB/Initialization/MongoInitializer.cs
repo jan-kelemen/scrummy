@@ -1,14 +1,13 @@
-﻿using Scrummy.Domain.Repositories.Factories;
-using Scrummy.Persistence.Concrete.MongoDB.Factories;
+﻿using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Initialization
 {
     public static class MongoInitializer
     {
-        public static IRepositoryFactory Initialize(string connectionString, string databaseName)
+        public static IRepositoryFactoryProvider Initialize(string connectionString, string databaseName)
         {
             var database = new ScrummyDatabase(connectionString, databaseName);
-            return new RepositoryFactory(database);
+            return new RepositoryFactoryProvider(database);
         }
 }
 }

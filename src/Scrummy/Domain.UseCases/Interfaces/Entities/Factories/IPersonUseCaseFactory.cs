@@ -4,8 +4,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Factories
 {
     public interface IPersonUseCaseFactory
     {
-        ICreatePersonUseCase CreatePerson { get; }
+        ICreatePersonUseCase Create { get; }
 
-        IViewPersonUseCase ViewPerson { get; }
+        IViewPersonUseCase View { get; }
     }
 }

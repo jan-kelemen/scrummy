@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Scrummy.Application.Web.MVC.Models;
-using Scrummy.Domain.UseCases.Interfaces;
+using Scrummy.Domain.UseCases;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {

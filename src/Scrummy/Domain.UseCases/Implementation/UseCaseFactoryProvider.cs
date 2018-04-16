@@ -1,21 +1,20 @@
-﻿using Scrummy.Domain.Repositories.Factories;
+﻿using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Implementation.Entities.Factories;
-using Scrummy.Domain.UseCases.Interfaces;
 using Scrummy.Domain.UseCases.Interfaces.Entities.Factories;
 
 namespace Scrummy.Domain.UseCases.Implementation
 {
     internal class UseCaseFactoryProvider : IUseCaseFactoryProvider
     {
-        private readonly IRepositoryFactory _repositoryFactory;
+        private readonly IRepositoryFactoryProvider _repositoryFactoryProvider;
 
-        public UseCaseFactoryProvider(IRepositoryFactory repositoryFactory)
+        public UseCaseFactoryProvider(IRepositoryFactoryProvider repositoryFactoryProvider)
         {
-            _repositoryFactory = repositoryFactory;
+            _repositoryFactoryProvider = repositoryFactoryProvider;
 
-            PersonUseCaseFactory = new PersonUseCaseFactory(_repositoryFactory);
+            Person = new PersonUseCaseFactory(_repositoryFactoryProvider);
         }
 
-        public IPersonUseCaseFactory PersonUseCaseFactory { get; }
+        public IPersonUseCaseFactory Person { get; }
     }
 }
