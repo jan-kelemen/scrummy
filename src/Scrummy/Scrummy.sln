@@ -13,27 +13,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Repositories", "Doma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Repositories.Test.Unit", "Tests\Domain.Repositories.Test.Unit\Domain.Repositories.Test.Unit.csproj", "{E9E42D4B-31E5-4C0E-8E33-3A2567F16B6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Infrastructure", "Persistence.Infrastructure\Persistence.Infrastructure.csproj", "{5A44769E-523A-4411-B615-4D3B3807C3D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.Infrastructure", "Persistence.Infrastructure\Persistence.Infrastructure.csproj", "{5A44769E-523A-4411-B615-4D3B3807C3D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Concrete.MongoDB", "Persistence.Concrete.MongoDB\Persistence.Concrete.MongoDB.csproj", "{98CFF3AF-CD76-4C18-B2E5-E3188EF052FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.Concrete.MongoDB", "Persistence.Concrete.MongoDB\Persistence.Concrete.MongoDB.csproj", "{98CFF3AF-CD76-4C18-B2E5-E3188EF052FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Infrastructure.Test.Unit", "Tests\Persistence.Infrastructure.Test.Unit\Persistence.Infrastructure.Test.Unit.csproj", "{2450A53F-CD24-471D-9A4A-5145C0501EF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.Infrastructure.Test.Unit", "Tests\Persistence.Infrastructure.Test.Unit\Persistence.Infrastructure.Test.Unit.csproj", "{2450A53F-CD24-471D-9A4A-5145C0501EF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Concrete.MongoDB.Test.Unit", "Tests\Persistence.Concrete.MongoDB.Test.Unit\Persistence.Concrete.MongoDB.Test.Unit.csproj", "{10955359-7DA9-4B8E-9336-7CBDAC11818D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.Concrete.MongoDB.Test.Unit", "Tests\Persistence.Concrete.MongoDB.Test.Unit\Persistence.Concrete.MongoDB.Test.Unit.csproj", "{10955359-7DA9-4B8E-9336-7CBDAC11818D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UseCases", "Domain.UseCases\Domain.UseCases.csproj", "{A107562E-C064-4968-96E4-41120BC81414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.UseCases", "Domain.UseCases\Domain.UseCases.csproj", "{A107562E-C064-4968-96E4-41120BC81414}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UseCases.Test.Unit", "Tests\Domain.UseCases.Test.Unit\Domain.UseCases.Test.Unit.csproj", "{C5064FAB-F24C-45CA-B3F8-B39442407616}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.UseCases.Test.Unit", "Tests\Domain.UseCases.Test.Unit\Domain.UseCases.Test.Unit.csproj", "{C5064FAB-F24C-45CA-B3F8-B39442407616}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runtime.Common", "Runtime.Common\Runtime.Common.csproj", "{66602F3C-CCB6-4C7B-80F8-2A2ECB974B28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runtime.Common", "Runtime.Common\Runtime.Common.csproj", "{66602F3C-CCB6-4C7B-80F8-2A2ECB974B28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runtime.Common.Test.Unit", "Tests\Runtime.Common.Test.Unit\Runtime.Common.Test.Unit.csproj", "{B7F388E4-5664-4F59-A7DD-6BAC036AD255}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runtime.Common.Test.Unit", "Tests\Runtime.Common.Test.Unit\Runtime.Common.Test.Unit.csproj", "{B7F388E4-5664-4F59-A7DD-6BAC036AD255}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Web.Core", "Application.Web.Core\Application.Web.Core.csproj", "{7EC8C1E4-F7BA-40A5-9006-04592A859B8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Web.Core", "Application.Web.Core\Application.Web.Core.csproj", "{7EC8C1E4-F7BA-40A5-9006-04592A859B8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Web.Core.Test.Unit", "Tests\Application.Web.Core.Test.Unit\Application.Web.Core.Test.Unit.csproj", "{0F6F7487-1C8B-4832-99D4-85951A600F38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Web.Core.Test.Unit", "Tests\Application.Web.Core.Test.Unit\Application.Web.Core.Test.Unit.csproj", "{0F6F7487-1C8B-4832-99D4-85951A600F38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Web.MVC", "Application.Web.MVC\Application.Web.MVC.csproj", "{B6BD2F82-87CB-4997-9553-E63753374CBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Web.MVC", "Application.Web.MVC\Application.Web.MVC.csproj", "{B6BD2F82-87CB-4997-9553-E63753374CBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,17 +6,22 @@ using Scrummy.Application.Web.Core.ViewModels;
 using Scrummy.Application.Web.Core.ViewModels.Entities.Person;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
+using Scrummy.Domain.UseCases.Interfaces.Entities.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Entities.Person;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {
     public class PersonController : Controller
     {
-        private readonly IUseCaseFactoryProvider _useCaseFactoryProvider;
+        private readonly IPersonUseCaseFactory _personUseCaseFactory;
 
-        public PersonController(IUseCaseFactoryProvider useCaseFactoryProvider)
+        public PersonController(IUseCaseFactoryProvider useCaseFactoryProvider) : this(useCaseFactoryProvider.Person)
         {
-            _useCaseFactoryProvider = useCaseFactoryProvider;
+        }
+
+        private PersonController(IPersonUseCaseFactory personUseCaseFactory)
+        {
+            _personUseCaseFactory = personUseCaseFactory;
         }
 
         [HttpGet]
@@ -24,7 +29,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         {
             var request = new ViewPersonRequest {Id = id,};
             var presenter = new ViewPersonPresenter(MessageHandler, ErrorHandler);
-            var uc = _useCaseFactoryProvider.Person.View;
+            var uc = _personUseCaseFactory.View;
             try
             {
                 var response = uc.Execute(request);
@@ -59,7 +64,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         {
             var request = vm.AsRequest();
             var presenter = new CreatePersonPresenter(MessageHandler, ErrorHandler);
-            var uc = _useCaseFactoryProvider.Person.Create;
+            var uc = _personUseCaseFactory.Create;
             try
             {
                 var response = uc.Execute(request);
