@@ -18,22 +18,22 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
         {
             if (!PersonValidator.ValidateFirstName(FirstName))
             {
-                AddError(PersonValidator.FirstNameErrorKey, PersonValidator.FirstNameIsInvalidMessage, FirstName);
+                AddError(PersonValidator.FirstNameErrorKey, PersonValidator.FirstNameIsInvalidMessage);
             }
 
             if (!PersonValidator.ValidateLastName(LastName))
             {
-                AddError(PersonValidator.LastNameErrorKey, PersonValidator.LastNameIsInvalidMessage, LastName);
+                AddError(PersonValidator.LastNameErrorKey, PersonValidator.LastNameIsInvalidMessage);
             }
 
             if (!PersonValidator.ValidateDisplayName(DisplayName))
             {
-                AddError(PersonValidator.DisplayNameErrorKey, PersonValidator.DisplayNameIsInvalidMessage, DisplayName);
+                AddError(PersonValidator.DisplayNameErrorKey, PersonValidator.DisplayNameIsInvalidMessage);
             }
 
             if (!PersonValidator.ValidateEmail(Email))
             {
-                AddError(PersonValidator.EmailErrorKey, PersonValidator.EmailIsInvalidMessage, Email);
+                AddError(PersonValidator.EmailErrorKey, PersonValidator.EmailIsInvalidMessage);
             }
         }
     }

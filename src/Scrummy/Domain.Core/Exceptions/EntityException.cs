@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Scrummy.Domain.Core.Entities.Common;
 
-namespace Scrummy.Domain.Core.Entities.Exceptions
+namespace Scrummy.Domain.Core.Exceptions
 {
     public class EntityException : Exception
     {

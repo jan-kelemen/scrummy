@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Scrummy.Domain.Core.Entities.Exceptions
+namespace Scrummy.Domain.Core.Exceptions
 {
     public class EntityValidationException : EntityException
     {

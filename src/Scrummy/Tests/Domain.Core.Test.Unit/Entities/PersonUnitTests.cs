@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Core.Entities.Exceptions;
+using Scrummy.Domain.Core.Exceptions;
 using Scrummy.Domain.Core.Validators.Entities;
 
 namespace Scrummy.Domain.Core.Test.Unit.Entities

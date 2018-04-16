@@ -1,5 +1,5 @@
 ﻿     using Scrummy.Domain.Core.Entities;
-using Scrummy.Domain.Core.Entities.Exceptions;
+     using Scrummy.Domain.Core.Exceptions;
 
 namespace Scrummy.Domain.Core.Validators.Entities
 {
@@ -8,22 +8,22 @@ namespace Scrummy.Domain.Core.Validators.Entities
         public const string FirstNameErrorKey = nameof(Person.FirstName);
         public const int FirstNameMinLength = 1;
         public const int FirstNameMaxLength = 200;
-        public const string FirstNameIsInvalidMessage = "First name '{0}' is invalid.";
+        public const string FirstNameIsInvalidMessage = "First name is invalid.";
 
         public const string LastNameErrorKey = nameof(Person.LastName);
         public const int LastNameMinLength = 1;
         public const int LastNameMaxLength = 200;
-        public const string LastNameIsInvalidMessage = "Last name '{0}' is invalid.";
+        public const string LastNameIsInvalidMessage = "Last name is invalid.";
 
         public const string DisplayNameErrorKey = nameof(Person.DisplayName);
         public const int DisplayNameMinLength = 1;
         public const int DisplayNameMaxLength = 401;
-        public const string DisplayNameIsInvalidMessage = "Display name '{0}' is invalid.";
+        public const string DisplayNameIsInvalidMessage = "Display name is invalid.";
 
         public const string EmailErrorKey = nameof(Person.Email);
         public const int EmailMinLength = 3;
         public const int EmailMaxLength = 254;
-        public const string EmailIsInvalidMessage = "Email '{0}' is invalid.";
+        public const string EmailIsInvalidMessage = "Email is invalid.";
 
         public static bool ValidateFirstName(string firstName) =>
             TextValidator.CheckIfContentIsBetweenSpecifiedLength(firstName, FirstNameMinLength, FirstNameMaxLength);
@@ -39,22 +39,22 @@ namespace Scrummy.Domain.Core.Validators.Entities
 
         public static void CheckFirstName<T>(T person, string firstName) where T : Person
         {
-            if(!ValidateFirstName(firstName)) throw CreateException(person, FirstNameErrorKey, FirstNameIsInvalidMessage, firstName);
+            if(!ValidateFirstName(firstName)) throw CreateException(person, FirstNameErrorKey, FirstNameIsInvalidMessage);
         }
 
         public static void CheckLastName<T>(T persion, string lastName) where T : Person
         {
-            if(!ValidateLastName(lastName)) throw CreateException(persion, LastNameErrorKey, LastNameIsInvalidMessage, lastName);
+            if(!ValidateLastName(lastName)) throw CreateException(persion, LastNameErrorKey, LastNameIsInvalidMessage);
         }
 
         public static void CheckDisplayName<T>(T persion, string displayName) where T : Person
         {
-            if (!ValidateDisplayName(displayName)) throw CreateException(persion, DisplayNameErrorKey, DisplayNameIsInvalidMessage, displayName);
+            if (!ValidateDisplayName(displayName)) throw CreateException(persion, DisplayNameErrorKey, DisplayNameIsInvalidMessage);
         }
 
         public static void CheckEmail<T>(T persion, string email) where T : Person
         {
-            if (!ValidateEmail(email)) throw CreateException(persion, EmailErrorKey, EmailIsInvalidMessage, email);
+            if (!ValidateEmail(email)) throw CreateException(persion, EmailErrorKey, EmailIsInvalidMessage);
         }
 
         private static EntityValidationException CreateException<T>(T entity, string errorKey, string message, params object[] values) where T : Person
