@@ -14,5 +14,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Factories
         }
 
         public IPersonRepository PersonRepository => new PersonRepository(_database.PersonCollection);
+
+        public IProjectRepository ProjectRepository => new ProjectRepository(_database.ProjectCollection);
     }
 }

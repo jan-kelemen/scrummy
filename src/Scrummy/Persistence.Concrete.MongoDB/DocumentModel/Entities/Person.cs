@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MongoDB.Bson;
-using MongoDB.Driver;
-
-namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
+﻿namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 {
     internal class Person : BaseEntity
     {

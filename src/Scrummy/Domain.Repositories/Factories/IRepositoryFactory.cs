@@ -5,5 +5,7 @@ namespace Scrummy.Domain.Repositories.Factories
     public interface IRepositoryFactory
     {
         IPersonRepository PersonRepository { get; }
+
+        IProjectRepository ProjectRepository { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
@@ -7,7 +8,7 @@ using Scrummy.Domain.Core.Validators.Entities;
 
 namespace Scrummy.Domain.Core.Entities
 {
-    public class Team
+    public class Team : IEnumerable<Team.Member>
     {
         public class Member
         {
@@ -50,5 +51,15 @@ namespace Scrummy.Domain.Core.Entities
 
         public IEnumerable<Identity> GetDevelopersIdentities() => 
             _members.Where(m => m.Role == PersonRole.Developer).Select(m => m.Id);
+
+        public IEnumerator<Member> GetEnumerator()
+        {
+            return _members.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

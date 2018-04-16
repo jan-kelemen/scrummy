@@ -1,7 +1,6 @@
 ﻿using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Repositories.Exceptions;
 using Scrummy.Domain.Repositories.Interfaces.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 
@@ -9,7 +8,7 @@ using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Pers
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 {
-    internal class PersonRepository : BaseRepository, IPersonRepository
+    internal class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
         private readonly IMongoCollection<MPerson> _personCollection;
 
@@ -61,19 +60,5 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public bool CheckIfEmailExists(string email) => 
             _personCollection.Find(x => x.Email == email).FirstOrDefault() != null;
-
-        private static EntityNotFoundException CreateEntityNotFoundException(Identity id)
-        {
-            return new EntityNotFoundException
-            {
-                Identity = id,
-                EntityName = nameof(Person),
-            };
-        }
-
-        private static InvalidEntityException CreateInvalidEntityException()
-        {
-            return new InvalidEntityException();
-        }
     }
 }
