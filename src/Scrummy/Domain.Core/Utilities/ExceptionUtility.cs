@@ -25,5 +25,15 @@ namespace Scrummy.Domain.Core.Utilities
                 ErrorKey = errorKey,
             };
         }
+
+        public static EntityIdentityIsInvalidException CreatEntityIdentityIsInvalidException<T>(Identity identity, string errorKey)
+        {
+            return new EntityIdentityIsInvalidException
+            {
+                EntityName = nameof(T),
+                Identity = identity,
+                ErrorKey = errorKey,
+            };
+        }
     }
 }

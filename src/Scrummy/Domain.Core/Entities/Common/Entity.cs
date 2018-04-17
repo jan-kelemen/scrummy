@@ -43,11 +43,21 @@ namespace Scrummy.Domain.Core.Entities.Common
         protected EntityReferenceNullException CreateEntityReferenceNullException(string errorKey)
             => ExceptionUtility.CreateEntityReferenceNullException<T>(Id, errorKey);
 
+        protected EntityIdentityIsInvalidException CreateEntityIdentityIsInvalidException(string errorKey)
+            => ExceptionUtility.CreatEntityIdentityIsInvalidException<T>(Id, errorKey);
+
         protected TR CheckReferenceNotNull<TR>(TR reference, string errorKey)
         {
             if (!ReferenceValidator.ValidateReferenceIsNotNull(reference))
                 throw CreateEntityReferenceNullException(errorKey);
             return reference;
+        }
+
+        protected Identity CheckIdentityIsNotBlank(Identity id, string errorKey)
+        {
+            if (Id.IsBlankIdentity())
+                throw CreateEntityIdentityIsInvalidException(errorKey);
+            return id;
         }
 
         /// <inheritdoc />
