@@ -32,7 +32,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Entities.Person
 
                 return new CreatePersonResponse(string.Format("Person {0} sucessfuly created.", entity.DisplayName))
                 {
-                    Id = result,
+                    Id = result.ToString(),
                 };
             }
             catch (InvalidEntityException)

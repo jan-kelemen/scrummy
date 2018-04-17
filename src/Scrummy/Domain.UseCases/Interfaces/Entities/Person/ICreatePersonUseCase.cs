@@ -1,6 +1,6 @@
-﻿using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Core.Validators.Entities;
-using Scrummy.Domain.UseCases.Boundary;
+﻿using Scrummy.Domain.UseCases.Boundary;
+
+using PersonValidation = Scrummy.Domain.Core.Entities.Person.Validation;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
 {
@@ -16,24 +16,24 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
 
         protected override void ValidateCore()
         {
-            if (!PersonValidator.ValidateFirstName(FirstName))
+            if (!PersonValidation.ValidateFirstName(FirstName))
             {
-                AddError(PersonValidator.FirstNameErrorKey, PersonValidator.FirstNameIsInvalidMessage);
+                AddError(PersonValidation.FirstNameErrorKey, PersonValidation.FirstNameIsInvalidMessage);
             }
 
-            if (!PersonValidator.ValidateLastName(LastName))
+            if (!PersonValidation.ValidateLastName(LastName))
             {
-                AddError(PersonValidator.LastNameErrorKey, PersonValidator.LastNameIsInvalidMessage);
+                AddError(PersonValidation.LastNameErrorKey, PersonValidation.LastNameIsInvalidMessage);
             }
 
-            if (!PersonValidator.ValidateDisplayName(DisplayName))
+            if (!PersonValidation.ValidateDisplayName(DisplayName))
             {
-                AddError(PersonValidator.DisplayNameErrorKey, PersonValidator.DisplayNameIsInvalidMessage);
+                AddError(PersonValidation.DisplayNameErrorKey, PersonValidation.DisplayNameIsInvalidMessage);
             }
 
-            if (!PersonValidator.ValidateEmail(Email))
+            if (!PersonValidation.ValidateEmail(Email))
             {
-                AddError(PersonValidator.EmailErrorKey, PersonValidator.EmailIsInvalidMessage);
+                AddError(PersonValidation.EmailErrorKey, PersonValidation.EmailIsInvalidMessage);
             }
         }
     }
@@ -42,7 +42,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
     {
         public CreatePersonResponse(string message) : base(message) { }
 
-        public Identity Id { get; set; }
+        public string Id { get; set; }
     }
 
     public interface ICreatePersonUseCase

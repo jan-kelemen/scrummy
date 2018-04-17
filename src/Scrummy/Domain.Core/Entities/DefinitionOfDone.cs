@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Core.Validators.Entities;
+using Scrummy.Domain.Core.Utilities;
 
 namespace Scrummy.Domain.Core.Entities
 {
@@ -14,27 +15,28 @@ namespace Scrummy.Domain.Core.Entities
             Conditions = conditions;
         }
 
-        public Identity ProjectIdentity { get; internal set; } = Identity.BlankIdentity;
+        public Identity ProjectId { get; internal set; } = Identity.BlankIdentity;
 
         public IEnumerable<string> Conditions
         {
             get => _conditions;
-            set
-            {
-                var temp = new List<string>(value);
-                ProjectValidator.CheckDefinitionOfDoneConditions(ProjectIdentity, temp);
-                _conditions = temp;
-            }
+            set => _conditions = CheckDefinitionOfDoneConditions(value);
         }
 
-        public IEnumerator<string> GetEnumerator()
+        private List<string> CheckDefinitionOfDoneConditions(IEnumerable<string> conditions)
         {
-            return _conditions.GetEnumerator();
+            var temp = conditions.ToList();
+            if (!temp.Any())
+                throw ExceptionUtility.CreateEntityValidationException<Project>(ProjectId, Project.Validation.DefinitionOfDoneErrorKey, Project.Validation.DefinitionOfDoneIsInvalid);
+
+            if (temp.Any(condition => !Project.Validation.ValidateDefinitionOfDoneCondition(condition)))
+                throw ExceptionUtility.CreateEntityValidationException<Project>(ProjectId, Project.Validation.DefinitionOfDoneErrorKey, Project.Validation.DefinitionOfDoneConditionIsInvalid);
+
+            return temp;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public IEnumerator<string> GetEnumerator() => _conditions.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

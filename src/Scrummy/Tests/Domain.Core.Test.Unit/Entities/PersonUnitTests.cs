@@ -2,7 +2,6 @@
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Exceptions;
-using Scrummy.Domain.Core.Validators.Entities;
 
 namespace Scrummy.Domain.Core.Test.Unit.Entities
 {
@@ -10,18 +9,18 @@ namespace Scrummy.Domain.Core.Test.Unit.Entities
     public class PersonUnitTests
     {
         [DataTestMethod]
-        [DataRow("1", 0, PersonValidator.LastNameMinLength, PersonValidator.DisplayNameMinLength, PersonValidator.EmailMinLength)]
-        [DataRow("2", PersonValidator.FirstNameMinLength - 1, PersonValidator.LastNameMinLength, PersonValidator.DisplayNameMinLength, PersonValidator.EmailMinLength)]
-        [DataRow("3", PersonValidator.FirstNameMaxLength + 1, PersonValidator.LastNameMinLength, PersonValidator.DisplayNameMinLength, PersonValidator.EmailMinLength)]
-        [DataRow("4", PersonValidator.FirstNameMinLength, 0, PersonValidator.DisplayNameMinLength, PersonValidator.EmailMinLength)]
-        [DataRow("5", PersonValidator.FirstNameMinLength, PersonValidator.LastNameMinLength - 1, PersonValidator.DisplayNameMinLength, PersonValidator.EmailMinLength)]
-        [DataRow("6", PersonValidator.FirstNameMinLength, PersonValidator.LastNameMaxLength + 1, PersonValidator.DisplayNameMinLength, PersonValidator.EmailMinLength)]
-        [DataRow("7", PersonValidator.FirstNameMinLength, PersonValidator.LastNameMinLength, 0, PersonValidator.EmailMinLength)]
-        [DataRow("8", PersonValidator.FirstNameMinLength, PersonValidator.LastNameMinLength, PersonValidator.DisplayNameMinLength- 1, PersonValidator.EmailMinLength)]
-        [DataRow("9", PersonValidator.FirstNameMinLength, PersonValidator.LastNameMinLength, PersonValidator.DisplayNameMaxLength + 1, PersonValidator.EmailMinLength)]
-        [DataRow("10", PersonValidator.FirstNameMinLength, PersonValidator.LastNameMinLength, PersonValidator.DisplayNameMinLength, 0)]
-        [DataRow("11", PersonValidator.FirstNameMinLength, PersonValidator.LastNameMinLength, PersonValidator.DisplayNameMinLength, PersonValidator.EmailMinLength - 1)]
-        [DataRow("12", PersonValidator.FirstNameMinLength, PersonValidator.LastNameMinLength, PersonValidator.DisplayNameMinLength, PersonValidator.EmailMaxLength + 1)]
+        [DataRow("1", 0, Person.Validation.LastNameMinLength, Person.Validation.DisplayNameMinLength, Person.Validation.EmailMinLength)]
+        [DataRow("2", Person.Validation.FirstNameMinLength - 1, Person.Validation.LastNameMinLength, Person.Validation.DisplayNameMinLength, Person.Validation.EmailMinLength)]
+        [DataRow("3", Person.Validation.FirstNameMaxLength + 1, Person.Validation.LastNameMinLength, Person.Validation.DisplayNameMinLength, Person.Validation.EmailMinLength)]
+        [DataRow("4", Person.Validation.FirstNameMinLength, 0, Person.Validation.DisplayNameMinLength, Person.Validation.EmailMinLength)]
+        [DataRow("5", Person.Validation.FirstNameMinLength, Person.Validation.LastNameMinLength - 1, Person.Validation.DisplayNameMinLength, Person.Validation.EmailMinLength)]
+        [DataRow("6", Person.Validation.FirstNameMinLength, Person.Validation.LastNameMaxLength + 1, Person.Validation.DisplayNameMinLength, Person.Validation.EmailMinLength)]
+        [DataRow("7", Person.Validation.FirstNameMinLength, Person.Validation.LastNameMinLength, 0, Person.Validation.EmailMinLength)]
+        [DataRow("8", Person.Validation.FirstNameMinLength, Person.Validation.LastNameMinLength, Person.Validation.DisplayNameMinLength- 1, Person.Validation.EmailMinLength)]
+        [DataRow("9", Person.Validation.FirstNameMinLength, Person.Validation.LastNameMinLength, Person.Validation.DisplayNameMaxLength + 1, Person.Validation.EmailMinLength)]
+        [DataRow("10", Person.Validation.FirstNameMinLength, Person.Validation.LastNameMinLength, Person.Validation.DisplayNameMinLength, 0)]
+        [DataRow("11", Person.Validation.FirstNameMinLength, Person.Validation.LastNameMinLength, Person.Validation.DisplayNameMinLength, Person.Validation.EmailMinLength - 1)]
+        [DataRow("12", Person.Validation.FirstNameMinLength, Person.Validation.LastNameMinLength, Person.Validation.DisplayNameMinLength, Person.Validation.EmailMaxLength + 1)]
         public void PersonConstructorValidation_Works_ForInvalidInputs(string id, int firstNameLength, int lastNameLength, int displayNameLength, int emailLength)
         {
             var identity = Identity.FromString(id);

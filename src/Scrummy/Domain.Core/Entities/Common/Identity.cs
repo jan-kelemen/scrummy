@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Diagnostics.Contracts;
 
 namespace Scrummy.Domain.Core.Entities.Common
 {
@@ -39,6 +40,7 @@ namespace Scrummy.Domain.Core.Entities.Common
         /// Checks if the identity is blank.
         /// </summary>
         /// <returns><c>true</c> if the identity is blank identity.</returns>
+        [Pure]
         public bool IsBlankIdentity() => Id == string.Empty;
 
         /// <inheritdoc />

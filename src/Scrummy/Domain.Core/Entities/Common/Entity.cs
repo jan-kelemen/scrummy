@@ -1,4 +1,8 @@
-﻿namespace Scrummy.Domain.Core.Entities.Common
+﻿using Scrummy.Domain.Core.Exceptions;
+using Scrummy.Domain.Core.Utilities;
+using Scrummy.Domain.Core.Validators;
+
+namespace Scrummy.Domain.Core.Entities.Common
 {
     /// <summary>
     /// <c>Entity</c> is a base class for all entities in the domain model.
@@ -6,27 +10,25 @@
     /// <typeparam name="T">Type of the entity.</typeparam>
     public abstract class Entity<T> where T : class
     {
-        private readonly Identity _id;
-
         /// <summary>
         /// Creates the entity.
         /// </summary>
         /// <param name="id">Entity identity.</param>
         protected Entity(Identity id)
         {
-            _id = id;
+            Id = id;
         }
 
         /// <summary>
         /// Identity of the entity.
         /// </summary>
-        public Identity Id => _id;
+        public Identity Id { get; }
 
         /// <summary>
         /// Checks if a entity has blank identity.
         /// </summary>
         /// <returns><c>true</c> if a entity has blank identity.</returns>
-        public bool HasBlankIdentity() => _id.IsBlankIdentity();
+        public bool HasBlankIdentity() => Id.IsBlankIdentity();
 
         /// <summary>
         /// Checks if entities have same identity.
@@ -34,6 +36,19 @@
         /// <param name="other">other entity.</param>
         /// <returns><c>true</c> if entities have same identity.</returns>
         public bool HasSameIdentityAs(T other) => Equals(other);
+
+        protected EntityValidationException CreateEntityValidationException(string errorKey, string message, params object[] values)
+            => ExceptionUtility.CreateEntityValidationException<T>(Id, errorKey, message, values);
+
+        protected EntityReferenceNullException CreateEntityReferenceNullException(string errorKey)
+            => ExceptionUtility.CreateEntityReferenceNullException<T>(Id, errorKey);
+
+        protected TR CheckReferenceNotNull<TR>(TR reference, string errorKey)
+        {
+            if (!ReferenceValidator.ValidateReferenceIsNotNull(reference))
+                throw CreateEntityReferenceNullException(errorKey);
+            return reference;
+        }
 
         /// <inheritdoc />
         public sealed override bool Equals(object obj)
@@ -53,13 +68,13 @@
                 return false;
             }
 
-            return _id == other._id;
+            return Id == other.Id;
         }
 
         /// <inheritdoc />
-        public sealed override int GetHashCode() => _id.GetHashCode();
+        public sealed override int GetHashCode() => Id.GetHashCode();
 
         /// <inheritdoc />
-        public override string ToString() => $"ID={_id}";
+        public override string ToString() => $"ID={Id}";
     }
 }

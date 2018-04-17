@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
-using Scrummy.Domain.Core.Validators.Entities;
+using Scrummy.Domain.Core.Utilities;
 
 namespace Scrummy.Domain.Core.Entities
 {
@@ -32,34 +32,41 @@ namespace Scrummy.Domain.Core.Entities
             Members = members;
         }
 
-        public Identity ProjectIdentity { get; internal set; } = Identity.BlankIdentity;
+        public Identity ProjectId { get; internal set; } = Identity.BlankIdentity;
 
         public IEnumerable<Member> Members
         {
             get => _members;
-            private set
-            {
-                var temp = value.ToList();
-                ProjectValidator.CheckTeamMembers(ProjectIdentity, temp);
-                _members = temp;
-            }
+            private set => _members = CheckTeamMembers(value);
         }
 
         public Identity GetProductOwnerIdentity() => _members.First(m => m.Role == PersonRole.ProductOwner).Id;
 
         public Identity GetScrumMasterIdentity() => _members.First(m => m.Role == PersonRole.ScrumMaster).Id;
 
-        public IEnumerable<Identity> GetDevelopersIdentities() => 
-            _members.Where(m => m.Role == PersonRole.Developer).Select(m => m.Id);
+        public IEnumerable<Identity> GetDevelopersIdentities() => _members.Where(m => m.Role == PersonRole.Developer).Select(m => m.Id);
 
-        public IEnumerator<Member> GetEnumerator()
+        private List<Member> CheckTeamMembers(IEnumerable<Member> members)
         {
-            return _members.GetEnumerator();
+            var temp = members.ToList();
+            if (!Project.Validation.ValidateThatTeamHasOneProductOwner(temp))
+                throw ExceptionUtility.CreateEntityValidationException<Project>(ProjectId, Project.Validation.TeamErrorKey, Project.Validation.ProductOwnerIsInvalidMessage);
+
+            if (!Project.Validation.ValidateThatTeamHasOneScrumMaster(temp))
+                throw ExceptionUtility.CreateEntityValidationException<Project>(ProjectId, Project.Validation.TeamErrorKey, Project.Validation.ScrumMasterIsInvalidMessage);
+
+            if (!Project.Validation.ValidateThatTeamHasAtLeastOneDeveloper(temp))
+                throw ExceptionUtility.CreateEntityValidationException<Project>(ProjectId, Project.Validation.TeamErrorKey, Project.Validation.DevelopersAreInvalidMessage);
+
+            var productOwnerIdentity = temp.First(m => m.Role == PersonRole.ProductOwner).Id;
+            if (!Project.Validation.ValidateThatProductOwnerHasUniqueRole(temp, productOwnerIdentity))
+                throw ExceptionUtility.CreateEntityValidationException<Project>(ProjectId, Project.Validation.TeamErrorKey, Project.Validation.ProductOwnerDoesntHaveUniqueRoleMessage);
+
+            return temp;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public IEnumerator<Member> GetEnumerator() => _members.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Scrummy.Domain.UseCases.Boundary;
+﻿using Scrummy.Domain.Core.Validators;
+using Scrummy.Domain.UseCases.Boundary;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
 {
@@ -8,7 +9,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
 
         protected override void ValidateCore()
         {
-            if (string.IsNullOrEmpty(Id))
+            if (!TextValidator.ValidateThatTextCanRepresentIdentity(Id))
             {
                 AddError(nameof(Id), "Identity of the person is invalid.");
             }
