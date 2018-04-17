@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Scrummy.Application.Web.Core.ViewModels.Entities.Person
+﻿namespace Scrummy.Application.Web.Core.ViewModels.Entities.Person
 {
     public class ViewPersonViewModel
     {

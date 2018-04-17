@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Scrummy.Application.Web.Core.ViewModels;
 using Scrummy.Domain.UseCases.Interfaces.Entities.Person;
 
 namespace Scrummy.Application.Web.Core.Presenters.Entities.Person
 {
     public class CreatePersonPresenter
     {
-        private readonly Action<Message> _messageHandler;
+        private readonly Action<MessageType, string> _messageHandler;
 
         private readonly Action<string, string> _errorHandler;
 
-        public CreatePersonPresenter(Action<Message> messageHandler, Action<string, string> errorHandler)
+        public CreatePersonPresenter(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
         {
             _messageHandler = messageHandler;
             _errorHandler = errorHandler;
@@ -19,11 +18,7 @@ namespace Scrummy.Application.Web.Core.Presenters.Entities.Person
 
         public void Present(CreatePersonResponse response)
         {
-            _messageHandler.Invoke(new Message
-            {
-                Type = MessageType.Success,
-                Text = response.Message,
-            });
+            _messageHandler.Invoke(MessageType.Success, response.Message);
         }
 
         public void Present(IDictionary<string, string> errors)

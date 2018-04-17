@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Scrummy.Application.Web.Core;
 using Scrummy.Application.Web.Core.Mapping.Extensions;
 using Scrummy.Application.Web.Core.Presenters.Entities.Person;
-using Scrummy.Application.Web.Core.ViewModels;
 using Scrummy.Application.Web.Core.ViewModels.Entities.Person;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
@@ -44,11 +44,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             }
             catch (Exception)
             {
-                MessageHandler(new Message
-                {
-                    Type = MessageType.Error,
-                    Text = "Unknown error.",
-                });
+                MessageHandler(MessageType.Error, "Unknown error.");
                 return BadRequest();
             }
         }
@@ -78,11 +74,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             }
             catch (Exception)
             {
-                MessageHandler(new Message
-                {
-                    Type = MessageType.Error,
-                    Text = "Unknown error.",
-                });
+                MessageHandler(MessageType.Error, "Unknown error.");
                 return View(vm);
             }
         }
@@ -92,10 +84,10 @@ namespace Scrummy.Application.Web.MVC.Controllers
             ModelState.AddModelError(s, s1);
         }
 
-        private void MessageHandler(Message message)
+        private void MessageHandler(MessageType type, string message)
         {
-            TempData["Status"] = message.Type;
-            TempData["Message"] = message.Text;
+            TempData["Status"] = type;
+            TempData["Message"] = message;
         }
     }
 }
