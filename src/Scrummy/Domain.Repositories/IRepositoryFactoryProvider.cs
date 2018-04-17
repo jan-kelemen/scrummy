@@ -7,5 +7,7 @@ namespace Scrummy.Domain.Repositories
         IPersonRepository Person { get; }
 
         IProjectRepository Project { get; }
+
+        IMeetingRepository Meeting { get; }
     }
 }
