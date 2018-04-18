@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -8,6 +7,7 @@ using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
+using MTeam = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Team;
 using Project = Scrummy.Domain.Core.Entities.Project;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
@@ -15,10 +15,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
     internal class ProjectRepository : BaseRepository<Project>, IProjectRepository
     {
         private readonly IMongoCollection<MProject> _projectCollection;
+        private readonly IMongoCollection<MTeam> _teamCollection;
 
-        public ProjectRepository(IMongoCollection<MProject> projectCollection)
+        public ProjectRepository(IMongoCollection<MProject> projectCollection, IMongoCollection<MTeam> teamCollection)
         {
             _projectCollection = projectCollection;
+            _teamCollection = teamCollection;
         }
 
         public Identity CreateProject(Project project)
@@ -40,7 +42,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var entity = _projectCollection.Find(x => x.Id == id.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(id); }
 
-            return entity.ToDomainEntity();
+            var team = _teamCollection.Find(x => x.Id == entity.CurrentTeam.TeamId).FirstOrDefault();
+            if (team == null) { throw CreateEntityNotFoundException(entity.CurrentTeam.TeamId.ToDomainIdentity()); }
+
+            return entity.ToDomainEntity(team);
         }
 
         public void UpdateProject(Project project)
@@ -67,7 +72,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(projectIdentity); }
         }
 
-        public void UpdateTeam(Identity projectIdentity, Team team)
+        public void UpdateTeam(Identity projectIdentity, Identity teamIdentity)
         {
             if (projectIdentity.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
 
@@ -82,11 +87,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 {
                     From = DateTime.UtcNow,
                     To = DateTime.MaxValue,
-                    Members = team.Select(m => new TeamMember
-                    {
-                        Id = m.Id.ToPersistenceIdentity(),
-                        Role = m.Role,
-                    }),
+                    TeamId = teamIdentity.ToPersistenceIdentity(),
                 })
                 .Push(p => p.TeamHistory, currentTeam);
 

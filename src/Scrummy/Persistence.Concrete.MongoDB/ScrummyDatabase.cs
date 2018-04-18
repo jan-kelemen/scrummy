@@ -15,6 +15,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
             {
                 { typeof(Person), "Persons" },
                 { typeof(Project), "Projects" },
+                { typeof(Team), "Teams" },
                 { typeof(Meeting), "Meetings" }
             };
         }
@@ -30,13 +31,14 @@ namespace Scrummy.Persistence.Concrete.MongoDB
             _database = _client.GetDatabase(databaseName);
         }
 
-        public IMongoCollection<Person> PersonCollection => 
-            _database.GetCollection<Person>(CollectionNameMap[typeof(Person)]);
+        public IMongoCollection<Person> PersonCollection => GetCollection<Person>();
 
-        public IMongoCollection<Project> ProjectCollection =>
-            _database.GetCollection<Project>(CollectionNameMap[typeof(Project)]);
+        public IMongoCollection<Project> ProjectCollection => GetCollection<Project>();
 
-        public IMongoCollection<Meeting> MeetingCollection =>
-            _database.GetCollection<Meeting>(CollectionNameMap[typeof(Meeting)]);
+        public IMongoCollection<Meeting> MeetingCollection => GetCollection<Meeting>();
+
+        public IMongoCollection<Team> TeamCollection => GetCollection<Team>();
+
+        private IMongoCollection<T> GetCollection<T>() => _database.GetCollection<T>(CollectionNameMap[typeof(T)]);
     }
 }

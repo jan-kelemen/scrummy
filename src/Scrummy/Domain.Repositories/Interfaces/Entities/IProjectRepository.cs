@@ -13,7 +13,7 @@ namespace Scrummy.Domain.Repositories.Interfaces.Entities
 
         void UpdateDefinitionOfDone(Identity projectIdentity, DefinitionOfDone definitionOfDone);
 
-        void UpdateTeam(Identity projectIdentity, Team team);
+        void UpdateTeam(Identity projectIdentity, Identity teamIdentity);
 
         void DeleteProject(Identity id);
 

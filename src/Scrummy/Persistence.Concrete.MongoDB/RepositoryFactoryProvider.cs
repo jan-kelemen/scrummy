@@ -13,13 +13,16 @@ namespace Scrummy.Persistence.Concrete.MongoDB
             _database = database;
 
             Person = new PersonRepository(_database.PersonCollection);
-            Project = new ProjectRepository(_database.ProjectCollection);
+            Project = new ProjectRepository(_database.ProjectCollection, _database.TeamCollection);
+            Team = new TeamRepository(_database.TeamCollection);
             Meeting = new MeetingRepository(_database.MeetingCollection);
         }
 
         public IPersonRepository Person { get; }
 
         public IProjectRepository Project { get; }
+
+        public ITeamRepository Team { get; }
 
         public IMeetingRepository Meeting { get; }
     }

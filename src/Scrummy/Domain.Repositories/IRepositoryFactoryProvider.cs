@@ -8,6 +8,8 @@ namespace Scrummy.Domain.Repositories
 
         IProjectRepository Project { get; }
 
+        ITeamRepository Team { get; }
+
         IMeetingRepository Meeting { get; }
     }
 }

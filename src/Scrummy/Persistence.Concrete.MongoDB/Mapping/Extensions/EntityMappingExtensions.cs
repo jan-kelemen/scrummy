@@ -4,9 +4,11 @@ using Scrummy.Domain.Core.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Person;
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
+using MTeam = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Team;
 using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Meeting;
 using Person = Scrummy.Domain.Core.Entities.Person;
 using Project = Scrummy.Domain.Core.Entities.Project;
+using Team = Scrummy.Domain.Core.Entities.Team;
 using Meeting = Scrummy.Domain.Core.Entities.Meeting;
 
 // ReSharper disable ArgumentsStyleOther
@@ -23,7 +25,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 firstName: person.FirstName,
                 lastName: person.LastName,
                 displayName: person.DisplayName,
-                email: person.Email);
+                email: person.Email
+            );
         }
 
         public static MPerson ToPersistenceEntity(this Person person)
@@ -38,15 +41,14 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
             };
         }
 
-        public static Project ToDomainEntity(this MProject project)
+        public static Project ToDomainEntity(this MProject project, MTeam team)
         {
             return new Project(
                 id: project.Id.ToDomainIdentity(),
                 name: project.Name,
                 definitionOfDone: new DefinitionOfDone(project.DefinitionOfDoneConditions),
-                team: new Team(project.CurrentTeam.Members.Select(
-                    m => new Team.Member(m.Id.ToDomainIdentity(), m.Role)))
-                );
+                team: team.ToDomainEntity()
+            );
         }
 
         public static MProject ToPersistenceEntity(this Project project)
@@ -60,12 +62,38 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 {
                     From = DateTime.UtcNow,
                     To = DateTime.MaxValue,
-                    Members = project.Team.Select(m => new TeamMember
+                    TeamId = project.Team.Id.ToPersistenceIdentity(),
+                }
+            };
+        }
+
+        public static Team ToDomainEntity(this MTeam team)
+        {
+            return new Team(
+                id: team.Id.ToDomainIdentity(),
+                name: team.Name,
+                timeOfDailyScrum: team.TimeOfDailyScrum,
+                members: team.CurrentMembers.Members.Select(m => new Team.Member(m.Id.ToDomainIdentity(), m.Role))
+            );
+        }
+
+        public static MTeam ToPersistenceEntity(this Team team)
+        {
+            return new MTeam
+            {
+                Id = team.Id.ToPersistenceIdentity(),
+                Name = team.Name,
+                TimeOfDailyScrum = team.TimeOfDailyScrum,
+                CurrentMembers = new MembersHistoryRecord
+                {
+                    From = DateTime.Now,
+                    To = DateTime.MaxValue,
+                    Members = team.Members.Select(m => new MTeam.Member
                     {
                         Id = m.Id.ToPersistenceIdentity(),
                         Role = m.Role,
                     })
-                }
+                },
             };
         }
 
@@ -78,7 +106,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 time: meeting.Time,
                 organizedBy: meeting.OrganizedBy.ToDomainIdentity(),
                 description: meeting.Description,
-                involvedPersons: meeting.InvolvedPersons.Select(m => m.ToDomainIdentity()));
+                involvedPersons: meeting.InvolvedPersons.Select(m => m.ToDomainIdentity())
+            );
         }
 
         public static MMeeting ToPersistenceEntity(this Meeting meeting)
