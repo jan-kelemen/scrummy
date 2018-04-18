@@ -7,17 +7,17 @@ namespace Scrummy.Domain.UseCases.Implementation.Entities.Factories
 {
     public class PersonUseCaseFactory : IPersonUseCaseFactory
     {
-        private readonly IRepositoryFactoryProvider _repositoryFactoryProvider;
+        private readonly IRepositoryProvider _repositoryProvider;
 
-        public PersonUseCaseFactory(IRepositoryFactoryProvider repositoryFactoryProvider)
+        public PersonUseCaseFactory(IRepositoryProvider repositoryProvider)
         {
-            _repositoryFactoryProvider = repositoryFactoryProvider;
+            _repositoryProvider = repositoryProvider;
         }
 
         public ICreatePersonUseCase Create => 
-            new CreatePersonUseCase(_repositoryFactoryProvider.Person);
+            new CreatePersonUseCase(_repositoryProvider.Person);
 
         public IViewPersonUseCase View =>
-            new ViewPersonUseCase(_repositoryFactoryProvider.Person);
+            new ViewPersonUseCase(_repositoryProvider.Person);
     }
 }

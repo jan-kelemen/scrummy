@@ -9,7 +9,7 @@ namespace Scrummy.Runtime.Common.Initialization
 {
     public static class RuntimeInitializer
     {
-        public static IRepositoryFactoryProvider RepositoryFactoryProvider { get; private set; }
+        public static IRepositoryProvider RepositoryProvider { get; private set; }
 
         public static IUseCaseFactoryProvider UseCaseFactoryProvider { get; private set; }
 
@@ -21,12 +21,12 @@ namespace Scrummy.Runtime.Common.Initialization
 
         private static void InitializePersistence()
         {
-            RepositoryFactoryProvider = PersistenceInitializer.Initialize(SupportedPersistenceType.MongoDB);
+            RepositoryProvider = PersistenceInitializer.Initialize(SupportedPersistenceType.MongoDB);
         }
 
         private static void InitializeUseCases()
         {
-            UseCaseFactoryProvider = UseCaseInitializer.Initialize(RepositoryFactoryProvider);
+            UseCaseFactoryProvider = UseCaseInitializer.Initialize(RepositoryProvider);
         }
     }
 }

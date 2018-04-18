@@ -2,7 +2,7 @@
 
 namespace Scrummy.Domain.Repositories
 {
-    public interface IRepositoryFactoryProvider
+    public interface IRepositoryProvider
     {
         IPersonRepository Person { get; }
 
@@ -13,5 +13,7 @@ namespace Scrummy.Domain.Repositories
         IMeetingRepository Meeting { get; }
 
         ISprintRepository Sprint { get; }
+
+        IWorkTaskRepository WorkTask { get; }
     }
 }

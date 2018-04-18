@@ -120,7 +120,8 @@ namespace Scrummy.Domain.Core.Entities
             Identity id, 
             WorkTaskType type, 
             string name, 
-            int? storyPoints, 
+            int? storyPoints,
+            string description,
             IEnumerable<Identity> linkedFrom, 
             IEnumerable<Identity> linkedTo, 
             IEnumerable<Identity> comments) : base(id)
@@ -128,6 +129,7 @@ namespace Scrummy.Domain.Core.Entities
             Type = type;
             Name = name;
             StoryPoints = storyPoints;
+            Description = description;
             _linkedFrom = new List<Identity>(linkedFrom);
             _linkedTo = new List<Identity>(linkedTo);
             _comments = new List<Identity>(comments);
@@ -168,7 +170,6 @@ namespace Scrummy.Domain.Core.Entities
                 throw CreateEntityValidationException(Validation.LinkErrorKey, Validation.LinkTargetIsAlreadyLinkedMessage);
 
             _linkedTo.Add(other.Id);
-            other._linkedFrom.Add(Id);
         }
 
         private string CheckName(string name)

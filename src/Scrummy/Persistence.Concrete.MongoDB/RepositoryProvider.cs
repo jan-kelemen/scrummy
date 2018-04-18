@@ -4,12 +4,12 @@ using Scrummy.Persistence.Concrete.MongoDB.Repositories;
 
 namespace Scrummy.Persistence.Concrete.MongoDB
 {
-    internal class RepositoryFactoryProvider : IRepositoryFactoryProvider
+    internal class RepositoryProvider : IRepositoryProvider
     {
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly ScrummyDatabase _database;
 
-        public RepositoryFactoryProvider(ScrummyDatabase database)
+        public RepositoryProvider(ScrummyDatabase database)
         {
             _database = database;
 
@@ -18,6 +18,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
             Team = new TeamRepository(_database.TeamCollection);
             Meeting = new MeetingRepository(_database.MeetingCollection);
             Sprint = new SprintRepository(_database.SprintCollection);
+            WorkTask = new WorkTaskRepository(_database.WorkTaskCollection);
         }
 
         public IPersonRepository Person { get; }
@@ -29,5 +30,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
         public IMeetingRepository Meeting { get; }
 
         public ISprintRepository Sprint { get; }
+
+        public IWorkTaskRepository WorkTask { get; }
     }
 }

@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Linq;
+using MongoDB.Bson;
 using Scrummy.Domain.Core.Entities;
+using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Person;
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
 using MTeam = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Team;
 using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Meeting;
 using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
+using MWorkTask = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.WorkTask;
+using MComment = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Comment;
 using Person = Scrummy.Domain.Core.Entities.Person;
 using Project = Scrummy.Domain.Core.Entities.Project;
 using Team = Scrummy.Domain.Core.Entities.Team;
 using Meeting = Scrummy.Domain.Core.Entities.Meeting;
 using Sprint = Scrummy.Domain.Core.Entities.Sprint;
+using WorkTask = Scrummy.Domain.Core.Entities.WorkTask;
+using Comment = Scrummy.Domain.Core.Entities.WorkTask.Comment;
 
 // ReSharper disable ArgumentsStyleOther
 // ReSharper disable ArgumentsStyleNamedExpression
@@ -147,6 +153,53 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 StartDate = sprint.TimeSpan.Item1,
                 EndDate = sprint.TimeSpan.Item2,
                 Goal = sprint.Goal,
+            };
+        }
+
+        public static WorkTask ToDomainEntity(this MWorkTask task)
+        {
+            return new WorkTask(
+                id: task.Id.ToDomainIdentity(),
+                type: task.Type,
+                name: task.Name,
+                storyPoints: task.StoryPoints,
+                description: task.Description,
+                linkedFrom: task.LinkedFrom.Select(i => i.ToDomainIdentity()),
+                linkedTo: task.LinkedTo.Select(i => i.ToDomainIdentity()),
+                comments: task.Comments.Select(i => i.Id.ToDomainIdentity())
+            );
+        }
+
+        public static MWorkTask ToPersistenceEntity(this WorkTask task)
+        {
+            return new MWorkTask
+            {
+                Id = task.Id.ToPersistenceIdentity(),
+                Name = task.Name,
+                Type = task.Type,
+                StoryPoints = task.StoryPoints,
+                Description = task.Description,
+                LinkedTo = task.LinkedTo.Select(t => t.ToPersistenceIdentity()),
+            };
+        }
+
+        public static Comment ToDomainEntity(this MComment comment, ObjectId workTaskId)
+        {
+            return new Comment(
+                id: comment.Id.ToDomainIdentity(),
+                authorId: comment.AuthorId.ToDomainIdentity(),
+                workTaskId: workTaskId.ToDomainIdentity(),
+                content: comment.Content
+            );
+        }
+
+        public static MComment ToPersistenceEntity(this Comment comment)
+        {
+            return new MComment
+            {
+                Id = comment.Id.ToPersistenceIdentity(),
+                AuthorId = comment.AuthorId.ToPersistenceIdentity(),
+                Content = comment.Content,
             };
         }
     }

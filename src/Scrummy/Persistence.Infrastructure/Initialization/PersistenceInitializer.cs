@@ -6,7 +6,7 @@ namespace Scrummy.Persistence.Infrastructure.Initialization
 {
     public static class PersistenceInitializer
     {
-        public static IRepositoryFactoryProvider Initialize(SupportedPersistenceType type)
+        public static IRepositoryProvider Initialize(SupportedPersistenceType type)
         {
             switch (type)
             {

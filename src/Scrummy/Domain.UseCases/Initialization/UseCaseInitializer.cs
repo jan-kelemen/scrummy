@@ -6,9 +6,9 @@ namespace Scrummy.Domain.UseCases.Initialization
 {
     public static class UseCaseInitializer
     {
-        public static IUseCaseFactoryProvider Initialize(IRepositoryFactoryProvider repositoryFactoryProvider)
+        public static IUseCaseFactoryProvider Initialize(IRepositoryProvider repositoryProvider)
         {
-            return new UseCaseFactoryProvider(repositoryFactoryProvider);
+            return new UseCaseFactoryProvider(repositoryProvider);
         }
     }
 }

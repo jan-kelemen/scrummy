@@ -6,13 +6,13 @@ namespace Scrummy.Domain.UseCases.Implementation
 {
     internal class UseCaseFactoryProvider : IUseCaseFactoryProvider
     {
-        private readonly IRepositoryFactoryProvider _repositoryFactoryProvider;
+        private readonly IRepositoryProvider _repositoryProvider;
 
-        public UseCaseFactoryProvider(IRepositoryFactoryProvider repositoryFactoryProvider)
+        public UseCaseFactoryProvider(IRepositoryProvider repositoryProvider)
         {
-            _repositoryFactoryProvider = repositoryFactoryProvider;
+            _repositoryProvider = repositoryProvider;
 
-            Person = new PersonUseCaseFactory(_repositoryFactoryProvider);
+            Person = new PersonUseCaseFactory(_repositoryProvider);
         }
 
         public IPersonUseCaseFactory Person { get; }
