@@ -8,7 +8,7 @@ namespace Scrummy.Domain.Core.Entities
 {
     public class Meeting : Entity<Meeting>
     {
-        public static class Validation
+        public class Validation
         {
             public const string NameErrorKey = nameof(Name);
             public const int NameMinLength = 1;
