@@ -16,7 +16,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             _meetingCollection = meetingCollection;
         }
 
-        public Identity CreateMeeting(Meeting meeting)
+        public override Identity Create(Meeting meeting)
         {
             if (meeting == null || _meetingCollection.Find(x => x.Id == meeting.Id.ToPersistenceIdentity()).FirstOrDefault() != null)
             {
@@ -28,7 +28,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return meeting.Id;
         }
 
-        public Meeting ReadMeeting(Identity id)
+        public override Meeting Read(Identity id)
         {
             if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
 
@@ -38,7 +38,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return entity.ToDomainEntity();
         }
 
-        public void UpdateMeeting(Meeting meeting)
+        public override void Update(Meeting meeting)
         {
             if (meeting == null) { throw CreateInvalidEntityException(); }
 
@@ -48,7 +48,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(meeting.Id); }
         }
 
-        public void DeleteMeeting(Identity id)
+        public override void Delete(Identity id)
         {
             if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
 

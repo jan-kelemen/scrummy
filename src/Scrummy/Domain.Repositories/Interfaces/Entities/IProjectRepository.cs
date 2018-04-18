@@ -3,19 +3,11 @@ using Scrummy.Domain.Core.Entities.Common;
 
 namespace Scrummy.Domain.Repositories.Interfaces.Entities
 {
-    public interface IProjectRepository : IRepository
+    public interface IProjectRepository : IRepository<Project>
     {
-        Identity CreateProject(Project project);
-
-        Project ReadProject(Identity id);
-
-        void UpdateProject(Project project);
-
         void UpdateDefinitionOfDone(Identity projectIdentity, DefinitionOfDone definitionOfDone);
 
         void UpdateTeam(Identity projectIdentity, Identity teamIdentity);
-
-        void DeleteProject(Identity id);
 
         bool CheckIfProjectWithNameExists(string name);
     }

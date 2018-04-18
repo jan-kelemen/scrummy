@@ -23,7 +23,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Entities.Person
 
             try
             {
-                var entity = _personRepository.ReadPerson(Identity.FromString(request.Id));
+                var entity = _personRepository.Read(Identity.FromString(request.Id));
                 return ToResponseModel(entity);
             }
             catch (EntityNotFoundException)

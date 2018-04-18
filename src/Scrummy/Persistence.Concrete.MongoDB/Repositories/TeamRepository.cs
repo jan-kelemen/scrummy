@@ -19,7 +19,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             _teamCollection = teamCollection;
         }
 
-        public Identity CreateTeam(Team team)
+        public override Identity Create(Team team)
         {
             if (team == null || _teamCollection.Find(x => x.Id == team.Id.ToPersistenceIdentity()).FirstOrDefault() != null)
             {
@@ -31,7 +31,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return team.Id;
         }
 
-        public Team ReadTeam(Identity id)
+        public override Team Read(Identity id)
         {
             if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
 
@@ -41,7 +41,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return entity.ToDomainEntity();
         }
 
-        public void UpdateTeam(Team meeting)
+        public override void Update(Team meeting)
         {
             if (meeting == null) { throw CreateInvalidEntityException(); }
 
@@ -82,7 +82,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(team.Id); }
         }
 
-        public void DeleteTeam(Identity id)
+        public override void Delete(Identity id)
         {
             if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
 

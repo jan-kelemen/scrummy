@@ -17,7 +17,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             _personCollection = personCollection;
         }
 
-        public Identity CreatePerson(Person person)
+        public override Identity Create(Person person)
         {
             if (person == null || _personCollection.Find(x => x.Id == person.Id.ToPersistenceIdentity()).FirstOrDefault() != null)
             {
@@ -29,7 +29,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return person.Id;
         }
 
-        public Person ReadPerson(Identity id)
+        public override Person Read(Identity id)
         {
             if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
 
@@ -39,7 +39,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return entity.ToDomainEntity();
         }
 
-        public void UpdatePerson(Person person)
+        public override void Update(Person person)
         {
             if (person == null) { throw CreateInvalidEntityException(); }
 
@@ -49,7 +49,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(person.Id); }
         }
 
-        public void DeletePerson(Identity id)
+        public override void Delete(Identity id)
         {
             if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
 

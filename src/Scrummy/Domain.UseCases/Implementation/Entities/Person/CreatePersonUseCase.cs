@@ -28,7 +28,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Entities.Person
                 }
 
                 var entity = ToDomainEntity(request);
-                var result = _personRepository.CreatePerson(entity);
+                var result = _personRepository.Create(entity);
 
                 return new CreatePersonResponse(string.Format("Person {0} sucessfuly created.", entity.DisplayName))
                 {

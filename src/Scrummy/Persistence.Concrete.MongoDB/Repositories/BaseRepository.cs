@@ -5,9 +5,14 @@ using Scrummy.Domain.Repositories.Interfaces;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 {
-    internal class BaseRepository<T> : IRepository
+    internal abstract class BaseRepository<T> : IRepository<T>
     {
         public Identity GenerateNewIdentity() => Identity.FromString(ObjectId.GenerateNewId().ToString());
+
+        public abstract Identity Create(T entity);
+        public abstract T Read(Identity id);
+        public abstract void Update(T entity);
+        public abstract void Delete(Identity id);
 
         protected static EntityNotFoundException CreateEntityNotFoundException(Identity id)
         {
