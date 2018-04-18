@@ -6,10 +6,12 @@ using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Pers
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
 using MTeam = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Team;
 using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Meeting;
+using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
 using Person = Scrummy.Domain.Core.Entities.Person;
 using Project = Scrummy.Domain.Core.Entities.Project;
 using Team = Scrummy.Domain.Core.Entities.Team;
 using Meeting = Scrummy.Domain.Core.Entities.Meeting;
+using Sprint = Scrummy.Domain.Core.Entities.Sprint;
 
 // ReSharper disable ArgumentsStyleOther
 // ReSharper disable ArgumentsStyleNamedExpression
@@ -121,6 +123,30 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 OrganizedBy = meeting.OrganizedBy.ToPersistenceIdentity(),
                 Time = meeting.Time,
                 InvolvedPersons = meeting.InvolvedPersons.Select(x => x.ToPersistenceIdentity()),
+            };
+        }
+
+        public static Sprint ToDomainEntity(this MSprint sprint)
+        {
+            return new Sprint(
+                id: sprint.Id.ToDomainIdentity(),
+                projectId: sprint.ProjectId.ToDomainIdentity(),
+                name: sprint.Name,
+                timeSpan: new Tuple<DateTime, DateTime>(sprint.StartDate, sprint.EndDate),
+                goal: sprint.Goal
+            );
+        }
+
+        public static MSprint ToPersistenceEntity(this Sprint sprint)
+        {
+            return new MSprint
+            {
+                Id = sprint.Id.ToPersistenceIdentity(),
+                ProjectId = sprint.ProjectId.ToPersistenceIdentity(),
+                Name = sprint.Name,
+                StartDate = sprint.TimeSpan.Item1,
+                EndDate = sprint.TimeSpan.Item2,
+                Goal = sprint.Goal,
             };
         }
     }

@@ -11,5 +11,7 @@ namespace Scrummy.Domain.Repositories
         ITeamRepository Team { get; }
 
         IMeetingRepository Meeting { get; }
+
+        ISprintRepository Sprint { get; }
     }
 }

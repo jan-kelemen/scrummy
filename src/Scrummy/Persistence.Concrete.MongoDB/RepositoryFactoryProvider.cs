@@ -6,6 +6,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
 {
     internal class RepositoryFactoryProvider : IRepositoryFactoryProvider
     {
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly ScrummyDatabase _database;
 
         public RepositoryFactoryProvider(ScrummyDatabase database)
@@ -16,6 +17,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
             Project = new ProjectRepository(_database.ProjectCollection, _database.TeamCollection);
             Team = new TeamRepository(_database.TeamCollection);
             Meeting = new MeetingRepository(_database.MeetingCollection);
+            Sprint = new SprintRepository(_database.SprintCollection);
         }
 
         public IPersonRepository Person { get; }
@@ -25,5 +27,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
         public ITeamRepository Team { get; }
 
         public IMeetingRepository Meeting { get; }
+
+        public ISprintRepository Sprint { get; }
     }
 }
