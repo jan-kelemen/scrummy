@@ -50,13 +50,13 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
             };
         }
 
-        public static Project ToDomainEntity(this MProject project, MTeam team)
+        public static Project ToDomainEntity(this MProject project)
         {
             return new Project(
                 id: project.Id.ToDomainIdentity(),
                 name: project.Name,
                 definitionOfDone: new DefinitionOfDone(project.DefinitionOfDoneConditions),
-                team: team.ToDomainEntity()
+                teamId: project.CurrentTeam.TeamId.ToDomainIdentity()
             );
         }
 
@@ -71,7 +71,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 {
                     From = DateTime.MinValue,
                     To = DateTime.MaxValue,
-                    TeamId = project.Team.Id.ToPersistenceIdentity(),
+                    TeamId = project.TeamId.ToPersistenceIdentity(),
                 },
                 CurrentBacklog = new BacklogHistoryRecord
                 {

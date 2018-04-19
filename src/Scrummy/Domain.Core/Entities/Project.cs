@@ -20,7 +20,7 @@ namespace Scrummy.Domain.Core.Entities
             public const string DefinitionOfDoneConditionIsInvalid = "Condition in Definition of done is invalid.";
             public const string DefinitionOfDoneIsInvalid = "Definition of done has to have at least one condition.";
 
-            public const string TeamErrorKey = nameof(Team);          
+            public const string TeamErrorKey = nameof(TeamId);          
 
             public static bool ValidateName(string name) =>
                 TextValidator.ValidateThatContentIsBetweenSpecifiedLength(name, NameMinLength, NameMaxLength);
@@ -39,17 +39,17 @@ namespace Scrummy.Domain.Core.Entities
 
         private DefinitionOfDone _definitionOfDone;
 
-        private Team _team;
+        private Identity _teamId;
 
         public Project(
             Identity id, 
             string name, 
             DefinitionOfDone definitionOfDone, 
-            Team team) : base(id)
+            Identity teamId) : base(id)
         {
             Name = name;
             DefinitionOfDone = definitionOfDone;
-            Team = team;
+            TeamId = teamId;
         }
 
         public string Name
@@ -68,10 +68,10 @@ namespace Scrummy.Domain.Core.Entities
             }
         }
 
-        public Team Team
+        public Identity TeamId
         {
-            get => _team;
-            set => _team = CheckReferenceNotNull(value, Validation.TeamErrorKey);
+            get => _teamId;
+            set => _teamId = CheckIdentityIsNotBlank(value, Validation.TeamErrorKey);
         }
 
         private string CheckName(string name)

@@ -16,12 +16,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
     internal class ProjectRepository : BaseRepository<Project>, IProjectRepository
     {
         private readonly IMongoCollection<MProject> _projectCollection;
-        private readonly IMongoCollection<MTeam> _teamCollection;
 
-        public ProjectRepository(IMongoCollection<MProject> projectCollection, IMongoCollection<MTeam> teamCollection)
+        public ProjectRepository(IMongoCollection<MProject> projectCollection)
         {
             _projectCollection = projectCollection;
-            _teamCollection = teamCollection;
         }
 
         public override Identity Create(Project project)
@@ -43,10 +41,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var entity = _projectCollection.Find(x => x.Id == id.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(id); }
 
-            var team = _teamCollection.Find(x => x.Id == entity.CurrentTeam.TeamId).FirstOrDefault();
-            if (team == null) { throw CreateEntityNotFoundException(entity.CurrentTeam.TeamId.ToDomainIdentity()); }
-
-            return entity.ToDomainEntity(team);
+            return entity.ToDomainEntity();
         }
 
         public override void Update(Project project)
