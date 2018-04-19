@@ -8,7 +8,6 @@ using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
-using MTeam = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Team;
 using Project = Scrummy.Domain.Core.Entities.Project;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
@@ -122,11 +121,11 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             currentBacklog.To = DateTime.UtcNow;
 
             var updateDefinition = Builders<MProject>.Update
-                .Set(p => p.CurrentBacklog, new BacklogHistoryRecord
+                .Set(p => p.CurrentBacklog, new MProject.BacklogHistoryRecord
                 {
                     From = DateTime.UtcNow,
                     To = DateTime.MaxValue,
-                    Tasks = productBacklog.Select(x => new BacklogItem
+                    Tasks = productBacklog.Select(x => new MProject.BacklogItem
                     {
                         WorkTaskId = x.WorkTaskId.ToPersistenceIdentity(),
                         Status = x.Status

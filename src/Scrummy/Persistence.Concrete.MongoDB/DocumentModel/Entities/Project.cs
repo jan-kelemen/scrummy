@@ -8,6 +8,23 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 {
     internal class Project : BaseEntity
     {
+        internal class BacklogHistoryRecord
+        {
+            public DateTime From { get; set; }
+
+            public DateTime To { get; set; }
+
+            public IEnumerable<BacklogItem> Tasks { get; set; }
+        }
+
+        internal class BacklogItem
+        {
+            public ObjectId WorkTaskId { get; set; }
+
+            [BsonRepresentation(BsonType.String)]
+            public ProductBacklog.WorkTaskStatus Status { get; set; }
+        }
+
         public string Name { get; set; }
 
         public IEnumerable<string> DefinitionOfDoneConditions { get; set; }
@@ -28,22 +45,5 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
         public DateTime To { get; set; }
 
         public ObjectId TeamId { get; set; }
-    }
-
-    internal class BacklogHistoryRecord
-    {
-        public DateTime From { get; set; }
-
-        public DateTime To { get; set; }
-
-        public IEnumerable<BacklogItem> Tasks { get; set; }
-    }
-
-    internal class BacklogItem
-    {
-        public ObjectId WorkTaskId { get; set; }
-
-        [BsonRepresentation(BsonType.String)]
-        public ProductBacklog.WorkTaskStatus Status { get; set; }
     }
 }
