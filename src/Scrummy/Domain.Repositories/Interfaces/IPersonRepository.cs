@@ -1,6 +1,6 @@
 ﻿using Scrummy.Domain.Core.Entities;
 
-namespace Scrummy.Domain.Repositories.Interfaces.Entities
+namespace Scrummy.Domain.Repositories.Interfaces
 {
     public interface IPersonRepository : IRepository<Person>
     {

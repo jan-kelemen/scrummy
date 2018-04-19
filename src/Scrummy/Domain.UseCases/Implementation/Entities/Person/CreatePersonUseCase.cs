@@ -1,6 +1,6 @@
 ﻿using System;
 using Scrummy.Domain.Repositories.Exceptions;
-using Scrummy.Domain.Repositories.Interfaces.Entities;
+using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Entities.Person;

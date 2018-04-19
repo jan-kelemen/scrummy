@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Scrummy.Domain.Repositories.Interfaces.Entities;
+using Scrummy.Domain.Repositories.Interfaces;
 
 namespace Scrummy.Domain.Repositories.Test.Unit
 {

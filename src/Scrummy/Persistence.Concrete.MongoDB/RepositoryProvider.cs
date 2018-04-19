@@ -1,5 +1,5 @@
 ﻿using Scrummy.Domain.Repositories;
-using Scrummy.Domain.Repositories.Interfaces.Entities;
+using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Persistence.Concrete.MongoDB.Repositories;
 
 namespace Scrummy.Persistence.Concrete.MongoDB

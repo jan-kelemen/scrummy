@@ -2,7 +2,7 @@
 using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Repositories.Interfaces.Entities;
+using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 using MTeam = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Team;
