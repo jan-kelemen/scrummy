@@ -9,6 +9,10 @@ namespace Scrummy.Domain.Repositories.Interfaces.Entities
 
         void UpdateTeam(Identity projectIdentity, Identity teamIdentity);
 
+        ProductBacklog GetProductBacklog(Identity projectIdentity);
+
+        void UpdateProductBacklog(ProductBacklog productBacklog);
+
         bool CheckIfProjectWithNameExists(string name);
     }
 }

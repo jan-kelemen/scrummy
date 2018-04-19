@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -90,6 +91,53 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                     TeamId = teamIdentity.ToPersistenceIdentity(),
                 })
                 .Push(p => p.TeamHistory, currentTeam);
+
+            var result = _projectCollection.UpdateOne(x => x.Id == projectIdentity.ToPersistenceIdentity(), updateDefinition);
+
+            if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(projectIdentity); }
+        }
+
+        public ProductBacklog GetProductBacklog(Identity projectIdentity)
+        {
+            if (projectIdentity.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
+
+            var entity = _projectCollection.Find(x => x.Id == projectIdentity.ToPersistenceIdentity()).FirstOrDefault();
+            if (entity == null) { throw CreateEntityNotFoundException(projectIdentity); }
+
+            var currentBacklog = entity.CurrentBacklog;
+
+            return new ProductBacklog(
+                projectIdentity,
+                currentBacklog.Tasks.Select(t => new ProductBacklog.WorkTaskWithStatus(
+                    t.WorkTaskId.ToDomainIdentity(),
+                    t.Status)
+                )
+            );
+        }
+
+        public void UpdateProductBacklog(ProductBacklog productBacklog)
+        {
+            var projectIdentity = productBacklog.ProjectId;
+            if (projectIdentity.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
+
+            var entity = _projectCollection.Find(x => x.Id == projectIdentity.ToPersistenceIdentity()).FirstOrDefault();
+            if (entity == null) { throw CreateEntityNotFoundException(projectIdentity); }
+
+            var currentBacklog = entity.CurrentBacklog;
+            currentBacklog.To = DateTime.UtcNow;
+
+            var updateDefinition = Builders<MProject>.Update
+                .Set(p => p.CurrentBacklog, new BacklogHistoryRecord
+                {
+                    From = DateTime.UtcNow,
+                    To = DateTime.MaxValue,
+                    Tasks = productBacklog.Select(x => new BacklogItem
+                    {
+                        WorkTaskId = x.WorkTaskId.ToPersistenceIdentity(),
+                        Status = x.Status
+                    }),
+                })
+                .Push(p => p.BacklogHistory, currentBacklog);
 
             var result = _projectCollection.UpdateOne(x => x.Id == projectIdentity.ToPersistenceIdentity(), updateDefinition);
 

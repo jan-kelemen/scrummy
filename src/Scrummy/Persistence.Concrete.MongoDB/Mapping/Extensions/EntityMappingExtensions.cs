@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
 using Scrummy.Domain.Core.Entities;
@@ -68,9 +69,15 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 DefinitionOfDoneConditions = project.DefinitionOfDone,
                 CurrentTeam = new TeamHistoryRecord
                 {
-                    From = DateTime.UtcNow,
+                    From = DateTime.MinValue,
                     To = DateTime.MaxValue,
                     TeamId = project.Team.Id.ToPersistenceIdentity(),
+                },
+                CurrentBacklog = new BacklogHistoryRecord
+                {
+                    To = DateTime.MinValue,
+                    From = DateTime.MaxValue,
+                    Tasks = new List<BacklogItem>(),
                 }
             };
         }
