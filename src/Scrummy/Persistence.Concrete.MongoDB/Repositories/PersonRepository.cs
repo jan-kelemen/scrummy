@@ -44,7 +44,13 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (person == null) { throw CreateInvalidEntityException(); }
 
             var entity = person.ToPersistenceEntity();
-            var result = _personCollection.ReplaceOne(x => x.Id == entity.Id, entity);
+
+            var updateDefinition = Builders<MPerson>.Update
+                .Set(x => x.FirstName, person.FirstName)
+                .Set(x => x.LastName, person.LastName)
+                .Set(x => x.DisplayName, person.DisplayName);
+
+            var result = _personCollection.UpdateOne(x => x.Id == entity.Id, updateDefinition);
 
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(person.Id); }
         }

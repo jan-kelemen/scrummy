@@ -47,6 +47,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 LastName = person.LastName,
                 DisplayName = person.DisplayName,
                 Email = person.Email,
+                PasswordHash = person.PasswordHash,
             };
         }
 

@@ -50,7 +50,8 @@ namespace Scrummy.Domain.Core.Entities
             string firstName,
             string lastName,
             string displayName,
-            string email) : base(id)
+            string email,
+            string passwordHash = null) : base(id)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -81,6 +82,8 @@ namespace Scrummy.Domain.Core.Entities
             get => _email;
             set => _email = CheckEmail(value);
         }
+
+        public string PasswordHash { get; set; }
 
         private string CheckFirstName(string firstName)
         {
