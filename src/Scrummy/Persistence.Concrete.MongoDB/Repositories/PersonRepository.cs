@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using System;
+using System.Linq;
+using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
@@ -65,6 +67,13 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
         }
 
         public bool CheckIfEmailExists(string email) => 
-            _personCollection.Find(x => x.Email == email).FirstOrDefault() != null;
+            _personCollection.Find(x => x.Email.ToLowerInvariant() == email.ToLowerInvariant()).FirstOrDefault() != null;
+
+        public Person FindByEmailAndPasswordHash(string email, string passwordHash)
+        {
+            return _personCollection.AsQueryable()
+                .FirstOrDefault(x => x.Email.ToLowerInvariant() == email.ToLowerInvariant() && x.PasswordHash == passwordHash)
+                ?.ToDomainEntity();
+        }
     }
 }

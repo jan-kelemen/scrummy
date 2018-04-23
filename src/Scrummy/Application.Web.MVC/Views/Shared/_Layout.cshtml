@@ -1,4 +1,11 @@
-﻿@using Scrummy.Application.Web.MVC.Utility
+﻿@using System.Security.Claims
+@using Scrummy.Application.Web.MVC.Utility
+
+@{
+    var id = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+    var name = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+    var isUserLoggedIn = id != null;
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +39,19 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                </ul>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    @if (isUserLoggedIn)
+                    {
+                        <li><a asp-area="" asp-controller="Person" asp-action="Details" asp-route-id=@id>@name</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Person" asp-action="Register">Register</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Login">Log in</a></li>
+                    }
                 </ul>
             </div>
         </div>

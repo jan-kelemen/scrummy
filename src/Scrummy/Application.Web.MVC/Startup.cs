@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Scrummy.Domain.UseCases.Interfaces;
 using Scrummy.Runtime.Common.Initialization;
 
 namespace Scrummy.Application.Web.MVC
@@ -22,6 +23,15 @@ namespace Scrummy.Application.Web.MVC
             RuntimeInitializer.Initialize();
             services.AddMvc();
             services.AddSingleton(RuntimeInitializer.UseCaseFactoryProvider);
+            services.AddSingleton(RuntimeInitializer.RepositoryProvider);
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                    options =>
+                    {
+                        options.LoginPath = new PathString("/Home/Login");
+                        options.AccessDeniedPath = new PathString("/Home/Denied");
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +47,7 @@ namespace Scrummy.Application.Web.MVC
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

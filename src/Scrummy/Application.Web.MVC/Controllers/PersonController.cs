@@ -10,7 +10,7 @@ using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {
-    public class PersonController : Controller
+    public class PersonController : BaseController
     {
         private readonly IPersonUseCaseFactory _personUseCaseFactory;
 
@@ -76,17 +76,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 LastName = vm.LastName,
                 Password = vm.Password,
             };
-        }
-
-        private void ErrorHandler(string key, string message)
-        {
-            ModelState.AddModelError(key, message);
-        }
-
-        private void MessageHandler(MessageType type, string message)
-        {
-            TempData["Status"] = type;
-            TempData["Message"] = message;
         }
     }
 }
