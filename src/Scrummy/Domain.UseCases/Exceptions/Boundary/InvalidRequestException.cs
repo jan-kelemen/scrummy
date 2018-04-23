@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Scrummy.Domain.UseCases.Exceptions.Boundary
@@ -20,5 +21,7 @@ namespace Scrummy.Domain.UseCases.Exceptions.Boundary
         protected InvalidRequestException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        public IDictionary<string, string> Errors { get; set; }
     }
 }

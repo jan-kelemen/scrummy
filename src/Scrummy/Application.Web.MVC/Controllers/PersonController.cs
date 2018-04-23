@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.Core;
-using Scrummy.Application.Web.Core.Mapping.Extensions;
-using Scrummy.Application.Web.Core.Presenters.Entities.Person;
-using Scrummy.Application.Web.Core.ViewModels.Entities.Person;
+using Scrummy.Application.Web.MVC.Presenters.Person;
+using Scrummy.Application.Web.MVC.Utility;
+using Scrummy.Application.Web.MVC.ViewModels.Person;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
-using Scrummy.Domain.UseCases.Interfaces.Entities.Factories;
-using Scrummy.Domain.UseCases.Interfaces.Entities.Person;
+using Scrummy.Domain.UseCases.Interfaces.Factories;
+using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {
@@ -27,61 +26,61 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult Index(string id)
         {
-            var request = new ViewPersonRequest {Id = id,};
-            var presenter = new ViewPersonPresenter(MessageHandler, ErrorHandler);
-            var uc = _personUseCaseFactory.View;
-            try
-            {
-                var response = uc.Execute(request);
-                var vm = presenter.Present(response);
-
-                return View(vm);
-            }
-            catch (InvalidRequestException ire)
-            {
-                presenter.Present(request.Errors);
-                return NotFound();
-            }
-            catch (Exception)
-            {
-                MessageHandler(MessageType.Error, "Unknown error.");
-                return BadRequest();
-            }
+            return NotFound();
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Register()
         {
-            return View(new CreatePersonViewModel());
+            return View(new RegisterPersonViewModel());
         }
 
         [HttpPost]
-        public IActionResult Create(CreatePersonViewModel vm)
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(RegisterPersonViewModel vm)
         {
-            var request = vm.AsRequest();
-            var presenter = new CreatePersonPresenter(MessageHandler, ErrorHandler);
-            var uc = _personUseCaseFactory.Create;
+            if(vm.Password != vm.ConfirmedPassword)
+                ErrorHandler(nameof(RegisterPersonViewModel.ConfirmedPassword), "Passwords don't match.");
+
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var request = ConvertToRequest(vm);
+            var presenter = new RegisterPersonPresenter(MessageHandler, ErrorHandler);
             try
             {
+                var uc = _personUseCaseFactory.Create;
                 var response = uc.Execute(request);
                 presenter.Present(response);
                 return RedirectToAction(nameof(Index), new {response.Id});
             }
             catch (InvalidRequestException ire)
             {
-                presenter.Present(request.Errors);
+                presenter.PresentErrors(ire.Message, ire.Errors);
                 return View(vm);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                MessageHandler(MessageType.Error, "Unknown error.");
+                presenter.PresentMessage(MessageType.Error, e.Message);
                 return View(vm);
             }
         }
 
-        private void ErrorHandler(string s, string s1)
+        private CreatePersonRequest ConvertToRequest(RegisterPersonViewModel vm)
         {
-            ModelState.AddModelError(s, s1);
+            return new CreatePersonRequest
+            {
+                DisplayName = vm.DisplayName,
+                Email = vm.Email,
+                FirstName = vm.FirstName,
+                LastName = vm.LastName,
+                Password = vm.Password,
+            };
+        }
+
+        private void ErrorHandler(string key, string message)
+        {
+            ModelState.AddModelError(key, message);
         }
 
         private void MessageHandler(MessageType type, string message)

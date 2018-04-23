@@ -1,4 +1,4 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.Entities.Factories;
+﻿using Scrummy.Domain.UseCases.Interfaces.Factories;
 
 namespace Scrummy.Domain.UseCases
 {

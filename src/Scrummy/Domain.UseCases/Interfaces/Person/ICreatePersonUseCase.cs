@@ -1,8 +1,7 @@
 ﻿using Scrummy.Domain.UseCases.Boundary;
-
 using PersonValidation = Scrummy.Domain.Core.Entities.Person.Validation;
 
-namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
+namespace Scrummy.Domain.UseCases.Interfaces.Person
 {
     public class CreatePersonRequest : BaseRequest
     {
@@ -13,6 +12,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
         public string DisplayName { get; set; }
 
         public string Email { get; set; }
+
+        public string Password { get; set; }
 
         protected override void ValidateCore()
         {
@@ -34,6 +35,11 @@ namespace Scrummy.Domain.UseCases.Interfaces.Entities.Person
             if (!PersonValidation.ValidateEmail(Email))
             {
                 AddError(PersonValidation.EmailErrorKey, PersonValidation.EmailIsInvalidMessage);
+            }
+
+            if (!PersonValidation.ValidatePassword(Password))
+            {
+                AddError(PersonValidation.PasswordErrorKey, PersonValidation.PasswordIsInvalidMessage);
             }
         }
     }

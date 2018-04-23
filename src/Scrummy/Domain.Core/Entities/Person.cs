@@ -27,6 +27,10 @@ namespace Scrummy.Domain.Core.Entities
             public const int EmailMaxLength = 254;
             public const string EmailIsInvalidMessage = "Email is invalid.";
 
+            public const string PasswordErrorKey = "Password";
+            public const int PasswordMinLength = 1;
+            public const string PasswordIsInvalidMessage = "Password is invalid.";
+
             public static bool ValidateFirstName(string firstName) =>
                 TextValidator.ValidateThatContentIsBetweenSpecifiedLength(firstName, FirstNameMinLength, FirstNameMaxLength);
 
@@ -38,6 +42,9 @@ namespace Scrummy.Domain.Core.Entities
 
             public static bool ValidateEmail(string email) =>
                 TextValidator.ValidateThatContentIsBetweenSpecifiedLength(email, EmailMinLength, EmailMaxLength);
+
+            public static bool ValidatePassword(string password) =>
+                TextValidator.ValidateThatContentIsBetweenSpecifiedLength(password, PasswordMinLength);
         }
 
         private string _firstName;
@@ -57,6 +64,7 @@ namespace Scrummy.Domain.Core.Entities
             LastName = lastName;
             DisplayName = displayName;
             Email = email;
+            PasswordHash = passwordHash;
         }
 
         public string FirstName

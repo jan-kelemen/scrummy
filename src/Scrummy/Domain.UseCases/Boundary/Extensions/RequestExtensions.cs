@@ -7,9 +7,7 @@ namespace Scrummy.Domain.UseCases.Boundary.Extensions
         public static void ThrowExceptionIfInvalid(this BaseRequest request)
         {
             if (!request.Validate())
-            {
-                throw new InvalidRequestException();
-            }
+                throw new  InvalidRequestException { Errors = request.Errors };
         }
     }
 }

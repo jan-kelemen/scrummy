@@ -1,11 +1,12 @@
 ﻿using Scrummy.Domain.Repositories;
-using Scrummy.Domain.UseCases.Implementation.Entities.Factories;
-using Scrummy.Domain.UseCases.Interfaces.Entities.Factories;
+using Scrummy.Domain.UseCases.Implementation.Factories;
+using Scrummy.Domain.UseCases.Interfaces.Factories;
 
 namespace Scrummy.Domain.UseCases.Implementation
 {
     internal class UseCaseFactoryProvider : IUseCaseFactoryProvider
     {
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly IRepositoryProvider _repositoryProvider;
 
         public UseCaseFactoryProvider(IRepositoryProvider repositoryProvider)
