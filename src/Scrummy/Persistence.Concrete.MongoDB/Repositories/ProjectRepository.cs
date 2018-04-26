@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
@@ -149,5 +150,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public bool CheckIfProjectWithNameExists(string name) =>
             _projectCollection.Find(x => x.Name == name).FirstOrDefault() != null;
+
+        public IEnumerable<(Identity teamId, Identity projectId)> GetProjectsOfTeamsAtTimePoint(IEnumerable<Identity> teamIds, DateTime timePoint)
+        {
+            return new (Identity teamId, Identity projectId)[0];
+        }
     }
 }

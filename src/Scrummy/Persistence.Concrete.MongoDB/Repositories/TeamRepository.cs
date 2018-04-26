@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities.Common;
@@ -80,6 +81,11 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var result = _teamCollection.UpdateOne(x => x.Id == team.Id.ToPersistenceIdentity(), updateDefinition);
 
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(team.Id); }
+        }
+
+        public IEnumerable<(Identity personId, Identity teamId)> GetTeamsOfPersonsAtTimePoint(IEnumerable<Identity> personIdentities, DateTime timePoint)
+        {
+            return new List<(Identity personId, Identity teamId)>();
         }
 
         public override void Delete(Identity id)

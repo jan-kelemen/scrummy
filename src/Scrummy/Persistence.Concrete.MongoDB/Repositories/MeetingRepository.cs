@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using System;
+using System.Collections.Generic;
+using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
@@ -55,6 +57,11 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var result = _meetingCollection.DeleteOne(x => x.Id == id.ToPersistenceIdentity());
 
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
+        }
+
+        public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime, DateTime toTime)
+        {
+            return new List<Identity>();
         }
     }
 }
