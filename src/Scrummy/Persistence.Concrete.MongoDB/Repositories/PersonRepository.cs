@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
@@ -64,6 +65,15 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var result = _personCollection.DeleteOne(x => x.Id == id.ToPersistenceIdentity());
 
             if(result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
+        }
+
+        public override IEnumerable<NavigationInfo> ListAll()
+        {
+            return _personCollection.AsQueryable().ToList().Select(x => new NavigationInfo
+            {
+                Id = x.Id.ToDomainIdentity(),
+                Name = x.DisplayName,
+            });
         }
 
         public bool CheckIfEmailExists(string email) => 

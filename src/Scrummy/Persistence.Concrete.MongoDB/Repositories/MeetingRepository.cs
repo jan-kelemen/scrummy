@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
@@ -58,6 +59,16 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }
+
+        public override IEnumerable<NavigationInfo> ListAll()
+        {
+            return _meetingCollection.AsQueryable().ToList().Select(x => new NavigationInfo
+            {
+                Id = x.Id.ToDomainIdentity(),
+                Name = x.Name,
+            });
+        }
+
 
         public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime, DateTime toTime)
         {

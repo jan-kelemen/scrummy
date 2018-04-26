@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
@@ -124,6 +125,15 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var result = _sprintCollection.UpdateOne(x => x.Id == sprintIdentity.ToPersistenceIdentity(), updateDefinition);
 
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(sprintIdentity); }
+        }
+
+        public override IEnumerable<NavigationInfo> ListAll()
+        {
+            return _sprintCollection.AsQueryable().ToList().Select(x => new NavigationInfo
+            {
+                Id = x.Id.ToDomainIdentity(),
+                Name = x.Name,
+            });
         }
 
         public bool CheckIfSprintOverlapsWithOtherSprint(Identity projectIdentity, Tuple<DateTime, DateTime> timeSpan)

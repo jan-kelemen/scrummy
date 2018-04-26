@@ -3,6 +3,11 @@
     padding-bottom: 20px;
 }
 
+input, select {
+    max-width: 70%
+}
+
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -32,4 +37,14 @@
     .carousel-caption {
         display: none;
     }
+}
+
+.actionButton {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.tableButton {
+    width: 100%;
+    min-width: 120px
 }

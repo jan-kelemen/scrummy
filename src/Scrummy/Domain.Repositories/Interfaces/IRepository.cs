@@ -1,4 +1,5 @@
-﻿using Scrummy.Domain.Core.Entities.Common;
+﻿using System.Collections.Generic;
+using Scrummy.Domain.Core.Entities.Common;
 
 namespace Scrummy.Domain.Repositories.Interfaces
 {
@@ -20,5 +21,14 @@ namespace Scrummy.Domain.Repositories.Interfaces
         void Update(T entity);
 
         void Delete(Identity id);
+
+        IEnumerable<NavigationInfo> ListAll();
+    }
+
+    public class NavigationInfo
+    {
+        public Identity Id { get; set; }
+
+        public string Name { get; set; }
     }
 }

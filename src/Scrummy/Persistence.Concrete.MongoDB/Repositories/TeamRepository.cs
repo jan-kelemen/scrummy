@@ -96,5 +96,14 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }
+
+        public override IEnumerable<NavigationInfo> ListAll()
+        {
+            return _teamCollection.AsQueryable().ToList().Select(x => new NavigationInfo
+            {
+                Id = x.Id.ToDomainIdentity(),
+                Name = x.Name,
+            });
+        }
     }
 }

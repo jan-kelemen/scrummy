@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
@@ -136,6 +137,15 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             _workTaskCollection.FindOneAndUpdate(x => x.Id == workTaskIdentity.ToPersistenceIdentity(),
                 updateDefinition);
+        }
+
+        public override IEnumerable<NavigationInfo> ListAll()
+        {
+            return _workTaskCollection.AsQueryable().ToList().Select(x => new NavigationInfo
+            {
+                Id = x.Id.ToDomainIdentity(),
+                Name = x.Name,
+            });
         }
     }
 }

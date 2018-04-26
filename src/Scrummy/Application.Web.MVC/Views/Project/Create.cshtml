@@ -1,0 +1,48 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Project.CreateProjectViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2> <hr />
+<div class="row">
+    <div class="col-xs-9">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedTeamId" class="control-label"></label>
+                <select asp-for="SelectedTeamId" asp-items="Model.Teams" class="form-control"></select>
+                <span asp-validation-for="SelectedTeamId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <table class="table" id="dodTable">
+                    <tr id="tableHeader">
+                        <th class="actionButton">Step</th>
+                        <th colspan="3"><button class="btn btn-default tableButton" name="add">Add</button></th>
+                    </tr>
+                    @foreach (var condition in Model.DefinitionOfDone)
+                    {
+                        <tr>
+                            <td><input name="DefinitionOfDone[]" class="form-control" value="@condition" /></td>
+                            <td><button class="btn btn-default tableButton" name="up">Up</button></td>
+                            <td><button class="btn btn-default tableButton" name="down">Down</button></td>
+                            <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

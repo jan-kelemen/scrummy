@@ -11,6 +11,10 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
         {
         }
 
-        public void Present(CreatePersonResponse response) => PresentMessage(MessageType.Success, response.Message);
+        public string Present(CreatePersonResponse response)
+        {
+            PresentMessage(MessageType.Success, response.Message);
+            return response.Id.ToString();
+        } 
     }
 }

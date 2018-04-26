@@ -20,7 +20,8 @@ namespace Scrummy.Domain.Core.Entities
             public const string DefinitionOfDoneConditionIsInvalid = "Condition in Definition of done is invalid.";
             public const string DefinitionOfDoneIsInvalid = "Definition of done has to have at least one condition.";
 
-            public const string TeamErrorKey = nameof(TeamId);          
+            public const string TeamErrorKey = nameof(Team);
+            public const string TeamIsInvalidMessage = "Team is invalid.";
 
             public static bool ValidateName(string name) =>
                 TextValidator.ValidateThatContentIsBetweenSpecifiedLength(name, NameMinLength, NameMaxLength);

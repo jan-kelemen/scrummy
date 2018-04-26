@@ -14,8 +14,10 @@ namespace Scrummy.Domain.UseCases.Implementation
             _repositoryProvider = repositoryProvider;
 
             Person = new PersonUseCaseFactory(_repositoryProvider);
+            Project = new ProjectUseCaseFactory(_repositoryProvider);
         }
 
         public IPersonUseCaseFactory Person { get; }
+        public IProjectUseCaseFactory Project { get; }
     }
 }
