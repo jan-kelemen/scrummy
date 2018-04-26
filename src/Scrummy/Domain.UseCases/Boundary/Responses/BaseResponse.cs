@@ -1,4 +1,4 @@
-﻿namespace Scrummy.Domain.UseCases.Boundary
+﻿namespace Scrummy.Domain.UseCases.Boundary.Responses
 {
     public abstract class BaseResponse
     {

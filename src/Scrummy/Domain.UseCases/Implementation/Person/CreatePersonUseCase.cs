@@ -45,7 +45,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
         {
             return new CreatePersonResponse(string.Format("Person {0} sucessfuly created.", displayName))
             {
-                Id = id.ToString(),
+                Id = id
             };
         }
     }

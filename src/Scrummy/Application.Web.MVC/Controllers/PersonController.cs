@@ -52,7 +52,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 var uc = _personUseCaseFactory.Create;
                 var response = uc.Execute(request);
                 presenter.Present(response);
-                return RedirectToAction(nameof(Index), new {response.Id});
+                return RedirectToAction(nameof(Index), new {id = response.Id.ToString()});
             }
             catch (InvalidRequestException ire)
             {

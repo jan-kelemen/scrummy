@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Scrummy.Domain.UseCases.Boundary
+namespace Scrummy.Domain.UseCases.Boundary.Requests
 {
     public abstract class BaseRequest
     {
-        public IDictionary<string, string> Errors { get; private set; }
+        public IDictionary<string, string> Errors { get; protected set; }
 
         public virtual bool Validate()
         {

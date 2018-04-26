@@ -1,4 +1,5 @@
-﻿using Scrummy.Domain.UseCases.Exceptions.Boundary;
+﻿using Scrummy.Domain.UseCases.Boundary.Requests;
+using Scrummy.Domain.UseCases.Exceptions.Boundary;
 
 namespace Scrummy.Domain.UseCases.Boundary.Extensions
 {

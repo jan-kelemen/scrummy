@@ -1,4 +1,6 @@
-﻿using Scrummy.Domain.UseCases.Boundary;
+﻿using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.UseCases.Boundary.Requests;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using PersonValidation = Scrummy.Domain.Core.Entities.Person.Validation;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Person
@@ -48,7 +50,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Person
     {
         public CreatePersonResponse(string message) : base(message) { }
 
-        public string Id { get; set; }
+        public Identity Id { get; set; }
     }
 
     public interface ICreatePersonUseCase
