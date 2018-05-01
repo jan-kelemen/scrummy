@@ -1,0 +1,29 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Team.ListTeamsViewModel
+
+@{
+    ViewData["Title"] = "List teams";
+}
+
+<h2>List of teams</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Team</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var team in Model.Teams)
+        {
+            <tr>
+                <td>
+                    @team.Text
+                </td>
+                <td>
+                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" id="@team.Id">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

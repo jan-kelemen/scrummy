@@ -76,9 +76,8 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            return NotFound();
-            //var presenter = new ListTeamsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
-            //return View(presenter.Present());
+            var presenter = new ListTeamsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            return View(presenter.Present());
         }
     }
 }
