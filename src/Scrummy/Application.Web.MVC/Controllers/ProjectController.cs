@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
@@ -41,7 +37,15 @@ namespace Scrummy.Application.Web.MVC.Controllers
             var uc = _projectUseCaseFactory.Create;
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(List));
+        }
+
+        [HttpGet]
+        public IActionResult List()
+        {
+            var presenter = new ListProjectsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.Present());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Scrummy.Domain.Repositories;
+using Scrummy.Domain.UseCases.Implementation.Project;
 using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
@@ -13,6 +14,6 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
             _repositoryProvider = repositoryProvider;
         }
 
-        public ICreateProjectUseCase Create { get; } = null;
+        public ICreateProjectUseCase Create => new CreateProjectUseCase(_repositoryProvider.Project, _repositoryProvider.Team);
     }
 }
