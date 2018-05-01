@@ -83,9 +83,14 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(team.Id); }
         }
 
-        public IEnumerable<(Identity personId, Identity teamId)> GetTeamsOfPersonsAtTimePoint(IEnumerable<Identity> personIdentities, DateTime timePoint)
+        public IEnumerable<Identity> GetTeamsOfPersonAtTimePoint(Identity personId, DateTime timePoint)
         {
-            return new List<(Identity personId, Identity teamId)>();
+            var f = Builders<MTeam>.Filter.Where(x =>
+                x.CurrentMembers.Members.Any(y => y.Id == personId.ToPersistenceIdentity()) && x.CurrentMembers.From <= timePoint);
+            var f2 = Builders<MTeam>.Filter.Where(x => x.MembersHistory.Any(y =>
+                y.Members.Any(z => z.Id == personId.ToPersistenceIdentity()) && y.From >= timePoint && y.To <= timePoint));
+
+            return _teamCollection.Find(f | f2).ToEnumerable().Select(x => x.Id.ToDomainIdentity()).Distinct();
         }
 
         public override void Delete(Identity id)

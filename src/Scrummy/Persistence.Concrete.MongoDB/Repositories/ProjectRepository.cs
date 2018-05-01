@@ -4,6 +4,7 @@ using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Exceptions;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
@@ -160,9 +161,14 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
         public bool CheckIfProjectWithNameExists(string name) =>
             _projectCollection.Find(x => x.Name == name).FirstOrDefault() != null;
 
-        public IEnumerable<(Identity teamId, Identity projectId)> GetProjectsOfTeamsAtTimePoint(IEnumerable<Identity> teamIds, DateTime timePoint)
+        public IEnumerable<Identity> GetProjectsOfTeamAtTimePoint(Identity teamId, DateTime timePoint)
         {
-            return new (Identity teamId, Identity projectId)[0];
+            var f = Builders<MProject>.Filter.Where(x =>
+                x.CurrentTeam.TeamId == teamId.ToPersistenceIdentity() && x.CurrentTeam.From <= timePoint);
+            var f2 = Builders<MProject>.Filter.Where(x => x.TeamHistory.Any(y =>
+                y.TeamId == teamId.ToPersistenceIdentity() && y.From >= timePoint && y.To <= timePoint));
+
+            return _projectCollection.Find(f | f2).ToEnumerable().Select(x => x.Id.ToDomainIdentity()).Distinct();
         }
     }
 }

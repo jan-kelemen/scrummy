@@ -30,7 +30,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (id != null)
                 return RedirectToAction("CurrentWork", "Person", new { id });
 
-            return View();
+            return RedirectToAction(nameof(About));
         }
 
         public IActionResult About() => View();

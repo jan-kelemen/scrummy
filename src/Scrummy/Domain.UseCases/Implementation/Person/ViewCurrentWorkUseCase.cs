@@ -40,15 +40,14 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
 
         private IEnumerable<Identity> GetCurrentProjects(Identity personId, DateTime currentTime)
         {
-            var currentTeams = _teamRepository
-                .GetTeamsOfPersonsAtTimePoint(new[] { personId }, currentTime)
-                .Select(x => x.teamId)
-                .Distinct();
+            var currentTeams = _teamRepository.GetTeamsOfPersonAtTimePoint(personId, currentTime);
 
-            var currentProjects = _projectRepository
-                .GetProjectsOfTeamsAtTimePoint(currentTeams, currentTime)
-                .Select(x => x.projectId)
-                .Distinct();
+            var currentProjects = new List<Identity>();
+            foreach (var currentTeam in currentTeams)
+            {
+                var projects = _projectRepository.GetProjectsOfTeamAtTimePoint(currentTeam, currentTime);
+                currentProjects.AddRange(projects);
+            }
 
             return currentProjects;
         }

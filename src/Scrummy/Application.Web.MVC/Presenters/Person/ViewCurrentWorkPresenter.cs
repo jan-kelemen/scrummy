@@ -38,12 +38,17 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
             });
         }
 
-        private IEnumerable<NavigationViewModel> GetUpcomingMeetings(IEnumerable<Identity> meetingIds)
+        private IEnumerable<ViewCurrentWorkViewModel.Meeting> GetUpcomingMeetings(IEnumerable<Identity> meetingIds)
         {
             return meetingIds.Select(x =>
             {
                 var meeting = RepositoryProvider.Meeting.Read(x);
-                return new NavigationViewModel {Id = meeting.Id.ToString(), Text = meeting.Name};
+                return new ViewCurrentWorkViewModel.Meeting
+                {
+                    Id = meeting.Id.ToString(),
+                    Text = meeting.Name,
+                    Time = meeting.Time.ToLongDateString(),
+                };
             });
         }
     }

@@ -17,6 +17,6 @@ namespace Scrummy.Domain.Repositories.Interfaces
 
         bool CheckIfProjectWithNameExists(string name);
 
-        IEnumerable<(Identity teamId, Identity projectId)> GetProjectsOfTeamsAtTimePoint(IEnumerable<Identity> teamIds, DateTime timePoint);
+        IEnumerable<Identity> GetProjectsOfTeamAtTimePoint(Identity teamId, DateTime timePoint);
     }
 }

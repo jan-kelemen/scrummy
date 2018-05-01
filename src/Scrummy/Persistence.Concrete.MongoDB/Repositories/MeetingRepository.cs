@@ -72,7 +72,13 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime, DateTime toTime)
         {
-            return new List<Identity>();
+            var idFilter = Builders<MMeeting>.Filter.
+                Where(x => x.InvolvedPersons.Contains(personId.ToPersistenceIdentity()));
+
+            var timeFilter = Builders<MMeeting>.Filter
+                .Where(x => fromTime >= x.Time && x.Time <= toTime);
+
+            return _meetingCollection.Find(idFilter & timeFilter).ToEnumerable().Select(x => x.Id.ToDomainIdentity());
         }
     }
 }

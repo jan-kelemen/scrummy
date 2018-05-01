@@ -9,6 +9,6 @@ namespace Scrummy.Domain.Repositories.Interfaces
     {
         void UpdateMembers(Team team);
 
-        IEnumerable<(Identity personId, Identity teamId)> GetTeamsOfPersonsAtTimePoint(IEnumerable<Identity> personIdentities, DateTime timePoint);
+        IEnumerable<Identity> GetTeamsOfPersonAtTimePoint(Identity personId, DateTime timePoint);
     }
 }

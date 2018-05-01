@@ -1,0 +1,56 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Person.ViewCurrentWorkViewModel
+
+@{
+    ViewData["Title"] = "Current work";
+}
+
+<h2>Current work</h2> <hr/>
+
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Project</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var project in Model.CurrentProjects)
+        {
+            <tr>
+                <td>
+                    @project.Text
+                </td>
+                <td>
+                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Project" asp-route-id="@project.Id">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Meeting</th>
+            <th>Time</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var meeting in Model.UpcomingMeetings)
+        {
+            <tr>
+                <td>
+                    @meeting.Text
+                </td>
+                <td>
+                    @meeting.Time
+                </td>
+                <td>
+                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Meeting" asp-route-id="@meeting.Id">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
