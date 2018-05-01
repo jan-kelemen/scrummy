@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Scrummy.Persistence.Concrete.MongoDB</AssemblyName>
     <RootNamespace>Scrummy.Persistence.Concrete.MongoDB</RootNamespace>
   </PropertyGroup>
@@ -13,11 +13,4 @@
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Authorization">
-      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.authorization\2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
