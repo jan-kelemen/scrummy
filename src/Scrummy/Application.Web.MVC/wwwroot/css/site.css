@@ -48,3 +48,7 @@ input, select {
     width: 100%;
     min-width: 120px
 }
+
+.actionColumn {
+    width: 15%;
+}

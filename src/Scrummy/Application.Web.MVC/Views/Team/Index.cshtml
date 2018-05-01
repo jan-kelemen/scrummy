@@ -1,38 +1,46 @@
 ﻿@model Scrummy.Application.Web.MVC.ViewModels.Team.ViewTeamViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = @Model.Name;
 }
 
-<h2>Team - @Model.Name</h2> <hr/>
-
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeOfDailyScrum)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TimeOfDailyScrum)
-        </dd>
-    </dl>
-    <h5>Members</h5>
-    <table class="table">
-        <tr>
-            <th>Member</th>
-            <th>Role</th>
-        </tr>
-        @foreach (var member in Model.Members)
-        {
-            <tr>
-                <td><a asp-area="" asp-controller="Person" asp-action="Index" asp-route-id="@member.Id">@member.Text</a></td>
-                <td>@member.Role</td>
-            </tr>
-        }
-    </table>
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
+        <a asp-action="MemberHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">MemberHistory</a>
+        <a asp-action="ProjectHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">ProjectHistory</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Team - @Model.Name</h2> <hr/>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TimeOfDailyScrum)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TimeOfDailyScrum)
+                </dd>
+            </dl>
+            <h5>Projects</h5>
+            <table class="table">
+                <tr>
+                    <th>Project</th>
+                    <th class="actionColumn"></th>
+                </tr>
+                <tr>
+                    <td>TODO</td>
+                    <td>
+                        <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Project" asp-route-id="TODO">View</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>

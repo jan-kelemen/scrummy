@@ -4,34 +4,72 @@
     ViewData["Title"] = Model.DisplayName;
 }
 
-<h2>Person - @Model.DisplayName</h2> <hr />
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        @if (Model.IsSameAsPersonWhoRequested)
+        {
+            <a asp-action="ChangePassword" class="btn btn-default actionButton">Change password</a>
+            <a asp-action="Edit" class="btn btn-default actionButton">Edit details</a>
+        }
+        <a class="btn btn-default actionButton" href="mailto:@Model.Email">Contact</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Person - @Model.DisplayName</h2> <hr />
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.DisplayName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DisplayName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            </dl>
+        </div>
 
-<div>
-
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DisplayName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DisplayName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
+        <h4>Current teams</h4> <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th class="actionColumn"></th>
+                </tr>
+            </thead>
+            <tbody>
+            @*@foreach (var team in Model.Teams)
+                    {
+                        <tr>
+                            <td>
+                                @team.Text
+                            </td>
+                            <td>
+                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@team.Id">View</a>
+                            </td>
+                        </tr>
+                    }*@
+            <tr>
+                <td>TODO</td>
+                <td>TODO</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

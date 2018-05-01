@@ -4,33 +4,67 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Project - @Model.Name</h2> <hr />
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Board" asp-controller="Sprint" asp-route-id="TODO" class="btn btn-default actionButton">View board</a>
 
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Team)
-        </dt>
-        <dd>
-            <a asp-area="" asp-controller="Team" asp-action="Index" asp-route-id="@Model.Team.Id">@Model.Team.Text</a>
-        </dd>
-    </dl>
-    <h5>Definition of Done</h5>
-    <table class="table">
-        <tr>
-            <th>Condition</th>
-        </tr>
-        @foreach (var condition in Model.DefinitionOfDone)
-        {
-            <tr>
-                <td>@condition</td>
-            </tr>
-        }
-    </table>
+        <a asp-action="Plan" asp-route-id="@Model.Id" class="btn btn-default actionButton">Plan</a>
+        
+        <a asp-action="Create" asp-controller="Sprint" asp-route-id="@Model.Id" class="btn btn-default actionButton">Create sprint</a>
+        <a asp-action="List" asp-controller="Sprint" asp-route-id="@Model.Id" class="btn btn-default actionButton">List sprints</a>
+
+        <a asp-action="Edit" class="btn btn-default actionButton">Edit project</a>
+
+        <a asp-action="Reports" asp-route-id="@Model.Id" class="btn btn-default actionButton">Reports</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Project - @Model.Name</h2> <hr />
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Team)
+                </dt>
+                <dd>
+                    <a asp-area="" asp-controller="Team" asp-action="Index" asp-route-id="@Model.Team.Id">@Model.Team.Text</a>
+                </dd>
+            </dl>
+            <h5>Definition of Done</h5>
+            <table class="table">
+                <tr>
+                    <th>Condition</th>
+                </tr>
+                @foreach (var condition in Model.DefinitionOfDone)
+                {
+                    <tr>
+                        <td>@condition</td>
+                    </tr>
+                }
+            </table>
+
+            <h5>Backlog</h5> <hr/>
+            <table class="table">
+                <tr>
+                    <th>Task</th>
+                    <th>Type</th>
+                    <th class="actionColumn">
+                        <a asp-area="" asp-action="Create" asp-controller="WorkTask" asp-route-id="@Model.Id" class="btn btn-default actionButton">Create task</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>TODO</td>
+                    <td>TODO</td>
+                    <td>
+                        <a asp-area="" asp-action="Index" asp-controller="WorkTask" asp-route-id="TODO" class="btn btn-default actionButton">View</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
