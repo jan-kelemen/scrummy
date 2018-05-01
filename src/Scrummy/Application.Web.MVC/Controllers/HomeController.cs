@@ -28,7 +28,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         {
             var id = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             if (id != null)
-                return RedirectToAction("Index", "Person", new { id });
+                return RedirectToAction("CurrentWork", "Person", new { id });
 
             return View();
         }

@@ -15,18 +15,19 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var project in Model.Projects) {
-        <tr>
-            <td>
-                @project.ProjectViewModel.Text
-            </td>
-            <td>
-                <a asp-area="" id="@project.TeamViewModel.Id">@project.TeamViewModel.Text</a>
-            </td>
-            <td>
-                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" id="@project.ProjectViewModel.Id">View</a>
-            </td>
-        </tr>
-}
+        @foreach (var project in Model.Projects)
+        {
+            <tr>
+                <td>
+                    @project.ProjectViewModel.Text
+                </td>
+                <td>
+                    <a asp-area="" id="@project.TeamViewModel.Id">@project.TeamViewModel.Text</a>
+                </td>
+                <td>
+                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" id="@project.ProjectViewModel.Id">View</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

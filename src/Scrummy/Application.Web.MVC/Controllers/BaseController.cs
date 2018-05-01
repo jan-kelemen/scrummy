@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using Scrummy.Application.Web.MVC.Utility;
 
 namespace Scrummy.Application.Web.MVC.Controllers
@@ -15,5 +17,8 @@ namespace Scrummy.Application.Web.MVC.Controllers
             TempData["Status"] = type;
             TempData["Message"] = message;
         }
+
+        protected virtual string CurrentUserId => 
+            User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
     }
 }

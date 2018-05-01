@@ -1,8 +1,10 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrummy.Application.Web.MVC.Presenters.Person;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
+using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Factories;
@@ -10,12 +12,15 @@ using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {
+    [Authorize]
     public class PersonController : BaseController
     {
         private readonly IPersonUseCaseFactory _personUseCaseFactory;
+        private readonly IRepositoryProvider _repositoryProvider;
 
-        public PersonController(IUseCaseFactoryProvider useCaseFactoryProvider) : this(useCaseFactoryProvider.Person)
+        public PersonController(IUseCaseFactoryProvider useCaseFactoryProvider, IRepositoryProvider repositoryProvider) : this(useCaseFactoryProvider.Person)
         {
+            _repositoryProvider = repositoryProvider;
         }
 
         private PersonController(IPersonUseCaseFactory personUseCaseFactory)
@@ -30,12 +35,14 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View(new RegisterPersonViewModel());
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterPersonViewModel vm)
         {
@@ -76,6 +83,41 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 LastName = vm.LastName,
                 Password = vm.Password,
             };
+        }
+
+        [HttpGet]
+        public IActionResult List()
+        {
+            var presenter = new ListPersonsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.Present());
+        }
+
+        [HttpGet]
+        public IActionResult CurrentWork(string id)
+        {
+            var presenter = new ViewCurrentWorkPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            try
+            {
+                var uc = _personUseCaseFactory.ViewCurrentWork;
+                var response = uc.Execute(new ViewCurrentWorkRequest(CurrentUserId)
+                {
+                    CurrentTime = DateTime.UtcNow,
+                    ForUserId = CurrentUserId,
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
         }
     }
 }

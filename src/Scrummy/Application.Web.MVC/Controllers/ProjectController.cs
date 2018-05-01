@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Scrummy.Application.Web.MVC.Presenters.Project;
+using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
+using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
+using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Factories;
+using Scrummy.Domain.UseCases.Interfaces.Project;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {
@@ -34,17 +40,40 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var presenter = new CreateProjectPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
-            var uc = _projectUseCaseFactory.Create;
+            var request = ConvertToRequest(vm);
+            try
+            {
+                var uc = _projectUseCaseFactory.Create;
+                var response = uc.Execute(request);
+                presenter.Present(response);
+                return RedirectToAction(nameof(Index), new { id = response.Id.ToString() });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(vm);
+            }
+        }
 
-
-            return RedirectToAction(nameof(List));
+        private CreateProjectRequest ConvertToRequest(CreateProjectViewModel vm)
+        {
+            return new CreateProjectRequest(CurrentUserId)
+            {
+                Name = vm.Name,
+                DefinitionOfDone = vm.DefinitionOfDone,
+                TeamId = Identity.FromString(vm.SelectedTeamId),
+            };
         }
 
         [HttpGet]
         public IActionResult List()
         {
             var presenter = new ListProjectsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
-
             return View(presenter.Present());
         }
     }

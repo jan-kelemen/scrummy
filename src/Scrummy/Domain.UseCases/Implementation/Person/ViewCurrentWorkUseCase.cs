@@ -4,9 +4,7 @@ using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.Repositories.Interfaces;
-using Scrummy.Domain.UseCases.Boundary;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
-using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Domain.UseCases.Implementation.Person
