@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Scrummy.Application.Web.MVC.Presenters.Team;
@@ -17,6 +18,7 @@ using Scrummy.Domain.UseCases.Interfaces.Team;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {
+    [Authorize]
     public class TeamController : BaseController
     {
         private readonly ITeamUseCaseFactory _teamUseCaseFactory;

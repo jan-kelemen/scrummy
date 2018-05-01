@@ -12,7 +12,7 @@ $(function () {
                 '<td><button class="btn btn-default tableButton" name="up">Up</button></td>' +
                 '<td><button class="btn btn-default tableButton" name="down">Down</button></td>' +
                 '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
-            '</tr>';
+                '</tr>';
 
         $('#dodTable tr:last').after(row);
     });
@@ -35,15 +35,17 @@ $(function () {
     });
 
     $("#memberTable").delegate("button[name='add']", "click", function (e) {
+        var roleOptionList = $("#roleOptions").data("value");
+        var personOptionList = $("#personOptions").data("value");
+
         e.preventDefault();
         var row =
             '<tr>' +
-                '<td><input name="DefinitionOfDone[]" class="form-control"></td>' +
-                '<td><button class="btn btn-default tableButton" name="up">Up</button></td>' +
-                '<td><button class="btn btn-default tableButton" name="down">Down</button></td>' +
+                '<td><select class="form-control" name="SelectedMemberIds[]">' + personOptionList + '</select></td></td>' +
+                '<td><select class="form-control" name="SelectedRoles[]">' + roleOptionList + '</select></td></td>' +
                 '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
             '</tr>';
 
-        $('#dodTable tr:last').after(row);
+        $('#memberTable tr:last').after(row);
     });
 });
