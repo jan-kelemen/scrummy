@@ -6,21 +6,18 @@ using Scrummy.Application.Web.MVC.ViewModels.Person;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
-using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
     public class ViewCurrentWorkPresenter : BasePresenter
     {
-        private readonly IMeetingRepository _meetingRepository;
-        private readonly IProjectRepository _projectRepository;
-
-        public ViewCurrentWorkPresenter(Action<MessageType, string> messageHandler, Action<string, string> errorHandler, IRepositoryProvider repositoryProvider)
-            : base(messageHandler, errorHandler)
+        public ViewCurrentWorkPresenter(
+            Action<MessageType, string> messageHandler,
+            Action<string, string> errorHandler,
+            IRepositoryProvider repositoryProvider)
+            : base(messageHandler, errorHandler, repositoryProvider)
         {
-            _projectRepository = repositoryProvider.Project;
-            _meetingRepository = repositoryProvider.Meeting;
         }
 
         public ViewCurrentWorkViewModel Present(ViewCurrentWorkResponse response)
@@ -36,7 +33,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
         {
             return projectIds.Select(x =>
             {
-                var project = _projectRepository.Read(x);
+                var project = RepositoryProvider.Project.Read(x);
                 return new NavigationViewModel {Id = project.Id.ToString(), Text = project.Name};
             });
         }
@@ -45,7 +42,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
         {
             return meetingIds.Select(x =>
             {
-                var meeting = _meetingRepository.Read(x);
+                var meeting = RepositoryProvider.Meeting.Read(x);
                 return new NavigationViewModel {Id = meeting.Id.ToString(), Text = meeting.Name};
             });
         }

@@ -59,7 +59,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (isUserLoggedIn)
                     {
-                        <li><a asp-area="" asp-controller="Person" asp-action="Details" asp-route-id=@id>@name</a></li>
+                        <li><a asp-area="" asp-controller="Person" asp-action="Index" asp-route-id=@id>@name</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>
                     }
                     else

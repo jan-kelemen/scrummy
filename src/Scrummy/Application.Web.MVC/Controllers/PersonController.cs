@@ -53,7 +53,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var request = ConvertToRequest(vm);
-            var presenter = new RegisterPersonPresenter(MessageHandler, ErrorHandler);
+            var presenter = new RegisterPersonPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
             try
             {
                 var uc = _personUseCaseFactory.Create;

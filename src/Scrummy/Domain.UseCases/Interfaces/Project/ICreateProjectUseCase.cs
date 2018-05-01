@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;

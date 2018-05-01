@@ -7,5 +7,7 @@ namespace Scrummy.Domain.UseCases
         IPersonUseCaseFactory Person { get; }
 
         IProjectUseCaseFactory Project { get; }
+
+        ITeamUseCaseFactory Team { get; }
     }
 }

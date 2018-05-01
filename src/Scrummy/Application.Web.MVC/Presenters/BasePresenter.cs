@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Scrummy.Application.Web.MVC.Utility;
+using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Application.Web.MVC.Presenters
 {
@@ -10,10 +11,13 @@ namespace Scrummy.Application.Web.MVC.Presenters
 
         protected readonly Action<string, string> ErrorHandler;
 
-        protected BasePresenter(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
+        protected readonly IRepositoryProvider RepositoryProvider;
+
+        protected BasePresenter(Action<MessageType, string> messageHandler, Action<string, string> errorHandler, IRepositoryProvider repositoryProvider)
         {
             MessageHandler = messageHandler;
             ErrorHandler = errorHandler;
+            RepositoryProvider = repositoryProvider;
         }
 
         public virtual void PresentErrors(string message, IDictionary<string, string> errors)

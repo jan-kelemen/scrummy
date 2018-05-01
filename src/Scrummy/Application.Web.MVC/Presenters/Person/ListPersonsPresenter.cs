@@ -10,19 +10,19 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
     public class ListPersonsPresenter : BasePresenter
     {
-        private readonly IPersonRepository _personRepository;
-
-        public ListPersonsPresenter(Action<MessageType, string> messageHandler, Action<string, string> errorHandler, IRepositoryProvider repositoryProvider) 
-            : base(messageHandler, errorHandler)
+        public ListPersonsPresenter(
+            Action<MessageType, string> messageHandler, 
+            Action<string, string> errorHandler, 
+            IRepositoryProvider repositoryProvider) 
+            : base(messageHandler, errorHandler, repositoryProvider)
         {
-            _personRepository = repositoryProvider.Person;
         }
 
         public ListPersonsViewModel Present()
         {
             return new ListPersonsViewModel
             {
-                Persons = _personRepository.ListAll().Select(x => new NavigationViewModel
+                Persons = RepositoryProvider.Person.ListAll().Select(x => new NavigationViewModel
                 {
                     Id = x.Id.ToString(),
                     Text = x.Name
