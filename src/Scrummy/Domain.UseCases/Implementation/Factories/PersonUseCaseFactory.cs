@@ -17,6 +17,9 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
         public ICreatePersonUseCase Create => 
             new CreatePersonUseCase(_repositoryProvider.Person);
 
+        public IViewPersonUseCase View => 
+            new ViewPersonUseCase(_repositoryProvider.Person);
+
         public IViewCurrentWorkUseCase ViewCurrentWork => 
             new ViewCurrentWorkUseCase(_repositoryProvider);
     }

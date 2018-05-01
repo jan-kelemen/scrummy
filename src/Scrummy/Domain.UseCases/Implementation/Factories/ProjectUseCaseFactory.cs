@@ -15,5 +15,6 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
         }
 
         public ICreateProjectUseCase Create => new CreateProjectUseCase(_repositoryProvider.Project, _repositoryProvider.Team);
+        public IViewProjectUseCase View => new ViewProjectUseCase(_repositoryProvider.Project);
     }
 }

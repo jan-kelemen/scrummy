@@ -22,10 +22,10 @@
                     @project.ProjectViewModel.Text
                 </td>
                 <td>
-                    <a asp-area="" id="@project.TeamViewModel.Id">@project.TeamViewModel.Text</a>
+                    <a asp-area="" asp-controller="Team" asp-action="Index" asp-route-id="@project.TeamViewModel.Id">@project.TeamViewModel.Text</a>
                 </td>
                 <td>
-                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" id="@project.ProjectViewModel.Id">View</a>
+                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@project.ProjectViewModel.Id">View</a>
                 </td>
             </tr>
         }

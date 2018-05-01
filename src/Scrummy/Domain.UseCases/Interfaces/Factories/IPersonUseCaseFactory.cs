@@ -6,6 +6,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
     {
         ICreatePersonUseCase Create { get; }
 
+        IViewPersonUseCase View { get; }
+
         IViewCurrentWorkUseCase ViewCurrentWork { get; }
     }
 }

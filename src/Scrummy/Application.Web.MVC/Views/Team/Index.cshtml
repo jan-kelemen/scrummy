@@ -1,0 +1,38 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Team.ViewTeamViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Team - @Model.Name</h2> <hr/>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeOfDailyScrum)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimeOfDailyScrum)
+        </dd>
+    </dl>
+    <h5>Members</h5>
+    <table class="table">
+        <tr>
+            <th>Member</th>
+            <th>Role</th>
+        </tr>
+        @foreach (var member in Model.Members)
+        {
+            <tr>
+                <td><a asp-area="" asp-controller="Person" asp-action="Index" asp-route-id="@member.Id">@member.Text</a></td>
+                <td>@member.Role</td>
+            </tr>
+        }
+    </table>
+</div>

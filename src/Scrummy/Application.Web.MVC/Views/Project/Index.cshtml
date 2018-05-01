@@ -1,0 +1,36 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Project.ViewProjectViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Project - @Model.Name</h2> <hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Team)
+        </dt>
+        <dd>
+            <a asp-area="" asp-controller="Team" asp-action="Index" asp-route-id="@Model.Team.Id">@Model.Team.Text</a>
+        </dd>
+    </dl>
+    <h5>Definition of Done</h5>
+    <table class="table">
+        <tr>
+            <th>Condition</th>
+        </tr>
+        @foreach (var condition in Model.DefinitionOfDone)
+        {
+            <tr>
+                <td>@condition</td>
+            </tr>
+        }
+    </table>
+</div>

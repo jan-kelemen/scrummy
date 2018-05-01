@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Scrummy.Application.Web.MVC.Presenters.Team;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
@@ -31,6 +30,31 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult Index(string id)
+        {
+            var presenter = new ViewTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _teamUseCaseFactory.View;
+                var response = uc.Execute(new ViewTeamRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
             var presenter = new CreateTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
@@ -48,7 +72,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _teamUseCaseFactory.Create;
-                var response = uc.Execute(request);;
+                var response = uc.Execute(request);
                 return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
             }
             catch (InvalidRequestException ire)

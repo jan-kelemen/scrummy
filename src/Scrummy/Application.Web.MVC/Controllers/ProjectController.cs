@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
@@ -24,6 +23,31 @@ namespace Scrummy.Application.Web.MVC.Controllers
         {
             _projectUseCaseFactory = useCaseFactoryProvider.Project;
             _repositoryProvider = repositoryProvider;
+        }
+
+        [HttpGet]
+        public IActionResult Index(string id)
+        {
+            var presenter = new ViewProjectPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _projectUseCaseFactory.View;
+                var response = uc.Execute(new ViewProjectRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
         }
 
         [HttpGet]

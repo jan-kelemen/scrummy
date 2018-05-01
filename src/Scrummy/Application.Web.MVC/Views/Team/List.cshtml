@@ -21,7 +21,7 @@
                     @team.Text
                 </td>
                 <td>
-                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" id="@team.Id">View</a>
+                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@team.Id">View</a>
                 </td>
             </tr>
         }
