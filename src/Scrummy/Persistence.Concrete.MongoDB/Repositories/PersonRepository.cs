@@ -50,7 +50,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var updateDefinition = Builders<MPerson>.Update
                 .Set(x => x.FirstName, person.FirstName)
                 .Set(x => x.LastName, person.LastName)
-                .Set(x => x.DisplayName, person.DisplayName);
+                .Set(x => x.DisplayName, person.DisplayName)
+                .Set(x => x.Email, person.Email);
 
             var result = _personCollection.UpdateOne(x => x.Id == entity.Id, updateDefinition);
 

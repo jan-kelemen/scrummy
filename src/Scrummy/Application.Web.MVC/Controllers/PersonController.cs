@@ -106,6 +106,56 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            if (id != CurrentUserId)
+                return Unauthorized();
+
+            var presenter = new EditPersonPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.GetInitialViewModel(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(EditPersonViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var request = ConvertToRequest(vm);
+            var presenter = new EditPersonPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _personUseCaseFactory.Edit;
+                var response = uc.Execute(request);
+                return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(vm);
+            }
+        }
+
+        private EditPersonRequest ConvertToRequest(EditPersonViewModel vm)
+        {
+            return new EditPersonRequest(CurrentUserId)
+            {
+                ForUserId = Identity.FromString(vm.Id),
+                FirstName = vm.FirstName,
+                LastName = vm.LastName,
+                DisplayName = vm.DisplayName,
+                Email = vm.Email,
+            };
+        }
+
+        [HttpGet]
         public IActionResult List()
         {
             var presenter = new ListPersonsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
