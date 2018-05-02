@@ -6,6 +6,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
     {
         ICreateProjectUseCase Create { get; }
 
+        IEditProjectUseCase Edit { get; }
+
         IViewProjectUseCase View { get; }
     }
 }

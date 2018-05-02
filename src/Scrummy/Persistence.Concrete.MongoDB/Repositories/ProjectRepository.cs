@@ -4,7 +4,6 @@ using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Core.Exceptions;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
@@ -31,6 +30,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             }
 
             var entity = project.ToPersistenceEntity();
+            entity.TeamHistory = new List<TeamHistoryRecord>();
+            entity.BacklogHistory = new List<MProject.BacklogHistoryRecord>();
             _projectCollection.InsertOne(entity);
             return project.Id;
         }
@@ -50,47 +51,32 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if(project == null) { throw CreateInvalidEntityException(); }
 
             var updateDefinition = Builders<MProject>.Update
-                .Set(p => p.Name, project.Name);
+                .Set(p => p.Name, project.Name)
+                .Set(p => p.DefinitionOfDoneConditions, project.DefinitionOfDone);
+
+            var entity = _projectCollection.Find(x => x.Id == project.Id.ToPersistenceIdentity()).FirstOrDefault();
+            if (entity == null) { throw CreateEntityNotFoundException(project.Id); }
+            var hasTeamChanged = project.TeamId.ToPersistenceIdentity() != entity.CurrentTeam.TeamId;
+            if (hasTeamChanged)
+            {
+                var currentTeam = entity.CurrentTeam;
+                currentTeam.To = DateTime.UtcNow;
+                
+                var updateTeam = Builders<MProject>.Update
+                    .Set(p => p.CurrentTeam, new TeamHistoryRecord
+                    {
+                        From = DateTime.UtcNow,
+                        To = DateTime.MaxValue,
+                        TeamId = project.TeamId.ToPersistenceIdentity(),
+                    })
+                    .Push(p => p.TeamHistory, currentTeam);
+
+                updateDefinition = Builders<MProject>.Update.Combine(updateDefinition, updateTeam);
+            }
 
             var result = _projectCollection.UpdateOne(x => x.Id == project.Id.ToPersistenceIdentity(), updateDefinition);
 
             if(result.MatchedCount != 1) { throw CreateEntityNotFoundException(project.Id); }
-        }
-
-        public void UpdateDefinitionOfDone(Identity projectIdentity, DefinitionOfDone definitionOfDone)
-        {
-            if (projectIdentity.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
-
-            var updateDefinition = Builders<MProject>.Update
-                .Set(p => p.DefinitionOfDoneConditions, definitionOfDone);
-
-            var result = _projectCollection.UpdateOne(x => x.Id == projectIdentity.ToPersistenceIdentity(), updateDefinition);
-
-            if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(projectIdentity); }
-        }
-
-        public void UpdateTeam(Identity projectIdentity, Identity teamIdentity)
-        {
-            if (projectIdentity.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
-
-            var entity = _projectCollection.Find(x => x.Id == projectIdentity.ToPersistenceIdentity()).FirstOrDefault();
-            if (entity == null) { throw CreateEntityNotFoundException(projectIdentity); }
-
-            var currentTeam = entity.CurrentTeam;
-            currentTeam.To = DateTime.UtcNow;
-
-            var updateDefinition = Builders<MProject>.Update
-                .Set(p => p.CurrentTeam, new TeamHistoryRecord
-                {
-                    From = DateTime.UtcNow,
-                    To = DateTime.MaxValue,
-                    TeamId = teamIdentity.ToPersistenceIdentity(),
-                })
-                .Push(p => p.TeamHistory, currentTeam);
-
-            var result = _projectCollection.UpdateOne(x => x.Id == projectIdentity.ToPersistenceIdentity(), updateDefinition);
-
-            if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(projectIdentity); }
         }
 
         public ProductBacklog GetProductBacklog(Identity projectIdentity)

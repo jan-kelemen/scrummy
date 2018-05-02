@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
-using Scrummy.Domain.Core.Entities.Common;
+﻿using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Boundary.Requests;
+using System.Collections.Generic;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 using ProjectValidation = Scrummy.Domain.Core.Entities.Project.Validation;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Project
 {
-    public class CreateProjectRequest : AuthorizedRequest
+    public class EditProjectRequest : AuthorizedRequest
     {
-        public CreateProjectRequest(string userId) : base(userId)
+        public EditProjectRequest(string userId) : base(userId)
         {
         }
+
+        public Identity Id { get; set; }
 
         public string Name { get; set; }
 
@@ -31,17 +33,17 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
         }
     }
 
-    public class CreateProjectResponse : BaseResponse
+    public class EditProjectResponse : BaseResponse
     {
-        public CreateProjectResponse(string message) : base(message)
+        public EditProjectResponse(string message) : base(message)
         {
         }
 
         public Identity Id { get; set; }
     }
 
-    public interface ICreateProjectUseCase
+    public interface IEditProjectUseCase
     {
-        CreateProjectResponse Execute(CreateProjectRequest request);
+        EditProjectResponse Execute(EditProjectRequest request);
     }
 }

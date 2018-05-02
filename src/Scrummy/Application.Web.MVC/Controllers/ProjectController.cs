@@ -95,6 +95,52 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            var presenter = new EditProjectPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.GetInitialViewModel(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(EditProjectViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var request = ConvertToRequest(vm);
+            var presenter = new EditProjectPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _projectUseCaseFactory.Edit;
+                var response = uc.Execute(request);
+                return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(vm);
+            }
+        }
+
+        private EditProjectRequest ConvertToRequest(EditProjectViewModel vm)
+        {
+            return new EditProjectRequest(CurrentUserId)
+            {
+                Id = Identity.FromString(vm.Id),
+                DefinitionOfDone = vm.DefinitionOfDone,
+                Name = vm.Name,
+                TeamId = Identity.FromString(vm.SelectedTeamId),
+            };
+        }
+
+        [HttpGet]
         public IActionResult List()
         {
             var presenter = new ListProjectsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);

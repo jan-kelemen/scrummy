@@ -14,7 +14,7 @@
         <a asp-action="Create" asp-controller="Sprint" asp-route-id="@Model.Id" class="btn btn-default actionButton">Create sprint</a>
         <a asp-action="List" asp-controller="Sprint" asp-route-id="@Model.Id" class="btn btn-default actionButton">List sprints</a>
 
-        <a asp-action="Edit" class="btn btn-default actionButton">Edit project</a>
+        <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit project</a>
 
         <a asp-action="Reports" asp-route-id="@Model.Id" class="btn btn-default actionButton">Reports</a>
     </div>

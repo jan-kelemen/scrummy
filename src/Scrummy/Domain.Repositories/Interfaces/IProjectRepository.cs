@@ -7,10 +7,6 @@ namespace Scrummy.Domain.Repositories.Interfaces
 {
     public interface IProjectRepository : IRepository<Project>
     {
-        void UpdateDefinitionOfDone(Identity projectIdentity, DefinitionOfDone definitionOfDone);
-
-        void UpdateTeam(Identity projectIdentity, Identity teamIdentity);
-
         ProductBacklog GetProductBacklog(Identity projectIdentity);
 
         void UpdateProductBacklog(ProductBacklog productBacklog);
