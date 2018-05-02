@@ -28,6 +28,25 @@
                     @Html.DisplayFor(model => model.TimeOfDailyScrum)
                 </dd>
             </dl>
+            <h5>Members</h5>
+            <table class="table">
+                <tr>
+                    <th>Member</th>
+                    <th>Role</th>
+                    <th class="actionColumn"></th>
+                </tr>
+                @foreach(var m in Model.Members)
+                {
+                    <tr>
+                        <td>@m.Text</td>
+                        <td>@m.Role</td>
+                        <td>
+                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Person" asp-route-id="@m.Id">View</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+
             <h5>Projects</h5>
             <table class="table">
                 <tr>
