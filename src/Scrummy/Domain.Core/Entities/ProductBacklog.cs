@@ -14,7 +14,7 @@ namespace Scrummy.Domain.Core.Entities
 
         public enum WorkTaskStatus
         {
-            ToDo, Ready, PlannedInSprint, Impeded, Done
+            ToDo, Ready, Done
         }
 
         public class WorkTaskWithStatus

@@ -49,11 +49,10 @@ namespace Scrummy.Domain.Core.Entities
                 switch (sourceType)
                 {
                     case WorkTaskType.Epic:
-                        return true;
+                        return linkedTaskType == WorkTaskType.UserStory;
                     case WorkTaskType.UserStory:
                         return linkedTaskType == WorkTaskType.Task || linkedTaskType == WorkTaskType.Defect;
                     case WorkTaskType.Task:
-                        return false;
                     case WorkTaskType.Defect:
                         return false;
                     default:
