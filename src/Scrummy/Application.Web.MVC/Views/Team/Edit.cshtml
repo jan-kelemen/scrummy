@@ -1,7 +1,7 @@
-﻿@model Scrummy.Application.Web.MVC.ViewModels.Team.CreateTeamViewModel
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Team.EditTeamViewModel
 
 @{
-    ViewData["Title"] = "Create team";
+    ViewData["Title"] = Model.Name;
 
     string ToId(string key, int i) => $"{key}{i}";
 }
@@ -9,11 +9,17 @@
 <input type="hidden" id="roleOptions" data-value="@Html.Raw(string.Join("", Model.Roles.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
 <input type="hidden" id="personOptions" data-value="@Html.Raw(string.Join("", Model.Persons.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
 
-<h2>Create team</h2><hr />
+
 <div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Id">Cancel</a>
+    </div>
     <div class="col-xs-10">
-        <form asp-action="Create">
+        <h2>Edit team - @Model.Name</h2><hr />
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" type="hidden" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -32,15 +38,15 @@
                         <th><button class="btn btn-default tableButton" name="add">Add</button></th>
                     </tr>
                     @for (var i = 0; i < Model.SelectedMemberIds.Count; ++i)
-                    {
-                        <tr>
-                            <td><select asp-for="SelectedMemberIds[@i]" name="SelectedMemberIds[]" id="@ToId("smi", i)" asp-items="Model.Persons" class="form-control"></select></td>
-                            <td><select asp-for="SelectedRoles[@i]" name="SelectedRoles[]" id="@ToId("sr", i)" asp-items="Model.Roles" class="form-control"></select></td>
-                            <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
-                        </tr>
-                    }
+                {
+                    <tr>
+                        <td><select asp-for="SelectedMemberIds[@i]" name="SelectedMemberIds[]" id="@ToId("smi", i)" asp-items="Model.Persons" class="form-control"></select></td>
+                        <td><select asp-for="SelectedRoles[@i]" name="SelectedRoles[]" id="@ToId("sr", i)" asp-items="Model.Roles" class="form-control"></select></td>
+                        <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                    </tr>
+            }
                 </table>
-                @Html.ValidationMessage("Members", htmlAttributes: new { @class = "text-danger"})
+                @Html.ValidationMessage("Members", htmlAttributes: new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

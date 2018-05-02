@@ -98,6 +98,50 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            var presenter = new EditTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            return View(presenter.GetInitialViewModel(id));
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Edit(EditTeamViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var presenter = new EditTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var request = ConvertToRequest(vm);
+            try
+            {
+                var uc = _teamUseCaseFactory.Edit;
+                var response = uc.Execute(request);
+                return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(presenter.Present(vm));
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(presenter.Present(vm));
+            }
+        }
+
+        private EditTeamRequest ConvertToRequest(EditTeamViewModel vm)
+        {
+            return new EditTeamRequest(CurrentUserId)
+            {
+                Id = Identity.FromString(vm.Id),
+                Name = vm.Name,
+                TimeOfDailyScrum = TimeSpan.ParseExact(vm.TimeOfDailyScrum, @"hh\:mm", CultureInfo.InvariantCulture),
+                Members = vm.SelectedMemberIds.Select((t, i) => new Team.Member(Identity.FromString(t), Enum.Parse<PersonRole>(vm.SelectedRoles[i])))
+            };
+        }
+
+        [HttpGet]
         public IActionResult List()
         {
             var presenter = new ListTeamsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);

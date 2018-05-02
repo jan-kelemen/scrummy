@@ -28,6 +28,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             }
 
             var entity = team.ToPersistenceEntity();
+            entity.MembersHistory = new List<MembersHistoryRecord>();
             _teamCollection.InsertOne(entity);
             return team.Id;
         }
@@ -42,41 +43,40 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return entity.ToDomainEntity();
         }
 
-        public override void Update(Team meeting)
+        public override void Update(Team team)
         {
-            if (meeting == null) { throw CreateInvalidEntityException(); }
+            if (team == null) { throw CreateInvalidEntityException(); }
 
             var updateDefinition = Builders<MTeam>.Update
-                .Set(p => p.Name, meeting.Name)
-                .Set(p => p.TimeOfDailyScrum, meeting.TimeOfDailyScrum);
-
-            var result = _teamCollection.UpdateOne(x => x.Id == meeting.Id.ToPersistenceIdentity(), updateDefinition);
-
-            if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(meeting.Id); }
-        }
-
-        public void UpdateMembers(Team team)
-        {
-            if (team.Id.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
+                .Set(p => p.Name, team.Name)
+                .Set(p => p.TimeOfDailyScrum, team.TimeOfDailyScrum);
 
             var entity = _teamCollection.Find(x => x.Id == team.Id.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(team.Id); }
+            var domainEntity = entity.ToDomainEntity();
 
-            var currentTeam = entity.CurrentMembers;
-            currentTeam.To = DateTime.UtcNow;
+            var haveTeamMembersChanged = !(team.Members.Count() == domainEntity.Members.Count() && 
+                                           team.Members.All(domainEntity.Members.Contains));
+            if (haveTeamMembersChanged)
+            {
+                var currentTeam = entity.CurrentMembers;
+                currentTeam.To = DateTime.UtcNow;
 
-            var updateDefinition = Builders<MTeam>.Update
-                .Set(p => p.CurrentMembers, new MembersHistoryRecord
-                {
-                    From = DateTime.UtcNow,
-                    To = DateTime.MaxValue,
-                    Members = team.Members.Select(m => new MTeam.Member
+                var teamUpdateDefinition = Builders<MTeam>.Update
+                    .Set(p => p.CurrentMembers, new MembersHistoryRecord
                     {
-                        Id = m.Id.ToPersistenceIdentity(),
-                        Role = m.Role,
+                        From = DateTime.UtcNow,
+                        To = DateTime.MaxValue,
+                        Members = team.Members.Select(m => new MTeam.Member
+                        {
+                            Id = m.Id.ToPersistenceIdentity(),
+                            Role = m.Role,
+                        })
                     })
-                })
-                .Push(p => p.MembersHistory, currentTeam);
+                    .Push(p => p.MembersHistory, currentTeam);
+
+                updateDefinition = Builders<MTeam>.Update.Combine(updateDefinition, teamUpdateDefinition);
+            }
 
             var result = _teamCollection.UpdateOne(x => x.Id == team.Id.ToPersistenceIdentity(), updateDefinition);
 

@@ -51,7 +51,7 @@ namespace Scrummy.Domain.Core.Entities
                 members.Count(m => m.Id == productOwnerIdentity) == 1;
         }
 
-        public class Member
+        public class Member : IEquatable<Member>
         {
             public Member(Identity id, PersonRole role)
             {
@@ -64,6 +64,23 @@ namespace Scrummy.Domain.Core.Entities
             public Identity Id { get; }
 
             public PersonRole Role { get; }
+
+            public bool Equals(Member other)
+            {
+                if (ReferenceEquals(null, other)) return false;
+                if (ReferenceEquals(this, other)) return true;
+                return Id == other.Id && Role == other.Role;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((Member) obj);
+            }
+
+            public override int GetHashCode() => (Id.GetHashCode() * 397) ^ (int) Role;
         }
 
         private string _name;
@@ -98,7 +115,7 @@ namespace Scrummy.Domain.Core.Entities
         public IEnumerable<Member> Members
         {
             get => _members;
-            private set => _members = CheckTeamMembers(value);
+            set => _members = CheckTeamMembers(value);
         }
 
         private string CheckName(string name)

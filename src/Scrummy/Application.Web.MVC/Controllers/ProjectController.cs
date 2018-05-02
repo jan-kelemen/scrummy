@@ -75,12 +75,12 @@ namespace Scrummy.Application.Web.MVC.Controllers
             catch (InvalidRequestException ire)
             {
                 presenter.PresentErrors(ire.Message, ire.Errors);
-                return View(vm);
+                return View(presenter.Present(vm));
             }
             catch (Exception e)
             {
                 presenter.PresentMessage(MessageType.Error, e.Message);
-                return View(vm);
+                return View(presenter.Present(vm));
             }
         }
 
@@ -120,12 +120,12 @@ namespace Scrummy.Application.Web.MVC.Controllers
             catch (InvalidRequestException ire)
             {
                 presenter.PresentErrors(ire.Message, ire.Errors);
-                return View(vm);
+                return View(presenter.Present(vm));
             }
             catch (Exception e)
             {
                 presenter.PresentMessage(MessageType.Error, e.Message);
-                return View(vm);
+                return View(presenter.Present(vm));
             }
         }
 

@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-using TeamValidation = Scrummy.Domain.Core.Entities.Team.Validation;
 
 namespace Scrummy.Application.Web.MVC.ViewModels.Team
 {
-    public class CreateTeamViewModel
+    public class EditTeamViewModel
     {
+        [HiddenInput]
+        public string Id { get; set; }
+
         [Required(ErrorMessage = "Team name is required.")]
-        [StringLength(TeamValidation.NameMaxLength, 
-            ErrorMessage = TeamValidation.NameIsInvalidMessage,
-            MinimumLength = TeamValidation.NameMinLength)]
+        [StringLength(Domain.Core.Entities.Team.Validation.NameMaxLength,
+            ErrorMessage = Domain.Core.Entities.Team.Validation.NameIsInvalidMessage,
+            MinimumLength = Domain.Core.Entities.Team.Validation.NameMinLength)]
         public string Name { get; set; }
 
         [Display(Name = "Time of daily scrum")]

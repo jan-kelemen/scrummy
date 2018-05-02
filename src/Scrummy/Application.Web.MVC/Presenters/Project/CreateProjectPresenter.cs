@@ -24,18 +24,29 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
             return new CreateProjectViewModel
             {
                 DefinitionOfDone = new List<string>(),
-                Teams = RepositoryProvider.Team.ListAll().Select(x => new SelectListItem
-                {
-                    Text = x.Name,
-                    Value = x.Id.ToString(),
-                }).ToArray()
+                Teams = Teams(),
             };
+        }
+
+        public CreateProjectViewModel Present(CreateProjectViewModel vm)
+        {
+            vm.Teams = Teams();
+            return vm;
         }
 
         public string Present(CreateProjectResponse response)
         {
             PresentMessage(MessageType.Success, response.Message);
             return response.Id.ToString();
+        }
+
+        private SelectListItem[] Teams()
+        {
+            return RepositoryProvider.Team.ListAll().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+            }).ToArray();
         }
     }
 }

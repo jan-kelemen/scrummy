@@ -30,19 +30,30 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
                 Id = id,
                 DefinitionOfDone = new List<string>(project.DefinitionOfDone),
                 Name = project.Name,
-                SelectedTeamId = project.TeamId.Id.ToString(),
-                Teams = RepositoryProvider.Team.ListAll().Select(x => new SelectListItem
-                {
-                    Text = x.Name,
-                    Value = x.Id.ToString(),
-                }).ToArray()
+                SelectedTeamId = project.TeamId.ToString(),
+                Teams = Teams()
             };
+        }
+
+        public EditProjectViewModel Present(EditProjectViewModel vm)
+        {
+            vm.Teams = Teams();
+            return vm;
         }
 
         public string Present(EditProjectResponse response)
         {
             PresentMessage(MessageType.Success, response.Message);
             return response.Id.ToString();
+        }
+
+        private SelectListItem[] Teams()
+        {
+            return RepositoryProvider.Team.ListAll().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+            }).ToArray();
         }
     }
 }

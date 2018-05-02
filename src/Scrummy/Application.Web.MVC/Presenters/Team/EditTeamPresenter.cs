@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
+using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Team;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Team
 {
-    public class CreateTeamPresenter : BasePresenter
+    public class EditTeamPresenter : BasePresenter
     {
-        public CreateTeamPresenter(
+        public EditTeamPresenter(
             Action<MessageType, string> messageHandler,
             Action<string, string> errorHandler,
             IRepositoryProvider repositoryProvider)
@@ -20,23 +21,29 @@ namespace Scrummy.Application.Web.MVC.Presenters.Team
         {
         }
 
-        public CreateTeamViewModel GetInitialViewModel()
+        public EditTeamViewModel GetInitialViewModel(string id)
         {
-            return new CreateTeamViewModel
+            var entity = RepositoryProvider.Team.Read(Identity.FromString(id));
+
+            return new EditTeamViewModel
             {
-                TimeOfDailyScrum = DateTime.UtcNow.TimeOfDay.ToString(@"hh\:mm"),
+                Id = id,
+                Name = entity.Name,
+                TimeOfDailyScrum = entity.TimeOfDailyScrum.ToString(@"hh\:mm"),
                 Persons = Persons(),
                 Roles = Roles(),
+                SelectedMemberIds = entity.Members.Select(x => x.Id.ToString()).ToList(),
+                SelectedRoles = entity.Members.Select(x => RoleForSelection(x.Role)).ToList(),
             };
         }
 
-        public string Present(CreateTeamResponse response)
+        public string Present(EditTeamResponse response)
         {
             PresentMessage(MessageType.Success, response.Message);
             return response.Id.ToString();
         }
 
-        public CreateTeamViewModel Present(CreateTeamViewModel vm)
+        public EditTeamViewModel Present(EditTeamViewModel vm)
         {
             vm.Persons = Persons();
             vm.Roles = Roles();
@@ -50,20 +57,35 @@ namespace Scrummy.Application.Web.MVC.Presenters.Team
             {
                 new SelectListItem
                 {
-                    Value = nameof(Domain.Core.Entities.Enumerations.PersonRole.ProductOwner),
+                    Value = nameof(PersonRole.ProductOwner),
                     Text = "Product owner",
                 },
                 new SelectListItem
                 {
-                    Value = nameof(Domain.Core.Entities.Enumerations.PersonRole.ScrumMaster),
+                    Value = nameof(PersonRole.ScrumMaster),
                     Text = "Scrum master",
                 },
                 new SelectListItem
                 {
-                    Value = nameof(Domain.Core.Entities.Enumerations.PersonRole.Developer),
+                    Value = nameof(PersonRole.Developer),
                     Text = "Developer",
                 },
             };
+        }
+
+        private string RoleForSelection(PersonRole role)
+        {
+            switch (role)
+            {
+                case PersonRole.ProductOwner:
+                    return nameof(PersonRole.ProductOwner);
+                case PersonRole.ScrumMaster:
+                    return nameof(PersonRole.ScrumMaster);
+                case PersonRole.Developer:
+                    return nameof(PersonRole.Developer);
+            }
+
+            throw new ArgumentOutOfRangeException();
         }
 
         private SelectListItem[] Persons()

@@ -13,10 +13,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
         {
         }
 
-        //string name,
-        //    TimeSpan timeOfDailyScrum, 
-        //IEnumerable<Member> members
-
         public string Name { get; set; }
 
         public TimeSpan TimeOfDailyScrum { get; set; }
