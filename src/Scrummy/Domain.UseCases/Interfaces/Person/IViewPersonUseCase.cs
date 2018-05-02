@@ -1,4 +1,6 @@
-﻿using Scrummy.Domain.Core.Entities.Common;
+﻿using System;
+using System.Collections.Generic;
+using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 
@@ -11,6 +13,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Person
         }
 
         public Identity Id { get; set; }
+
+        public DateTime CurrentTime { get; set; } = DateTime.UtcNow;
 
         protected override void ValidateCore()
         {
@@ -38,6 +42,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Person
         public string DisplayName { get; set; }
 
         public string Email { get; set; }
+
+        public IEnumerable<Identity> CurrentTeams { get; set; }
     }
 
     public interface IViewPersonUseCase

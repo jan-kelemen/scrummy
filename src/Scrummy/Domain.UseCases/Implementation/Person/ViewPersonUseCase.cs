@@ -7,10 +7,12 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
     internal class ViewPersonUseCase : IViewPersonUseCase
     {
         private readonly IPersonRepository _personRepository;
+        private readonly ITeamRepository _teamRepository;
 
-        public ViewPersonUseCase(IPersonRepository personRepository)
+        public ViewPersonUseCase(IPersonRepository personRepository, ITeamRepository teamRepository)
         {
             _personRepository = personRepository;
+            _teamRepository = teamRepository;
         }
 
         public ViewPersonResponse Execute(ViewPersonRequest request)
@@ -27,6 +29,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 IsSameAsPersonWhoRequested = request.Id.Id == request.UserId,
+                CurrentTeams = _teamRepository.GetTeamsOfPersonAtTimePoint(request.Id, request.CurrentTime),
             };
         }
     }

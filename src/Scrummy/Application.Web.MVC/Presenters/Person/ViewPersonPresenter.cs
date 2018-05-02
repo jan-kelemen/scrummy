@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
+using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 
@@ -25,7 +27,17 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
                 Email = response.Email,
                 FirstName = response.FirstName,
                 LastName = response.LastName,
-                IsSameAsPersonWhoRequested = response.IsSameAsPersonWhoRequested
+                IsSameAsPersonWhoRequested = response.IsSameAsPersonWhoRequested,
+                CurrentTeams = response.CurrentTeams.Select(x =>
+                {
+                    var p = RepositoryProvider.Team.Read(x);
+
+                    return new NavigationViewModel
+                    {
+                        Id = p.Id.ToString(),
+                        Text = p.Name,
+                    };
+                }),
             };
         }
     }

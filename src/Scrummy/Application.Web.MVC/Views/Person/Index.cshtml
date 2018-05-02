@@ -54,21 +54,17 @@
                 </tr>
             </thead>
             <tbody>
-            @*@foreach (var team in Model.Teams)
-                    {
-                        <tr>
-                            <td>
-                                @team.Text
-                            </td>
-                            <td>
-                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@team.Id">View</a>
-                            </td>
-                        </tr>
-                    }*@
-            <tr>
-                <td>TODO</td>
-                <td>TODO</td>
-            </tr>
+                @foreach (var team in Model.CurrentTeams)
+                {
+                    <tr>
+                        <td>
+                            @team.Text
+                        </td>
+                        <td>
+                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Team" asp-route-id="@team.Id">View</a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

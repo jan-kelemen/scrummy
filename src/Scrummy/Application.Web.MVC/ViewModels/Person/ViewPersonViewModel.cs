@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Scrummy.Application.Web.MVC.ViewModels.Utility;
 
 namespace Scrummy.Application.Web.MVC.ViewModels.Person
 {
@@ -18,5 +21,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Person
         public string Email { get; set; }
 
         public bool IsSameAsPersonWhoRequested { get; set; }
+
+        public IEnumerable<NavigationViewModel> CurrentTeams { get; set; }
     }
 }
