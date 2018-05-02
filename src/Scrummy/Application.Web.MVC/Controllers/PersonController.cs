@@ -66,7 +66,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterPersonViewModel vm)
         {
-            if(vm.Password != vm.ConfirmedPassword)
+            if (vm.Password != vm.ConfirmedPassword)
                 ErrorHandler(nameof(RegisterPersonViewModel.ConfirmedPassword), "Passwords don't match.");
 
             if (!ModelState.IsValid)
@@ -79,7 +79,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 var uc = _personUseCaseFactory.Create;
                 var response = uc.Execute(request);
                 presenter.Present(response);
-                return RedirectToAction(nameof(Index), new {id = response.Id.ToString()});
+                return RedirectToAction(nameof(Index), new { id = response.Id.ToString() });
             }
             catch (InvalidRequestException ire)
             {
@@ -156,6 +156,58 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult ChangePassword(string id)
+        {
+            if (id != CurrentUserId)
+                return Unauthorized();
+
+            var presenter = new ChangePasswordPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.GetInitialViewModel(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangePassword(ChangePasswordViewModel vm)
+        {
+            if (vm.NewPassword != vm.ConfirmedPassword)
+                ErrorHandler(nameof(RegisterPersonViewModel.ConfirmedPassword), "Passwords don't match.");
+
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var request = ConvertToRequest(vm);
+            var presenter = new ChangePasswordPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _personUseCaseFactory.ChangePassword;
+                var response = uc.Execute(request);
+                return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(vm);
+            }
+
+        }
+
+        private ChangePasswordRequest ConvertToRequest(ChangePasswordViewModel vm)
+        {
+            return new ChangePasswordRequest(CurrentUserId)
+            {
+                ForUserId = Identity.FromString(vm.Id),
+                OldPassword = vm.OldPassword,
+                NewPassword = vm.NewPassword,
+            };
+        }
+
+        [HttpGet]
         public IActionResult List()
         {
             var presenter = new ListPersonsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
@@ -174,7 +226,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 var response = uc.Execute(new ViewCurrentWorkRequest(CurrentUserId)
                 {
                     CurrentTime = DateTime.UtcNow,
-                    ForUserId = CurrentUserId,
+                    ForUserId = Identity.FromString(CurrentUserId),
                 });
                 return View(presenter.Present(response));
             }

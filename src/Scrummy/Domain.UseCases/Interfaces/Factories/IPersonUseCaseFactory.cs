@@ -10,6 +10,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
 
         IEditPersonUseCase Edit { get; }
 
+        IChangePasswordUseCase ChangePassword { get; }
+
         IViewCurrentWorkUseCase ViewCurrentWork { get; }
     }
 }

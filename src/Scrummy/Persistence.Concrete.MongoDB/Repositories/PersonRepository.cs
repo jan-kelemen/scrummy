@@ -85,5 +85,19 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 .FirstOrDefault(x => x.Email.ToLowerInvariant() == email.ToLowerInvariant() && x.PasswordHash == passwordHash)
                 ?.ToDomainEntity();
         }
+
+        public void ChangePassword(Person person)
+        {
+            if (person == null) { throw CreateInvalidEntityException(); }
+
+            var entity = person.ToPersistenceEntity();
+
+            var updateDefinition = Builders<MPerson>.Update
+                .Set(x => x.PasswordHash, person.PasswordHash);
+
+            var result = _personCollection.UpdateOne(x => x.Id == entity.Id, updateDefinition);
+
+            if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(person.Id); }
+        }
     }
 }

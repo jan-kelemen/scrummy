@@ -24,6 +24,9 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
             new EditPersonUseCase(_repositoryProvider.Person);
 
         public IViewCurrentWorkUseCase ViewCurrentWork => 
-            new ViewCurrentWorkUseCase(_repositoryProvider);
+            new ViewCurrentWorkUseCase(_repositoryProvider.Project, _repositoryProvider.Meeting, _repositoryProvider.Team);
+
+        public IChangePasswordUseCase ChangePassword =>
+            new ChangePasswordUseCase(_repositoryProvider.Person);
     }
 }

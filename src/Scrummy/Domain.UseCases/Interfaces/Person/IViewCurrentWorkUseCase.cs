@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Core.Validators;
-using Scrummy.Domain.UseCases.Boundary;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 
@@ -14,13 +12,13 @@ namespace Scrummy.Domain.UseCases.Interfaces.Person
         {
         }
 
-        public string ForUserId { get; set; }
+        public Identity ForUserId { get; set; }
 
         public DateTime CurrentTime { get; set; } = DateTime.UtcNow;
 
         protected override void ValidateCore()
         {
-            if (!TextValidator.ValidateThatTextCanRepresentIdentity(ForUserId))
+            if (ForUserId.IsBlankIdentity())
             {
                 AddError("", "User identity is invalid.");
             }

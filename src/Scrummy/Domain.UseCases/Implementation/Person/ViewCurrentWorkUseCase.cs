@@ -12,24 +12,22 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
     internal class ViewCurrentWorkUseCase : IViewCurrentWorkUseCase
     {
         private readonly IProjectRepository _projectRepository;
-
         private readonly IMeetingRepository _meetingRepository;
-
         private readonly ITeamRepository _teamRepository;
 
-        public ViewCurrentWorkUseCase(IRepositoryProvider repositoryProvider)
+        public ViewCurrentWorkUseCase(IProjectRepository projectRepository, IMeetingRepository meetingRepository, ITeamRepository teamRepository)
         {
-            _projectRepository = repositoryProvider.Project;
-            _meetingRepository = repositoryProvider.Meeting;
-            _teamRepository = repositoryProvider.Team;
+            _projectRepository = projectRepository;
+            _meetingRepository = meetingRepository;
+            _teamRepository = teamRepository;
         }
 
         public ViewCurrentWorkResponse Execute(ViewCurrentWorkRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
-            var currentProjects = GetCurrentProjects(Identity.FromString(request.ForUserId), request.CurrentTime);
-            var upcomingMeetings = GetUpcomingMeetings(Identity.FromString(request.ForUserId), request.CurrentTime);
+            var currentProjects = GetCurrentProjects(request.ForUserId, request.CurrentTime);
+            var upcomingMeetings = GetUpcomingMeetings(request.ForUserId, request.CurrentTime);
 
             return new ViewCurrentWorkResponse
             {
