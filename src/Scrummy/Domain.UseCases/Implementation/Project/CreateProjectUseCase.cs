@@ -22,9 +22,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
             request.ThrowExceptionIfInvalid();
 
             if (_projectRepository.CheckIfProjectWithNameExists(request.Name))
-            {
                 throw new UseCaseException("Project of the same name already exists.");
-            }
 
             var team = _teamRepository.Read(request.TeamId);
             var project = ToDomainEntity(request, team);
