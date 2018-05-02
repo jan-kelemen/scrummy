@@ -14,6 +14,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
 
         public Identity Id { get; set; }
 
+        public DateTime CurrentTime { get; set; } = DateTime.UtcNow;
+
         protected override void ValidateCore()
         {
             if (Id.IsBlankIdentity())
@@ -36,6 +38,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
         public TimeSpan TimeOfDailyScrum { get; set; }
 
         public IEnumerable<Core.Entities.Team.Member> Members { get; set; }
+
+        public IEnumerable<Identity> CurrentProjects { get; set; }
     }
 
     public interface IViewTeamUseCase

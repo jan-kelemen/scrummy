@@ -1,5 +1,4 @@
-﻿using System;
-using Scrummy.Domain.Repositories.Interfaces;
+﻿using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Interfaces.Team;
 
@@ -8,10 +7,12 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
     internal class ViewTeamUseCase : IViewTeamUseCase
     {
         private readonly ITeamRepository _teamRepository;
+        private readonly IProjectRepository _projectRepository;
 
-        public ViewTeamUseCase(ITeamRepository teamRepository)
+        public ViewTeamUseCase(ITeamRepository teamRepository, IProjectRepository projectRepository)
         {
             _teamRepository = teamRepository;
+            _projectRepository = projectRepository;
         }
 
         public ViewTeamResponse Execute(ViewTeamRequest request)
@@ -26,6 +27,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
                 Name = entity.Name,
                 TimeOfDailyScrum = entity.TimeOfDailyScrum,
                 Members = entity.Members,
+                CurrentProjects = _projectRepository.GetProjectsOfTeamAtTimePoint(request.Id, request.CurrentTime),
             };
         }
     }

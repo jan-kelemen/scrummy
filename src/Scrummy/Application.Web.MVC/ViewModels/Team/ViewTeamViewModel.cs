@@ -19,5 +19,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Team
         public string TimeOfDailyScrum { get; set; }
 
         public IEnumerable<Member> Members { get; set; }
+
+        public IEnumerable<NavigationViewModel> CurrentProjects { get; set; }
     }
 }

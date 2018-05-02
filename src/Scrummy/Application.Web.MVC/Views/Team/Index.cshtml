@@ -8,8 +8,8 @@
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
         <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
-        <a asp-action="MemberHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">MemberHistory</a>
-        <a asp-action="ProjectHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">ProjectHistory</a>
+        <a asp-action="MemberHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">Member history</a>
+        <a asp-action="ProjectHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">Project history</a>
     </div>
     <div class="col-xs-10">
         <h2>Team - @Model.Name</h2> <hr/>
@@ -34,12 +34,15 @@
                     <th>Project</th>
                     <th class="actionColumn"></th>
                 </tr>
-                <tr>
-                    <td>TODO</td>
-                    <td>
-                        <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Project" asp-route-id="TODO">View</a>
-                    </td>
-                </tr>
+                @foreach (var p in Model.CurrentProjects)
+                {
+                    <tr>
+                        <td>@p.Text</td>
+                        <td>
+                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Project" asp-route-id="@p.Id">View</a>
+                        </td>
+                    </tr>
+                }
             </table>
         </div>
     </div>
