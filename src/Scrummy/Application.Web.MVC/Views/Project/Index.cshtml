@@ -34,20 +34,19 @@
                 <dd>
                     <a asp-area="" asp-controller="Team" asp-action="Index" asp-route-id="@Model.Team.Id">@Model.Team.Text</a>
                 </dd>
-            </dl>
-            <h5>Definition of Done</h5>
-            <table class="table">
-                <tr>
-                    <th>Condition</th>
-                </tr>
-                @foreach (var condition in Model.DefinitionOfDone)
-                {
-                    <tr>
-                        <td>@condition</td>
-                    </tr>
-                }
-            </table>
+                <dt>
+                    @Html.DisplayNameFor(model => model.DefinitionOfDone)
+                </dt>
+                <dd>
+                    <ul>
+                        @foreach(var condition in Model.DefinitionOfDone)
+                        {
+                            <li>@condition</li>
 
+                        }
+                    </ul>
+                </dd>
+            </dl>
             <h5>Backlog</h5>
             <table class="table">
                 <tr>
