@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
@@ -47,7 +48,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
                 {
                     Id = meeting.Id.ToString(),
                     Text = meeting.Name,
-                    Time = meeting.Time.ToLongDateString(),
+                    Time = meeting.Time.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 };
             });
         }

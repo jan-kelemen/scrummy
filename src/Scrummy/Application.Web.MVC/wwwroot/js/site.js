@@ -48,4 +48,17 @@ $(function () {
 
         $('#memberTable tr:last').after(row);
     });
+
+    $("#personTable").delegate("button[name='add']", "click", function (e) {
+        var personOptionList = $("#personOptions").data("value");
+
+        e.preventDefault();
+        var row =
+            '<tr>' +
+            '<td><select class="form-control" name="SelectedPersonIds[]">' + personOptionList + '</select></td></td>' +
+            '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
+            '</tr>';
+
+        $('#personTable tr:last').after(row);
+    });
 });

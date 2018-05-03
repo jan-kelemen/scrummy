@@ -9,5 +9,7 @@ namespace Scrummy.Domain.UseCases
         IProjectUseCaseFactory Project { get; }
 
         ITeamUseCaseFactory Team { get; }
+
+        IMeetingUseCaseFactory Meeting { get; }
     }
 }
