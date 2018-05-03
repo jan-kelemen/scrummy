@@ -73,23 +73,22 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime, DateTime toTime)
         {
-            var ft = fromTime.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-            var tt = toTime.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+            var id = personId.ToPersistenceIdentity();
 
             var idFilter = Builders<MMeeting>.Filter.
-                Where(x => x.InvolvedPersons.Contains(personId.ToPersistenceIdentity()));
+                Where(x => x.OrganizedBy == id || x.InvolvedPersons.Contains(id));
 
-            var domainEntities =  _meetingCollection
+            var idAndTime = _meetingCollection
                 .Find(idFilter)
                 .ToEnumerable()
-                .Select(x => new { x.Id, x.Time })
-                .Select(x => new { x.Id, Time = DateTime.ParseExact(x.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture) })
-                .ToArray();
+                .Select(x => new
+                {
+                    x.Id,
+                    Time = DateTime.ParseExact(x.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
+                })
+                .Where(x => x.Time >= fromTime && x.Time <= toTime);
 
-            var filteredByFromDate = domainEntities.Where(x => x.Time >= fromTime).ToArray();
-            var rv = filteredByFromDate.Where(x => x.Time <= toTime).ToArray();
-
-            return rv.Select(x => x.Id.ToDomainIdentity());
+            return idAndTime.Select(x => x.Id.ToDomainIdentity());
         }
     }
 }
