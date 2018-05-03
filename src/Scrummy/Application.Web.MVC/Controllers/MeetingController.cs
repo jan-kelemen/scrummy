@@ -30,7 +30,26 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult Index(string id)
         {
-            return View();
+            var presenter = new ViewMeetingPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _meetingUseCaseFactory.View;
+                var response = uc.Execute(new ViewMeetingRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
         }
 
         [HttpGet]

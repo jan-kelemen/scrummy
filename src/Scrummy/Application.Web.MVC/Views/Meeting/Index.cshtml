@@ -1,0 +1,65 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Meeting.ViewMeetingViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Meeting - @Model.Name</h2> <hr />
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Time)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Time)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(m => m.Project)
+                </dt>
+                <dd>
+                    <a asp-action="Index" asp-controller="Project" asp-route-id="@Model.Project.Id">@Model.Project.Text</a>
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(m => m.OrganizedBy)
+                </dt>
+                <dd>
+                    <a asp-action="Index" asp-controller="Person" asp-route-id="@Model.OrganizedBy.Id">@Model.OrganizedBy.Text</a>
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl>
+            <h5>Persons</h5>
+            <table class="table" id="personTable">
+                <tr id="tableHeader">
+                    <th>Person</th>
+                    <th class="actionColumn"></th>
+                </tr>
+                @foreach (var p in Model.InvolvedPersons)
+                {
+                    <tr>
+                        <td>@p.Text</td>
+                        <td>
+                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Person" asp-route-id="@p.Id">View</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

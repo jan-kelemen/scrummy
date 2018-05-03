@@ -16,5 +16,8 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
 
         public ICreateMeetingUseCase Create => 
             new CreateMeetingUseCase(_repositoryProvider.Meeting, _repositoryProvider.Person, _repositoryProvider.Project);
+
+        public IViewMeetingUseCase View =>
+            new ViewMeetingUseCase(_repositoryProvider.Meeting);
     }
 }

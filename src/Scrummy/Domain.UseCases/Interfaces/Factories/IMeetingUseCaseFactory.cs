@@ -5,5 +5,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
     public interface IMeetingUseCaseFactory
     {
         ICreateMeetingUseCase Create { get; }
+
+        IViewMeetingUseCase View { get; }
     }
 }
