@@ -225,7 +225,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 var uc = _personUseCaseFactory.ViewCurrentWork;
                 var response = uc.Execute(new ViewCurrentWorkRequest(CurrentUserId)
                 {
-                    CurrentTime = DateTime.UtcNow,
+                    CurrentTime = DateTime.Now,
                     ForUserId = Identity.FromString(CurrentUserId),
                 });
                 return View(presenter.Present(response));

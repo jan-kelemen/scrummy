@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using MongoDB.Bson;
 using Scrummy.Domain.Core.Entities;
@@ -119,7 +120,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 id: meeting.Id.ToDomainIdentity(),
                 projectId: meeting.ProjectId.ToDomainIdentity(),
                 name: meeting.Name,
-                time: meeting.Time,
+                time: DateTime.ParseExact(meeting.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 organizedBy: meeting.OrganizedBy.ToDomainIdentity(),
                 description: meeting.Description,
                 involvedPersons: meeting.InvolvedPersons.Select(m => m.ToDomainIdentity())
@@ -135,7 +136,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 ProjectId = meeting.ProjectId.ToPersistenceIdentity(),
                 Description = meeting.Description,
                 OrganizedBy = meeting.OrganizedBy.ToPersistenceIdentity(),
-                Time = meeting.Time,
+                Time = meeting.Time.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 InvolvedPersons = meeting.InvolvedPersons.Select(x => x.ToPersistenceIdentity()),
             };
         }

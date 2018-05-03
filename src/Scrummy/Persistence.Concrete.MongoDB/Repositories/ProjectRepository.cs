@@ -60,12 +60,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (hasTeamChanged)
             {
                 var currentTeam = entity.CurrentTeam;
-                currentTeam.To = DateTime.UtcNow;
+                currentTeam.To = DateTime.Now;
                 
                 var updateTeam = Builders<MProject>.Update
                     .Set(p => p.CurrentTeam, new TeamHistoryRecord
                     {
-                        From = DateTime.UtcNow,
+                        From = DateTime.Now,
                         To = DateTime.MaxValue,
                         TeamId = project.TeamId.ToPersistenceIdentity(),
                     })
@@ -106,12 +106,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (entity == null) { throw CreateEntityNotFoundException(projectIdentity); }
 
             var currentBacklog = entity.CurrentBacklog;
-            currentBacklog.To = DateTime.UtcNow;
+            currentBacklog.To = DateTime.Now;
 
             var updateDefinition = Builders<MProject>.Update
                 .Set(p => p.CurrentBacklog, new MProject.BacklogHistoryRecord
                 {
-                    From = DateTime.UtcNow,
+                    From = DateTime.Now,
                     To = DateTime.MaxValue,
                     Tasks = productBacklog.Select(x => new MProject.BacklogItem
                     {

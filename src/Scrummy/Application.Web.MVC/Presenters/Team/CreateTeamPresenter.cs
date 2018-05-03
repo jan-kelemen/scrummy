@@ -24,7 +24,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Team
         {
             return new CreateTeamViewModel
             {
-                TimeOfDailyScrum = DateTime.UtcNow.TimeOfDay.ToString(@"hh\:mm"),
+                TimeOfDailyScrum = DateTime.Now.TimeOfDay.ToString(@"hh\:mm"),
                 Persons = Persons(),
                 Roles = Roles(),
             };

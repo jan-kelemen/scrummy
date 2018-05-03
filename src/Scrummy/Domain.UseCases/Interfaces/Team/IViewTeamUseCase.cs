@@ -14,7 +14,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
 
         public Identity Id { get; set; }
 
-        public DateTime CurrentTime { get; set; } = DateTime.UtcNow;
+        public DateTime CurrentTime { get; set; } = DateTime.Now;
 
         protected override void ValidateCore()
         {

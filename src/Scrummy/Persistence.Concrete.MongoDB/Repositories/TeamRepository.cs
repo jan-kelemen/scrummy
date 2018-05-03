@@ -60,12 +60,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (haveTeamMembersChanged)
             {
                 var currentTeam = entity.CurrentMembers;
-                currentTeam.To = DateTime.UtcNow;
+                currentTeam.To = DateTime.Now;
 
                 var teamUpdateDefinition = Builders<MTeam>.Update
                     .Set(p => p.CurrentMembers, new MembersHistoryRecord
                     {
-                        From = DateTime.UtcNow,
+                        From = DateTime.Now,
                         To = DateTime.MaxValue,
                         Members = team.Members.Select(m => new MTeam.Member
                         {

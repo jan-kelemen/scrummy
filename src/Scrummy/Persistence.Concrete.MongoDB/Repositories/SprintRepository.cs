@@ -88,7 +88,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (entity == null) { throw CreateEntityNotFoundException(sprintIdentity); }
 
             var currentBacklog = entity.CurrentBacklog;
-            currentBacklog.To = DateTime.UtcNow;
+            currentBacklog.To = DateTime.Now;
 
             var updateDefinition = Builders<MSprint>.Update
                 .Set(x => x.PlannedTasks, backlog.PlannedTaskIds.Select(x => x.ToPersistenceIdentity()));
@@ -107,12 +107,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (entity == null) { throw CreateEntityNotFoundException(sprintIdentity); }
 
             var currentBacklog = entity.CurrentBacklog;
-            currentBacklog.To = DateTime.UtcNow;
+            currentBacklog.To = DateTime.Now;
 
             var updateDefinition = Builders<MSprint>.Update
                 .Set(p => p.CurrentBacklog, new MSprint.BacklogHistoryRecord
                 {
-                    From = DateTime.UtcNow,
+                    From = DateTime.Now,
                     To = DateTime.MaxValue,
                     Tasks = backlog.Tasks.Select(x => new MSprint.BacklogItem
                     {

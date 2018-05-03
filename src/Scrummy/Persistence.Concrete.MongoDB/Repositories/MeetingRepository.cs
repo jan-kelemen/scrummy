@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Globalization;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -72,13 +73,23 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime, DateTime toTime)
         {
+            var ft = fromTime.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+            var tt = toTime.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+
             var idFilter = Builders<MMeeting>.Filter.
                 Where(x => x.InvolvedPersons.Contains(personId.ToPersistenceIdentity()));
 
-            var timeFilter = Builders<MMeeting>.Filter
-                .Where(x => fromTime >= x.Time && x.Time <= toTime);
+            var domainEntities =  _meetingCollection
+                .Find(idFilter)
+                .ToEnumerable()
+                .Select(x => new { x.Id, x.Time })
+                .Select(x => new { x.Id, Time = DateTime.ParseExact(x.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture) })
+                .ToArray();
 
-            return _meetingCollection.Find(idFilter & timeFilter).ToEnumerable().Select(x => x.Id.ToDomainIdentity());
+            var filteredByFromDate = domainEntities.Where(x => x.Time >= fromTime).ToArray();
+            var rv = filteredByFromDate.Where(x => x.Time <= toTime).ToArray();
+
+            return rv.Select(x => x.Id.ToDomainIdentity());
         }
     }
 }

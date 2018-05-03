@@ -27,7 +27,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Meeting
             var project = RepositoryProvider.Project.Read(Identity.FromString(projectId));
             return new CreateMeetingViewModel
             {
-                Time = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 Project = new NavigationViewModel
                 {
                     Id = project.Id.ToString(),
