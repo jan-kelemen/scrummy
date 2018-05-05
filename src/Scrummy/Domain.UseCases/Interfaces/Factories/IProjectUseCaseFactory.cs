@@ -9,5 +9,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
         IEditProjectUseCase Edit { get; }
 
         IViewProjectUseCase View { get; }
+
+        IViewMeetingsUseCase ViewMeetings { get; }
     }
 }

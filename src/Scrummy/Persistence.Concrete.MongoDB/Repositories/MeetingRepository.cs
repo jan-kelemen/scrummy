@@ -22,7 +22,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override Identity Create(Meeting meeting)
         {
-            if (meeting == null || _meetingCollection.Find(x => x.Id == meeting.Id.ToPersistenceIdentity()).FirstOrDefault() != null)
+            if (meeting == null ||
+                _meetingCollection.Find(x => x.Id == meeting.Id.ToPersistenceIdentity()).FirstOrDefault() != null)
             {
                 throw CreateInvalidEntityException();
             }
@@ -34,31 +35,49 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override Meeting Read(Identity id)
         {
-            if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
+            if (id.IsBlankIdentity())
+            {
+                throw CreateEntityNotFoundException(id);
+            }
 
             var entity = _meetingCollection.Find(x => x.Id == id.ToPersistenceIdentity()).FirstOrDefault();
-            if (entity == null) { throw CreateEntityNotFoundException(id); }
+            if (entity == null)
+            {
+                throw CreateEntityNotFoundException(id);
+            }
 
             return entity.ToDomainEntity();
         }
 
         public override void Update(Meeting meeting)
         {
-            if (meeting == null) { throw CreateInvalidEntityException(); }
+            if (meeting == null)
+            {
+                throw CreateInvalidEntityException();
+            }
 
             var entity = meeting.ToPersistenceEntity();
             var result = _meetingCollection.ReplaceOne(x => x.Id == entity.Id, entity);
 
-            if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(meeting.Id); }
+            if (result.MatchedCount != 1)
+            {
+                throw CreateEntityNotFoundException(meeting.Id);
+            }
         }
 
         public override void Delete(Identity id)
         {
-            if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
+            if (id.IsBlankIdentity())
+            {
+                throw CreateEntityNotFoundException(id);
+            }
 
             var result = _meetingCollection.DeleteOne(x => x.Id == id.ToPersistenceIdentity());
 
-            if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
+            if (result.DeletedCount != 1)
+            {
+                throw CreateEntityNotFoundException(id);
+            }
         }
 
         public override IEnumerable<NavigationInfo> ListAll()
@@ -71,12 +90,31 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
         }
 
 
-        public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime, DateTime toTime)
+        public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime,
+            DateTime toTime)
         {
             var id = personId.ToPersistenceIdentity();
 
-            var idFilter = Builders<MMeeting>.Filter.
-                Where(x => x.OrganizedBy == id || x.InvolvedPersons.Contains(id));
+            var idFilter = Builders<MMeeting>.Filter.Where(x => x.OrganizedBy == id || x.InvolvedPersons.Contains(id));
+
+            var idAndTime = _meetingCollection
+                .Find(idFilter)
+                .ToEnumerable()
+                .Select(x => new
+                {
+                    x.Id,
+                    Time = DateTime.ParseExact(x.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
+                })
+                .Where(x => x.Time >= fromTime && x.Time <= toTime);
+
+            return idAndTime.Select(x => x.Id.ToDomainIdentity());
+        }
+
+        public IEnumerable<Identity> GetMeetingsOfProjectInTimeRange(Identity projectId, DateTime fromTime, DateTime toTime)
+        {
+            var id = projectId.ToPersistenceIdentity();
+
+            var idFilter = Builders<MMeeting>.Filter.Where(x => x.ProjectId == id);
 
             var idAndTime = _meetingCollection
                 .Find(idFilter)

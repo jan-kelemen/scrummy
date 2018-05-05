@@ -146,5 +146,30 @@ namespace Scrummy.Application.Web.MVC.Controllers
             var presenter = new ListProjectsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
             return View(presenter.Present());
         }
+
+        [HttpGet]
+        public IActionResult Meetings(string id)
+        {
+            var presenter = new ViewMeetingsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _projectUseCaseFactory.ViewMeetings;
+                var response = uc.Execute(new ViewMeetingsRequest(CurrentUserId)
+                {
+                    ProjectId = Identity.FromString(id),
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
     }
 }

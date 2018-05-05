@@ -8,5 +8,7 @@ namespace Scrummy.Domain.Repositories.Interfaces
     public interface IMeetingRepository : IRepository<Meeting>
     {
         IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime, DateTime toTime);
+
+        IEnumerable<Identity> GetMeetingsOfProjectInTimeRange(Identity projectId, DateTime fromTime, DateTime toTime);
     }
 }
