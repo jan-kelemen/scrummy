@@ -7,7 +7,7 @@ namespace Scrummy.Domain.Repositories.Interfaces
 {
     public interface IProjectRepository : IRepository<Project>
     {
-        ProductBacklog GetProductBacklog(Identity projectIdentity);
+        ProductBacklog ReadProductBacklog(Identity projectIdentity);
 
         void UpdateProductBacklog(ProductBacklog productBacklog);
 

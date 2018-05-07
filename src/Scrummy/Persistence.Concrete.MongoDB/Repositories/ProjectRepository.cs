@@ -79,7 +79,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if(result.MatchedCount != 1) { throw CreateEntityNotFoundException(project.Id); }
         }
 
-        public ProductBacklog GetProductBacklog(Identity projectIdentity)
+        public ProductBacklog ReadProductBacklog(Identity projectIdentity)
         {
             if (projectIdentity.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
 
