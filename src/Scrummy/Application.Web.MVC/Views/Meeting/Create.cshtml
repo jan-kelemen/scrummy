@@ -7,7 +7,7 @@
 
 <input type="hidden" id="personOptions" data-value="@Html.Raw(string.Join("", Model.Persons.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
 
-<h2>Create team</h2><hr />
+<h2>Create meeting - @Model.Project.Text</h2><hr />
 <div class="row">
     <div class="col-xs-10">
         <form asp-action="Create">

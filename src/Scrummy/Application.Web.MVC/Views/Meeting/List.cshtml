@@ -1,0 +1,43 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Meeting.ListMeetingsViewModel
+
+@{
+    ViewData["Title"] = "Meetings";
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="Meeting" asp-route-id="@Model.Project.Id">Schedule meeting</a>
+        <a asp-area="" class="btn btn-default actionButton" asp-action="Index" asp-controller="Project" asp-route-id="@Model.Project.Id">View project</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Meetings - @Model.Project.Text</h2> <hr />
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Meeting</th>
+                    <th>Time</th>
+                    <th class="actionColumn"></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var meeting in Model.Meetings)
+                {
+                    <tr>
+                        <td>
+                            @meeting.Text
+                        </td>
+                        <td>
+                            @meeting.Time
+                        </td>
+                        <td>
+                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Meeting" asp-route-id="@meeting.Id">View</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

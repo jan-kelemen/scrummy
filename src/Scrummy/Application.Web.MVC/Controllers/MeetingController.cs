@@ -148,9 +148,11 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult List(string projectId)
+        public IActionResult List(string id)
         {
-            return View();
+            var presenter = new ListMeetingsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.Present(id));
         }
     }
 }
