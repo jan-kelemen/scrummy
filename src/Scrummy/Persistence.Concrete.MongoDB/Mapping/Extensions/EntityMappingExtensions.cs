@@ -169,6 +169,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
         {
             return new WorkTask(
                 id: task.Id.ToDomainIdentity(),
+                projectId: task.ProjectId.ToDomainIdentity(),
                 type: task.Type,
                 name: task.Name,
                 storyPoints: task.StoryPoints,
@@ -184,6 +185,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
             return new MWorkTask
             {
                 Id = task.Id.ToPersistenceIdentity(),
+                ProjectId = task.ProjectId.ToPersistenceIdentity(),
                 Name = task.Name,
                 Type = task.Type,
                 StoryPoints = task.StoryPoints,

@@ -7,6 +7,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 {
     internal class WorkTask : BaseEntity
     {
+        public ObjectId ProjectId { get; set; }
+
         [BsonRepresentation(BsonType.String)]
         public WorkTaskType Type { get; set; }
 

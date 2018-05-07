@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Exceptions;
 
 namespace Scrummy.Domain.Core.Entities
 {
@@ -10,6 +12,7 @@ namespace Scrummy.Domain.Core.Entities
         {
             public const string WorkTaskErrorKey = nameof(WorkTask);
             public const string WorkTaskIsInvalid = "Work task in the product backlog has to be specified.";
+            public const string WorkTaskIsAlreadyInBacklog = "Work task is already in the product backlog.";
         }
 
         public enum WorkTaskStatus
@@ -45,6 +48,35 @@ namespace Scrummy.Domain.Core.Entities
             get => _tasks;
             set => _tasks = new List<WorkTaskWithStatus>(value);
         }
+
+        public void AddTaskToBacklog(WorkTaskWithStatus task)
+        {
+            if (IsTaskInBacklog(task.WorkTaskId))
+                throw new EntityException(Validation.WorkTaskIsAlreadyInBacklog)
+                {
+                    Identity = ProjectId,
+                    EntityName = nameof(Project),
+                };
+
+            _tasks.Add(task);
+        }
+
+        public void UpdateTask(WorkTaskWithStatus task)
+        {
+            if (IsTaskInBacklog(task.WorkTaskId))
+                throw new EntityException(Validation.WorkTaskIsAlreadyInBacklog)
+                {
+                    Identity = ProjectId,
+                    EntityName = nameof(Project),
+                };
+
+            var backlogTask = _tasks.First(x => x.WorkTaskId == task.WorkTaskId);
+            backlogTask.Status = task.Status;
+        }
+
+        public bool RemoveTaskFromBacklog(Identity task) => _tasks.RemoveAll(x => x.WorkTaskId == task) != 0;
+
+        public bool IsTaskInBacklog(Identity task) => _tasks.Any(x => x.WorkTaskId == task);
 
         public IEnumerator<WorkTaskWithStatus> GetEnumerator() => _tasks.GetEnumerator();
 

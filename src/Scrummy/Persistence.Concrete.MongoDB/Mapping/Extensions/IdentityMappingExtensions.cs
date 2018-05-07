@@ -5,8 +5,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
 {
     internal static class IdentityMappingExtensions
     {
-        public static Identity ToDomainIdentity(this ObjectId id) => Identity.FromString(id.ToString());
+        public static Identity ToDomainIdentity(this ObjectId id) => id == ObjectId.Empty ? Identity.BlankIdentity : Identity.FromString(id.ToString());
 
-        public static ObjectId ToPersistenceIdentity(this Identity id) => ObjectId.Parse(id.ToString());
+        public static ObjectId ToPersistenceIdentity(this Identity id) => id.IsBlankIdentity() ? ObjectId.Empty : ObjectId.Parse(id.ToString());
     }
 }

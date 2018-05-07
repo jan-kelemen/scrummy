@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Core.Validators;
@@ -15,16 +16,13 @@ namespace Scrummy.Domain.Core.Entities
             public const int NameMaxLength = 200;
             public const string NameIsInvalidMessage = "Task name is invalid.";
 
-            public const string DescriptionErrorKey = nameof(Description);
-            public const int DescriptionMinLength = 1;
-            public const string DescriptionIsInvalidMessage = "Description is invalid.";
-
             public const string StoryPointsErrorKey = nameof(StoryPoints);
             public const string StoryPointsAreInvalidMessage = "Story points can't be negative.";
 
             public const string LinkErrorKey = "Link";
             public const string LinkTargetIsInvalidMessage = "This task can't be linked to {0}.";
             public const string LinkTargetIsAlreadyLinkedMessage = "This task is already linked to specified task.";
+            public const string LinksAreDuplicatedMessage = "This task contains duplicated linked tasks.";
 
             public const string AuthorIdErrorKey = nameof(Comment.AuthorId);
             public const string AuthorIdIsInvalidMessage = "Author of the comment must be specified.";
@@ -40,9 +38,6 @@ namespace Scrummy.Domain.Core.Entities
                 TextValidator.ValidateThatContentIsBetweenSpecifiedLength(name, NameMinLength, NameMaxLength);
 
             public static bool ValidateStoryPoints(int? storyPoints) => !storyPoints.HasValue || storyPoints.Value >= 0;
-
-            public static bool ValidateDescription(string description) =>
-                TextValidator.ValidateThatContentIsBetweenSpecifiedLength(description, DescriptionMinLength);
 
             public static bool ValidateTaskCanLink(WorkTaskType sourceType, WorkTaskType linkedTaskType)
             {
@@ -62,6 +57,14 @@ namespace Scrummy.Domain.Core.Entities
 
             public static bool ValidateCommentContent(string content) =>
                 TextValidator.ValidateThatContentIsBetweenSpecifiedLength(content, CommentContentMinLength);
+
+            public static bool ValidateChildTasks(IEnumerable<Identity> childTasks)
+            {
+                var ct = childTasks.ToArray();
+                var dct = ct.Distinct().ToArray();
+
+                return dct.Length == ct.Length;
+            }
         }
 
         public class Comment : Entity<Comment>
@@ -110,12 +113,12 @@ namespace Scrummy.Domain.Core.Entities
 
         private string _name;
         private int? _storyPoints;
-        private string _description;
-        private readonly List<Identity> _childTasks;
+        private List<Identity> _childTasks;
         private readonly List<Identity> _comments;
 
         public WorkTask(
             Identity id, 
+            Identity projectId,
             WorkTaskType type, 
             string name, 
             int? storyPoints,
@@ -124,6 +127,7 @@ namespace Scrummy.Domain.Core.Entities
             IEnumerable<Identity> childTasks, 
             IEnumerable<Identity> comments) : base(id)
         {
+            ProjectId = projectId;
             Type = type;
             Name = name;
             StoryPoints = storyPoints;
@@ -132,6 +136,8 @@ namespace Scrummy.Domain.Core.Entities
             _childTasks = new List<Identity>(childTasks);
             _comments = new List<Identity>(comments);
         }
+
+        public Identity ProjectId { get; }
 
         public WorkTaskType Type { get; }
 
@@ -147,15 +153,15 @@ namespace Scrummy.Domain.Core.Entities
             set => _storyPoints = CheckStoryPoints(value);
         }
 
-        public string Description
-        {
-            get => _description;
-            set => _description = CheckDescription(value);
-        }
+        public string Description { get; set; }
 
         public Identity ParentTask { get; set; }
 
-        public IEnumerable<Identity> ChildTasks => _childTasks;
+        public IEnumerable<Identity> ChildTasks
+        {
+            get => _childTasks;
+            set => _childTasks = CheckChildTasks(value);
+        }
 
         public IEnumerable<Identity> Comments => _comments;
 
@@ -187,12 +193,14 @@ namespace Scrummy.Domain.Core.Entities
             return storyPoints;
         }
 
-        private string CheckDescription(string description)
+        private List<Identity> CheckChildTasks(IEnumerable<Identity> childTasks)
         {
-            if (!Validation.ValidateDescription(description))
-                throw CreateEntityValidationException(Validation.DescriptionErrorKey, Validation.DescriptionIsInvalidMessage);
+            var temp = childTasks.ToList();
 
-            return description;
+            if (!Validation.ValidateChildTasks(temp))
+                throw CreateEntityValidationException(Validation.LinkErrorKey, Validation.LinksAreDuplicatedMessage);
+
+            return temp;
         }
     }
 }

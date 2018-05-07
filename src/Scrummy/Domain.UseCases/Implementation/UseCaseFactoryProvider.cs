@@ -17,11 +17,13 @@ namespace Scrummy.Domain.UseCases.Implementation
             Project = new ProjectUseCaseFactory(_repositoryProvider);
             Team = new TeamUseCaseFactory(_repositoryProvider);
             Meeting = new MeetingUseCaseFactory(_repositoryProvider);
+            WorkTask = new WorkTaskUseCaseFactory(_repositoryProvider);
         }
 
         public IPersonUseCaseFactory Person { get; }
         public IProjectUseCaseFactory Project { get; }
         public ITeamUseCaseFactory Team { get; }
         public IMeetingUseCaseFactory Meeting { get; }
+        public IWorkTaskUseCaseFactory WorkTask { get; }
     }
 }

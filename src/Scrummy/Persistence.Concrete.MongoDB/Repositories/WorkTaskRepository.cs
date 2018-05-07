@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 using MWorkTask = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.WorkTask;
+using WorkTask = Scrummy.Domain.Core.Entities.WorkTask;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 {
@@ -28,7 +28,14 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             }
 
             var entity = workTask.ToPersistenceEntity();
+            entity.Comments = new Comment[0];
             _workTaskCollection.InsertOne(entity);
+
+            var linkUpdateDefinition = Builders<MWorkTask>.Update
+                .Set(w => w.ParentTask, entity.Id);
+
+            _workTaskCollection.UpdateMany(x => entity.ChildTasks.Contains(x.Id), linkUpdateDefinition);
+
             return workTask.Id;
         }
 
@@ -66,7 +73,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 throw CreateEntityNotFoundException(entity.Id);
 
             var linkUpdateDefinition = Builders<MWorkTask>.Update
-                .AddToSet(w => w.ChildTasks, persistenceEntity.Id);
+                .Set(w => w.ParentTask, persistenceEntity.Id);
 
             _workTaskCollection.UpdateMany(x => persistenceEntity.ChildTasks.Contains(x.Id), linkUpdateDefinition);
 
