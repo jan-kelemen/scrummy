@@ -123,6 +123,17 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return comment.ToDomainEntity(workTaskIdentity.ToPersistenceIdentity());
         }
 
+        public IEnumerable<WorkTask.Comment> ReadCommentsOfTask(Identity id)
+        {
+            if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
+
+            var workTask = _workTaskCollection.Find(x => x.Id == id.ToPersistenceIdentity()).FirstOrDefault();
+            if (workTask == null)
+                throw CreateEntityNotFoundException(id);
+
+            return workTask.Comments.Select(x => x.ToDomainEntity(workTask.Id));
+        }
+
         public void UpdateComment(WorkTask.Comment comment)
         {
             var workTask = _workTaskCollection.Find(x => x.Id == comment.WorkTaskId.ToPersistenceIdentity()).FirstOrDefault();
