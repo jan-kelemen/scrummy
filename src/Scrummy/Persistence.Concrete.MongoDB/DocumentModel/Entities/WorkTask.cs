@@ -16,9 +16,9 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 
         public string Description { get; set; }
 
-        public IEnumerable<ObjectId> LinkedFrom { get; set; }
+        public ObjectId ParentTask { get; set; }
 
-        public IEnumerable<ObjectId> LinkedTo { get; set; }
+        public IEnumerable<ObjectId> ChildTasks { get; set; }
 
         public IEnumerable<Comment> Comments { get; set; }
     }

@@ -173,8 +173,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 name: task.Name,
                 storyPoints: task.StoryPoints,
                 description: task.Description,
-                linkedFrom: task.LinkedFrom.Select(i => i.ToDomainIdentity()),
-                linkedTo: task.LinkedTo.Select(i => i.ToDomainIdentity()),
+                childTasks: task.ChildTasks.Select(i => i.ToDomainIdentity()),
+                parentTask: task.ParentTask.ToDomainIdentity(),
                 comments: task.Comments.Select(i => i.Id.ToDomainIdentity())
             );
         }
@@ -188,7 +188,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 Type = task.Type,
                 StoryPoints = task.StoryPoints,
                 Description = task.Description,
-                LinkedTo = task.LinkedTo.Select(t => t.ToPersistenceIdentity()),
+                ParentTask = task.ParentTask.ToPersistenceIdentity(),
+                ChildTasks = task.ChildTasks.Select(t => t.ToPersistenceIdentity()),
             };
         }
 

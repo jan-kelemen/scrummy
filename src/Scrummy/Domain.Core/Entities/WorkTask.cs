@@ -111,8 +111,7 @@ namespace Scrummy.Domain.Core.Entities
         private string _name;
         private int? _storyPoints;
         private string _description;
-        private readonly List<Identity> _linkedFrom;
-        private readonly List<Identity> _linkedTo;
+        private readonly List<Identity> _childTasks;
         private readonly List<Identity> _comments;
 
         public WorkTask(
@@ -121,16 +120,16 @@ namespace Scrummy.Domain.Core.Entities
             string name, 
             int? storyPoints,
             string description,
-            IEnumerable<Identity> linkedFrom, 
-            IEnumerable<Identity> linkedTo, 
+            Identity parentTask,
+            IEnumerable<Identity> childTasks, 
             IEnumerable<Identity> comments) : base(id)
         {
             Type = type;
             Name = name;
             StoryPoints = storyPoints;
             Description = description;
-            _linkedFrom = new List<Identity>(linkedFrom);
-            _linkedTo = new List<Identity>(linkedTo);
+            ParentTask = parentTask;
+            _childTasks = new List<Identity>(childTasks);
             _comments = new List<Identity>(comments);
         }
 
@@ -154,22 +153,24 @@ namespace Scrummy.Domain.Core.Entities
             set => _description = CheckDescription(value);
         }
 
-        public IEnumerable<Identity> LinkedFrom => _linkedFrom;
+        public Identity ParentTask { get; set; }
 
-        public IEnumerable<Identity> LinkedTo => _linkedTo;
+        public IEnumerable<Identity> ChildTasks => _childTasks;
 
         public IEnumerable<Identity> Comments => _comments;
 
-        public void Link(WorkTask other)
+        public void AddChildTask(WorkTask other)
         {
             if (!Validation.ValidateTaskCanLink(Type, CheckReferenceNotNull(other, Validation.LinkErrorKey).Type))
                 throw CreateEntityValidationException(Validation.LinkErrorKey, Validation.LinkTargetIsInvalidMessage, other.Type);
 
-            if(_linkedTo.Contains(other.Id))
+            if(IsChild(other.Id))
                 throw CreateEntityValidationException(Validation.LinkErrorKey, Validation.LinkTargetIsAlreadyLinkedMessage);
 
-            _linkedTo.Add(other.Id);
+            _childTasks.Add(other.Id);
         }
+
+        public bool IsChild(Identity childId) => _childTasks.Contains(childId);
 
         private string CheckName(string name)
         {

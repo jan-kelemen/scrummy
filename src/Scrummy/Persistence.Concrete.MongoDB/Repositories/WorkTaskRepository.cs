@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -46,13 +47,18 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (entity == null)
                 throw CreateInvalidEntityException();
 
+            var databaseEntity = _workTaskCollection.Find(x => x.Id == entity.Id.ToPersistenceIdentity()).FirstOrDefault();
+            if (databaseEntity == null) { throw CreateEntityNotFoundException(entity.Id); }
+
             var persistenceEntity = entity.ToPersistenceEntity();
+
+            var hasParentTaskChanged = databaseEntity.ParentTask != persistenceEntity.ParentTask;
 
             var updateDefinition = Builders<MWorkTask>.Update
                 .Set(w => w.Name, persistenceEntity.Name)
                 .Set(w => w.StoryPoints, persistenceEntity.StoryPoints)
                 .Set(w => w.Description, persistenceEntity.Description)
-                .Set(w => w.LinkedTo, persistenceEntity.LinkedTo);
+                .Set(w => w.ChildTasks, persistenceEntity.ChildTasks);
 
             var updateEntityResult = _workTaskCollection.UpdateOne(x => x.Id == persistenceEntity.Id, updateDefinition);
 
@@ -60,9 +66,17 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 throw CreateEntityNotFoundException(entity.Id);
 
             var linkUpdateDefinition = Builders<MWorkTask>.Update
-                .Push(w => w.LinkedFrom, persistenceEntity.Id);
+                .AddToSet(w => w.ChildTasks, persistenceEntity.Id);
 
-            _workTaskCollection.UpdateMany(x => persistenceEntity.LinkedTo.Contains(x.Id) && !x.LinkedFrom.Contains(persistenceEntity.Id), linkUpdateDefinition);
+            _workTaskCollection.UpdateMany(x => persistenceEntity.ChildTasks.Contains(x.Id), linkUpdateDefinition);
+
+            if (hasParentTaskChanged && databaseEntity.ParentTask != ObjectId.Empty)
+            {
+                var parentUpdateDefinition = Builders<MWorkTask>.Update
+                    .Pull(x => x.ChildTasks, persistenceEntity.Id);
+
+                _workTaskCollection.UpdateOne(x => x.Id == databaseEntity.ParentTask, parentUpdateDefinition);
+            }
         }
 
         public override void Delete(Identity id)
