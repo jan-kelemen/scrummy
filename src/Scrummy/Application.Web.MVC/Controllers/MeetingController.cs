@@ -95,7 +95,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 Description = vm.Description,
                 ProjectId = Identity.FromString(vm.Project.Id),
                 OrganizedBy = Identity.FromString(vm.OrganizedBy.Id),
-                InvolvedPersons = vm.SelectedPersonIds.Select(x => Identity.FromString(x)),
+                InvolvedPersons = vm.SelectedPersonIds.Select(Identity.FromString),
                 Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
             };
         }
@@ -103,14 +103,48 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            return View();
+            var presenter = new EditMeetingPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.GetInitialViewModel(id));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit()
+        public IActionResult Edit(EditMeetingViewModel vm)
         {
-            return View();
+            var presenter = new EditMeetingPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            if (!ModelState.IsValid)
+                return View(presenter.Present(vm));
+
+            var request = ConvertToRequest(vm);
+            try
+            {
+                var uc = _meetingUseCaseFactory.Edit;
+                var response = uc.Execute(request);
+                return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(presenter.Present(vm));
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(presenter.Present(vm));
+            }
+        }
+
+        private EditMeetingRequest ConvertToRequest(EditMeetingViewModel vm)
+        {
+            return new EditMeetingRequest(CurrentUserId)
+            {
+                Id = Identity.FromString(vm.Id),
+                Name = vm.Name,
+                Description = vm.Description,
+                InvolvedPersons = vm.SelectedPersonIds.Select(Identity.FromString),
+                Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+            };
         }
 
         [HttpGet]

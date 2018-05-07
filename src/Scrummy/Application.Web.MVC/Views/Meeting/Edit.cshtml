@@ -1,16 +1,16 @@
-﻿@model Scrummy.Application.Web.MVC.ViewModels.Meeting.CreateMeetingViewModel
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Meeting.EditMeetingViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     string ToId(string key, int i) => $"{key}{i}";
 }
 
 <input type="hidden" id="personOptions" data-value="@Html.Raw(string.Join("", Model.Persons.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
 
-<h2>Create team</h2><hr />
+<h2>Edit team</h2><hr />
 <div class="row">
     <div class="col-xs-10">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(x => x.OrganizedBy.Id)
             @Html.HiddenFor(x => x.OrganizedBy.Text)
@@ -49,7 +49,7 @@
                 @Html.ValidationMessage("InvolvedPersons", htmlAttributes: new { @class = "text-danger" })
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
