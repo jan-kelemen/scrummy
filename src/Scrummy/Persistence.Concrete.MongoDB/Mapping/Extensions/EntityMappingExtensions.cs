@@ -75,12 +75,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                     To = DateTime.MaxValue,
                     TeamId = project.TeamId.ToPersistenceIdentity(),
                 },
-                CurrentBacklog = new MProject.BacklogHistoryRecord
-                {
-                    To = DateTime.MinValue,
-                    From = DateTime.MaxValue,
-                    Tasks = new List<MProject.BacklogItem>(),
-                }
+                Backlog = new MProject.BacklogItem[0]
             };
         }
 

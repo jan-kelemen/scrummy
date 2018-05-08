@@ -86,11 +86,9 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var entity = _projectCollection.Find(x => x.Id == projectIdentity.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(projectIdentity); }
 
-            var currentBacklog = entity.CurrentBacklog;
-
             return new ProductBacklog(
                 projectIdentity,
-                currentBacklog.Tasks.Select(t => new ProductBacklog.WorkTaskWithStatus(
+                entity.Backlog.Select(t => new ProductBacklog.WorkTaskWithStatus(
                     t.WorkTaskId.ToDomainIdentity(),
                     t.Status)
                 )
@@ -105,21 +103,21 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var entity = _projectCollection.Find(x => x.Id == projectIdentity.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(projectIdentity); }
 
-            var currentBacklog = entity.CurrentBacklog;
-            currentBacklog.To = DateTime.Now;
+            var historyRecord = new MProject.BacklogHistoryRecord
+            {
+                DoneTasks = productBacklog.Count(x => x.Status == ProductBacklog.WorkTaskStatus.Done),
+                InSprintTasks = productBacklog.Count(x => x.Status == ProductBacklog.WorkTaskStatus.InSprint),
+                ReadyTasks = productBacklog.Count(x => x.Status == ProductBacklog.WorkTaskStatus.Ready),
+                ToDoTasks = productBacklog.Count(x => x.Status == ProductBacklog.WorkTaskStatus.ToDo),
+            };
 
             var updateDefinition = Builders<MProject>.Update
-                .Set(p => p.CurrentBacklog, new MProject.BacklogHistoryRecord
-                {
-                    From = DateTime.Now,
-                    To = DateTime.MaxValue,
-                    Tasks = productBacklog.Select(x => new MProject.BacklogItem
+                .Set(p => p.Backlog, productBacklog.Select(x => new MProject.BacklogItem
                     {
                         WorkTaskId = x.WorkTaskId.ToPersistenceIdentity(),
                         Status = x.Status
-                    }),
-                })
-                .Push(p => p.BacklogHistory, currentBacklog);
+                    }))
+                .Push(p => p.BacklogHistory, historyRecord);
 
             var result = _projectCollection.UpdateOne(x => x.Id == projectIdentity.ToPersistenceIdentity(), updateDefinition);
 

@@ -67,13 +67,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var entity = _sprintCollection.Find(x => x.Id == sprintIdentity.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(sprintIdentity); }
 
-            var currentBacklog = entity.CurrentBacklog;
-
             return new SprintBacklog(
                 sprintIdentity,
                 entity.PlannedTasks.Select(t => t.ToDomainIdentity()),
-                currentBacklog.Tasks.Select(t => new SprintBacklog.WorkTaskWithStatus(
+                entity.Backlog.Select(t => new SprintBacklog.WorkTaskWithStatus(
                     t.WorkTaskId.ToDomainIdentity(),
+                    t.ParentTaskId.ToDomainIdentity(),
                     t.Status)
                 )
             );
@@ -86,9 +85,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var entity = _sprintCollection.Find(x => x.Id == sprintIdentity.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(sprintIdentity); }
-
-            var currentBacklog = entity.CurrentBacklog;
-            currentBacklog.To = DateTime.Now;
 
             var updateDefinition = Builders<MSprint>.Update
                 .Set(x => x.PlannedTasks, backlog.PlannedTaskIds.Select(x => x.ToPersistenceIdentity()));
@@ -106,21 +102,21 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var entity = _sprintCollection.Find(x => x.Id == sprintIdentity.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(sprintIdentity); }
 
-            var currentBacklog = entity.CurrentBacklog;
-            currentBacklog.To = DateTime.Now;
+            var historyRecord = new MSprint.BacklogHistoryRecord
+            {
+                DoneTasks = backlog.Tasks.Count(x => x.Status == SprintBacklog.WorkTaskStatus.Done),
+                InProgressTasks = backlog.Tasks.Count(x => x.Status == SprintBacklog.WorkTaskStatus.InProgress),
+                ToDoTasks = backlog.Tasks.Count(x => x.Status == SprintBacklog.WorkTaskStatus.ToDo),
+            };
 
             var updateDefinition = Builders<MSprint>.Update
-                .Set(p => p.CurrentBacklog, new MSprint.BacklogHistoryRecord
+                .Set(p => p.Backlog, backlog.Tasks.Select(x => new MSprint.BacklogItem
                 {
-                    From = DateTime.Now,
-                    To = DateTime.MaxValue,
-                    Tasks = backlog.Tasks.Select(x => new MSprint.BacklogItem
-                    {
-                        WorkTaskId = x.WorkTaskId.ToPersistenceIdentity(),
-                        Status = x.Status
-                    }),
-                })
-                .Push(p => p.BacklogHistory, currentBacklog);
+                    WorkTaskId = x.WorkTaskId.ToPersistenceIdentity(),
+                    ParentTaskId = x.ParentTaskId.ToPersistenceIdentity(),
+                    Status = x.Status
+                }))
+                .Push(p => p.BacklogHistory, historyRecord);
 
             var result = _sprintCollection.UpdateOne(x => x.Id == sprintIdentity.ToPersistenceIdentity(), updateDefinition);
 

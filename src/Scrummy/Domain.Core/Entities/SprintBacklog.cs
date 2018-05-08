@@ -18,13 +18,16 @@ namespace Scrummy.Domain.Core.Entities
 
         public class WorkTaskWithStatus
         {
-            public WorkTaskWithStatus(Identity workTaskId, WorkTaskStatus status)
+            public WorkTaskWithStatus(Identity workTaskId, Identity parentTaskId, WorkTaskStatus status)
             {
                 WorkTaskId = workTaskId;
+                ParentTaskId = parentTaskId;
                 Status = status;
             }
 
             public Identity WorkTaskId { get; }
+
+            public Identity ParentTaskId { get; }
 
             public WorkTaskStatus Status { get; set; }
         }

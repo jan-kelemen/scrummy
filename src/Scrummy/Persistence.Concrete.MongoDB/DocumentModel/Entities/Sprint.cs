@@ -10,16 +10,18 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
     {
         internal class BacklogHistoryRecord
         {
-            public DateTime From { get; set; }
+            public int ToDoTasks { get; set; }
 
-            public DateTime To { get; set; }
+            public int InProgressTasks { get; set; }
 
-            public IEnumerable<BacklogItem> Tasks { get; set; }
+            public int DoneTasks { get; set; }
         }
 
         internal class BacklogItem
         {
             public ObjectId WorkTaskId { get; set; }
+
+            public ObjectId ParentTaskId { get; set; }
 
             [BsonRepresentation(BsonType.String)]
             public SprintBacklog.WorkTaskStatus Status { get; set; }
@@ -37,7 +39,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 
         public IEnumerable<ObjectId> PlannedTasks { get; set; }
 
-        public BacklogHistoryRecord CurrentBacklog { get; set; }
+        public IEnumerable<BacklogItem> Backlog { get; set; }
 
         public IEnumerable<BacklogHistoryRecord> BacklogHistory { get; set; }
     }
