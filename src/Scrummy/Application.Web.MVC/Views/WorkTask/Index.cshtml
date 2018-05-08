@@ -1,0 +1,128 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.WorkTask.ViewWorkTaskViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+    string TypeToUserType(string s)
+    {
+        if (s == "UserStory") return "User Story";
+        return s;
+    }
+    string TypeToActionType(string s)
+    {
+        if (s == "UserStory") return "Story";
+        return s;
+    }
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
+        <h3>Create</h3> <hr />
+        @if (Model.Type == "Defect" || Model.Type == "Task")
+        {
+            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="UserStory" asp-route-child="@Model.Id" asp-route-parent="">Create parent Story</a>
+        }
+        else if (Model.Type == "UserStory")
+        {
+            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Epic" asp-route-child="@Model.Id" asp-route-parent="">Create parent Epic</a>
+            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Task" asp-route-parent="@Model.Id" asp-route-child="">Create linked Task</a>
+            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Defect" asp-route-parent="@Model.Id" asp-route-child="">Create linked Defect</a>
+        }
+        else
+        {
+            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="UserStory" asp-route-child="" asp-route-parent="@Model.Id">Create linked Story</a>
+        }
+        @if (Model.ParentTask != null)
+        {
+            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="@Model.Type" asp-route-child="" asp-route-parent="@Model.ParentTask.Id">Create related @TypeToActionType(Model.Type)</a>
+            @if (Model.Type == "Defect")
+            {
+                <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Task" asp-route-child="" asp-route-parent="@Model.ParentTask.Id">Create related Task</a>
+            }
+            else if (Model.Type == "Task")
+            {
+                <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Defect" asp-route-parent="@Model.ParentTask.Id" asp-route-child="">Create related Defect</a>
+            }
+        }
+        <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="@Model.Type">Create @TypeToActionType(Model.Type)</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>@TypeToUserType(Model.Type) - @Model.Name</h2> <hr />
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Project)
+                </dt>
+                <dd>
+                    <a asp-action="Index" asp-controller="Project" asp-route-id="@Model.Project.Id">@Model.Project.Text</a>
+                </dd>
+                @if (Model.Type != "Epic")
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ParentTask)
+                    </dt>
+                    <dd>
+                        @if (Model.ParentTask != null)
+                        {
+                            <a asp-action="Index" asp-route-id="@Model.ParentTask.Id">@Model.ParentTask.Text</a>
+                        }
+                    </dd>
+                }
+                <dt>
+                    @Html.DisplayNameFor(model => model.StoryPoints)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.StoryPoints)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl>
+            @if (Model.Type != "Defect" && Model.Type != "Task")
+            {
+                <h5>Linked tasks</h5>
+                <table class="table">
+                    <tr id="tableHeader">
+                        <th>Task</th>
+                        <th class="actionColumn"></th>
+                    </tr>
+                    @foreach (var p in Model.ChildTasks)
+                    {
+                        <tr>
+                            <td>@p.Text</td>
+                            <td>
+                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@p.Id">View</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            <h5>Comments</h5>
+            <table class="table">
+                <tr>
+                    <th>Author</th>
+                    <th></th>
+                </tr>
+                @foreach (var c in Model.Comments)
+                {
+                    <tr>
+                        <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
+                    </tr>
+                    <tr>
+                        @c.Content
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

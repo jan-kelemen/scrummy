@@ -14,6 +14,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.WorkTask
             public string Content { get; set; }
         }
 
+        public string Id { get; set; }
+
         public NavigationViewModel Project { get; set; }
 
         public string Name { get; set; }

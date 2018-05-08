@@ -33,8 +33,14 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var linkUpdateDefinition = Builders<MWorkTask>.Update
                 .Set(w => w.ParentTask, entity.Id);
-
             _workTaskCollection.UpdateMany(x => entity.ChildTasks.Contains(x.Id), linkUpdateDefinition);
+
+            if(!workTask.ParentTask.IsBlankIdentity())
+            {
+                var childUpdateDefinition = Builders<MWorkTask>.Update
+                    .Push(w => w.ChildTasks, entity.Id);
+                _workTaskCollection.UpdateOne(x => x.Id == entity.ParentTask, childUpdateDefinition);
+            }
 
             return workTask.Id;
         }

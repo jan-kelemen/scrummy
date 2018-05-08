@@ -51,11 +51,11 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(string id, string type)
+        public IActionResult Create(string id, string type, string parent, string child)
         {
             var presenter = new CreateWorkTaskPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
 
-            return View(presenter.GetInitialViewModel(id, type));
+            return View(presenter.GetInitialViewModel(id, type, parent, child));
         }
 
         [HttpPost]

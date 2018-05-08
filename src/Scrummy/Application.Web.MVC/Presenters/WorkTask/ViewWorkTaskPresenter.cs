@@ -24,6 +24,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
             var project = RepositoryProvider.Project.Read(response.ProjectId);
             return new ViewWorkTaskViewModel
             {
+                Id = response.Id.ToString(),
                 Name = response.Name,
                 Project = new NavigationViewModel
                 {
