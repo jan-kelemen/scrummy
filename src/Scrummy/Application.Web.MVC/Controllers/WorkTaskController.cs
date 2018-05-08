@@ -139,7 +139,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             return new EditWorkTaskRequest(CurrentUserId)
             {
                 Name = vm.Name,
-                ParentTask = Identity.FromString(vm.ParentTaskId),
+                ParentTask = string.IsNullOrWhiteSpace(vm.ParentTaskId) ? Identity.BlankIdentity : Identity.FromString(vm.ParentTaskId),
                 Description = vm.Description,
                 ChildTasks = vm.ChildTaskIds.Select(Identity.FromString),
                 StoryPoints = vm.StoryPoints,

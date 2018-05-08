@@ -41,6 +41,11 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
 
             return new EditWorkTaskViewModel
             {
+                Id = task.Id.ToString(),
+                Name = task.Name,
+                Description = task.Description,
+                StoryPoints = task.StoryPoints,
+                Type = task.Type.ToString(),
                 Project = new NavigationViewModel
                 {
                     Id = project.Id.ToString(),

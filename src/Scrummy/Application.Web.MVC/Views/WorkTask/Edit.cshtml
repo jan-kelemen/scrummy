@@ -10,6 +10,8 @@
     }
 }
 
+<input type="hidden" id="childOptions" data-value="@Html.Raw(string.Join("", Model.ChildTasks.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
+
 <div class="row">
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
