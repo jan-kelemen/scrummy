@@ -90,6 +90,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
                 _workTaskCollection.UpdateOne(x => x.Id == databaseEntity.ParentTask, parentUpdateDefinition);
             }
+
+            var removedChildren = databaseEntity.ChildTasks.Except(persistenceEntity.ChildTasks);
+            var childUpdateDefinition = Builders<MWorkTask>.Update
+                .Set(x => x.ParentTask, ObjectId.Empty);
+
+            _workTaskCollection.UpdateMany(x => removedChildren.Contains(x.Id) && x.ParentTask == databaseEntity.Id, childUpdateDefinition);
         }
 
         public override void Delete(Identity id)

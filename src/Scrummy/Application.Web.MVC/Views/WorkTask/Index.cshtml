@@ -116,10 +116,12 @@
                 @foreach (var c in Model.Comments)
                 {
                     <tr>
-                        <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
-                    </tr>
-                    <tr>
-                        @c.Content
+                        <td>
+                            <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
+                        </td>
+                        <td>
+                            @c.Content
+                        </td>
                     </tr>
                 }
             </table>

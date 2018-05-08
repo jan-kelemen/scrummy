@@ -11,5 +11,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
         IViewProjectUseCase View { get; }
 
         IViewMeetingsUseCase ViewMeetings { get; }
+
+        IViewBacklogUseCase ViewBacklog { get; }
     }
 }

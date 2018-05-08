@@ -32,18 +32,22 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             request.ThrowExceptionIfInvalid();
 
             var entity = _workTaskRepository.Read(request.Id);
-            entity.Name = request.Name;
-            entity.Description = request.Description;
-            entity.StoryPoints = request.StoryPoints;
-            entity.ParentTask = request.ParentTask;
-            entity.ChildTasks = request.ChildTasks;
-            
+            UpdateWorkTask(entity, request);
             _workTaskRepository.Update(entity);
 
             return new EditWorkTaskResponse("Work task updated successfully.")
             {
                 Id = entity.Id,
             };
+        }
+
+        private void UpdateWorkTask(Core.Entities.WorkTask entity, EditWorkTaskRequest request)
+        {
+            entity.Name = request.Name;
+            entity.Description = request.Description;
+            entity.StoryPoints = request.StoryPoints;
+            entity.ParentTask = request.ParentTask;
+            entity.ChildTasks = request.ChildTasks;
         }
     }
 }

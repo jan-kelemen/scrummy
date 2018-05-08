@@ -18,7 +18,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
                 { typeof(Team), "Teams" },
                 { typeof(Meeting), "Meetings" },
                 { typeof(Sprint), "Sprints" },
-                { typeof(WorkTask), "WorkTask" },
+                { typeof(WorkTask), "WorkTasks" },
             };
         }
 

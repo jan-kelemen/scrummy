@@ -171,5 +171,19 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return RedirectToAction(nameof(Index), "Home");
             }
         }
+
+        [HttpGet]
+        public IActionResult Backlog(string id)
+        {
+            var uc = _projectUseCaseFactory.ViewBacklog;
+            var response = uc.Execute(new ViewBacklogRequest(CurrentUserId)
+            {
+                ProjectId = Identity.FromString(id),
+            });
+
+            var presenter = new ViewBacklogPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.Present(response));
+        }
     }
 }
