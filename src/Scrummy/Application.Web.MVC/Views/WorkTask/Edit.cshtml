@@ -24,6 +24,10 @@
             @Html.HiddenFor(x => x.Id)
             @Html.HiddenFor(x => x.Project.Id)
             @Html.HiddenFor(x => x.Project.Text)
+            @foreach (var i in Model.OriginalChildTaskIds)
+            {
+                @Html.Hidden("OriginalChildTaskIds[]", i)
+            }
             <input asp-for="Type" class="form-control" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>

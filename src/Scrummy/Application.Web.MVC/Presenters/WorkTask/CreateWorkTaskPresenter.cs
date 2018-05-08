@@ -25,16 +25,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
 
         public CreateWorkTaskViewModel GetInitialViewModel(string projectId, string type, string parent = null, string child = null)
         {
-            var vm = GetInitialViewModel(projectId, type);
-            if (!string.IsNullOrWhiteSpace(parent))
-                vm.ParentTaskId = parent;
-            if (!string.IsNullOrWhiteSpace(child))
-                vm.ChildTaskIds.Add(child);
-            return vm;
-        }
-
-        private CreateWorkTaskViewModel GetInitialViewModel(string projectId, string type)
-        {
             var project = RepositoryProvider.Project.Read(Identity.FromString(projectId));
             var backlog = RepositoryProvider.Project.ReadProductBacklog(project.Id);
 
@@ -48,7 +38,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
                 status => status != ProductBacklog.WorkTaskStatus.Done,
                 CreateChildTypeFilter(Parse(type)));
 
-            return new CreateWorkTaskViewModel
+            var vm = new CreateWorkTaskViewModel
             {
                 Type = type,
                 Project = new NavigationViewModel
@@ -59,6 +49,12 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
                 ParentTasks = ToSelectListWithBlankEntry(possibleParents),
                 ChildTasks = ToSelectListWithBlankEntry(possibleChildren),
             };
+
+            if (!string.IsNullOrWhiteSpace(parent))
+                vm.ParentTaskId = parent;
+            if (!string.IsNullOrWhiteSpace(child))
+                vm.ChildTaskIds.Add(child);
+            return vm;
         }
 
         public CreateWorkTaskViewModel Present(CreateWorkTaskViewModel vm)

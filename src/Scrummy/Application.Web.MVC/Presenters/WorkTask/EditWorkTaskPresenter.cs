@@ -38,6 +38,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
                 backlog,
                 status => status != ProductBacklog.WorkTaskStatus.Done,
                 CreateChildTypeFilter(task.Type));
+            AddTasksThatDontExist(possibleChildren, task.ChildTasks);
 
             return new EditWorkTaskViewModel
             {
@@ -55,6 +56,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
                 ChildTaskIds = task.ChildTasks.Select(x => x.ToString()).ToList(),
                 ParentTasks = ToSelectListWithBlankEntry(possibleParents),
                 ChildTasks = ToSelectListWithBlankEntry(possibleChildren),
+                OriginalChildTaskIds = task.ChildTasks.Select(x => x.ToString()).ToList(),
             };
         }
 
@@ -72,6 +74,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
                 backlog,
                 status => status != ProductBacklog.WorkTaskStatus.Done,
                 CreateChildTypeFilter(Parse(vm.Type)));
+            AddTasksThatDontExist(possibleChildren, vm.OriginalChildTaskIds);
 
             vm.ParentTasks = ToSelectListWithBlankEntry(possibleParents);
             vm.ChildTasks = ToSelectListWithBlankEntry(possibleChildren);
@@ -118,23 +121,41 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
             throw new ArgumentOutOfRangeException();
         }
 
-        private IEnumerable<Domain.Core.Entities.WorkTask> GetTasksFromBacklog(ProductBacklog backlog, Func<ProductBacklog.WorkTaskStatus, bool> statusFilter, Func<WorkTaskType, bool> typeFilter)
+        private List<SelectListItem> GetTasksFromBacklog(ProductBacklog backlog, Func<ProductBacklog.WorkTaskStatus, bool> statusFilter, Func<WorkTaskType, bool> typeFilter)
         {
             return backlog
                 .Where(x => statusFilter(x.Status))
                 .Select(x => RepositoryProvider.WorkTask.Read(x.WorkTaskId))
-                .Where(x => typeFilter(x.Type));
+                .Where(x => typeFilter(x.Type))
+                .Select(AsSelectListItem)
+                .ToList();
         }
 
-        private SelectListItem[] ToSelectListWithBlankEntry(IEnumerable<Domain.Core.Entities.WorkTask> tasks)
+        private void AddTasksThatDontExist(List<SelectListItem> items, IEnumerable<Identity> tasks)
         {
-            var tasksEnumerable = tasks.Select(x => new SelectListItem
+            foreach (var identity in tasks)
             {
-                Value = x.Id.ToString(),
-                Text = x.Name,
-            });
+                if (items.All(x => x.Value != identity.ToString()))
+                {
+                    var task = RepositoryProvider.WorkTask.Read(identity);
+                    items.Add(AsSelectListItem(task));
+                }
+            }
+        }
 
-            return new[] { new SelectListItem { Value = "", Text = "" } }.Concat(tasksEnumerable).ToArray();
+        private void AddTasksThatDontExist(List<SelectListItem> items, IEnumerable<string> tasks)
+            => AddTasksThatDontExist(items, tasks.Select(Identity.FromString));
+
+        private SelectListItem[] ToSelectListWithBlankEntry(IEnumerable<SelectListItem> tasks)
+            => new[] { new SelectListItem { Value = "", Text = "" } }.Concat(tasks).ToArray();
+
+        private SelectListItem AsSelectListItem(Domain.Core.Entities.WorkTask task)
+        {
+            return new SelectListItem
+            {
+                Value = task.Id.ToString(),
+                Text = task.Name,
+            };
         }
     }
 }
