@@ -1,0 +1,85 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.WorkTask.EditWorkTaskViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+    string ToId(string key, int i) => $"{key}{i}";
+    string TypeToUserType(string s)
+    {
+        if (s == "UserStory") return "User Story";
+        return s;
+    }
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Id">Cancel</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Edit @TypeToUserType(Model.Type) - @Model.Name</h2><hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.Project.Id)
+            @Html.HiddenFor(x => x.Project.Text)
+            <input asp-for="Type" class="form-control" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @if (Model.Type != "Epic")
+            {
+                <div class="form-group">
+                    <label asp-for="ParentTaskId" class="control-label"></label>
+                    <select asp-for="ParentTaskId" asp-items="Model.ParentTasks" class="form-control"></select>
+                    <span asp-validation-for="ParentTaskId" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="StoryPoints" class="control-label"></label>
+                <input asp-for="StoryPoints" class="form-control" />
+                <span asp-validation-for="StoryPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            @if (Model.Type != "Defect" && Model.Type != "Task")
+            {
+                <h5>Linked tasks</h5>
+                <div class="form-group">
+                    <table class="table" id="linkedTaskTable">
+                        <tr id="tableHeader">
+                            <th>Task</th>
+                            <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
+                        </tr>
+                        @for (var i = 0; i < Model.ChildTaskIds.Count; ++i)
+                        {
+                            <tr>
+                                <td><select asp-for="ChildTaskIds[@i]" name="ChildTaskIds[]" id="@ToId("cti", i)" asp-items="Model.ChildTasks" class="form-control"></select></td>
+                                <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                            </tr>
+                        }
+                    </table>
+                    @Html.ValidationMessage("Link", htmlAttributes: new { @class = "text-danger" })
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    @for (var i = 0; i < Model.ChildTaskIds.Count; ++i)
+    {
+        @:document.getElementById("@ToId("cti", i)").value = "@Model.ChildTaskIds[i]";
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
