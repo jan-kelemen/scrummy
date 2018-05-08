@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
@@ -26,12 +27,22 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             var entity = ToDomainEntity(request);
             var backlog = _projectRepository.ReadProductBacklog(project.Id);
 
-            var hasParentThatIsInSprint = !request.ParentTask.IsBlankIdentity() && 
-                                          backlog.FirstOrDefault(x => x.WorkTaskId == request.ParentTask 
-                                                                      && x.Status == ProductBacklog.WorkTaskStatus.InSprint) != null;
-
-            backlog.AddTaskToBacklog(new ProductBacklog.WorkTaskWithStatus(entity.Id, 
-                hasParentThatIsInSprint ? ProductBacklog.WorkTaskStatus.InSprint : ProductBacklog.WorkTaskStatus.ToDo));
+            if (entity.Type == WorkTaskType.Epic)
+            {
+                backlog.AddTaskToBacklog(new ProductBacklog.WorkTaskWithStatus(entity.Id, ProductBacklog.WorkTaskStatus.ToDo));
+            }
+            else if (entity.Type == WorkTaskType.UserStory)
+            {
+                foreach (var task in entity.ChildTasks)
+                {
+                    backlog.RemoveTaskFromBacklog(task);
+                }
+                backlog.AddTaskToBacklog(new ProductBacklog.WorkTaskWithStatus(entity.Id, ProductBacklog.WorkTaskStatus.ToDo));
+            }
+            else if(entity.ParentTask.IsBlankIdentity())
+            {
+                backlog.AddTaskToBacklog(new ProductBacklog.WorkTaskWithStatus(entity.Id, ProductBacklog.WorkTaskStatus.ToDo));
+            }
 
             _workTaskRepository.Create(entity);
             _projectRepository.UpdateProductBacklog(backlog);

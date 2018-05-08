@@ -160,7 +160,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
             };
         }
 
-        public static WorkTask ToDomainEntity(this MWorkTask task)
+        public static WorkTask ToDomainEntity(this MWorkTask task, IEnumerable<ObjectId> childTasks)
         {
             return new WorkTask(
                 id: task.Id.ToDomainIdentity(),
@@ -169,7 +169,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 name: task.Name,
                 storyPoints: task.StoryPoints,
                 description: task.Description,
-                childTasks: task.ChildTasks.Select(i => i.ToDomainIdentity()),
+                childTasks: childTasks.Select(i => i.ToDomainIdentity()),
                 parentTask: task.ParentTask.ToDomainIdentity(),
                 comments: task.Comments.Select(i => i.Id.ToDomainIdentity())
             );
@@ -186,7 +186,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 StoryPoints = task.StoryPoints,
                 Description = task.Description,
                 ParentTask = task.ParentTask.ToPersistenceIdentity(),
-                ChildTasks = task.ChildTasks.Select(t => t.ToPersistenceIdentity()),
             };
         }
 

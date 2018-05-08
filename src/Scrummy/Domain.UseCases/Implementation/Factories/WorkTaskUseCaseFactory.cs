@@ -21,6 +21,6 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
             new EditWorkTaskUseCase(_repositoryProvider.WorkTask, _repositoryProvider.Project);
 
         public IViewWorkTaskUseCase View =>
-            new ViewWorkTaskUseCase(_repositoryProvider.WorkTask);
+            new ViewWorkTaskUseCase(_repositoryProvider.WorkTask, _repositoryProvider.Project);
     }
 }

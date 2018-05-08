@@ -50,6 +50,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
                         Content = x.Content,
                     };
                 }),
+                CanEdit = response.CanEdit,
+                CanEditParent = response.CanEditParent,
             };
         }
 

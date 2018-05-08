@@ -31,16 +31,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             entity.Comments = new Comment[0];
             _workTaskCollection.InsertOne(entity);
 
+            var childTasks = workTask.ChildTasks.Select(x => x.ToPersistenceIdentity());
             var linkUpdateDefinition = Builders<MWorkTask>.Update
                 .Set(w => w.ParentTask, entity.Id);
-            _workTaskCollection.UpdateMany(x => entity.ChildTasks.Contains(x.Id), linkUpdateDefinition);
-
-            if(!workTask.ParentTask.IsBlankIdentity())
-            {
-                var childUpdateDefinition = Builders<MWorkTask>.Update
-                    .Push(w => w.ChildTasks, entity.Id);
-                _workTaskCollection.UpdateOne(x => x.Id == entity.ParentTask, childUpdateDefinition);
-            }
+            _workTaskCollection.UpdateMany(x => childTasks.Contains(x.Id), linkUpdateDefinition);
 
             return workTask.Id;
         }
@@ -52,7 +46,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var entity = _workTaskCollection.Find(x => x.Id == id.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(id); }
 
-            return entity.ToDomainEntity();
+            var childTasks = _workTaskCollection.Find(x => x.ParentTask == entity.Id)
+                .ToEnumerable().Select(x => x.Id);
+
+            return entity.ToDomainEntity(childTasks);
         }
 
         public override void Update(WorkTask entity)
@@ -65,37 +62,27 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var persistenceEntity = entity.ToPersistenceEntity();
 
-            var hasParentTaskChanged = databaseEntity.ParentTask != persistenceEntity.ParentTask;
-
             var updateDefinition = Builders<MWorkTask>.Update
                 .Set(w => w.Name, persistenceEntity.Name)
                 .Set(w => w.StoryPoints, persistenceEntity.StoryPoints)
                 .Set(w => w.Description, persistenceEntity.Description)
-                .Set(w => w.ChildTasks, persistenceEntity.ChildTasks);
+                .Set(w => w.ParentTask, persistenceEntity.ParentTask);
 
             var updateEntityResult = _workTaskCollection.UpdateOne(x => x.Id == persistenceEntity.Id, updateDefinition);
 
             if (updateEntityResult.MatchedCount != 1)
                 throw CreateEntityNotFoundException(entity.Id);
 
-            var linkUpdateDefinition = Builders<MWorkTask>.Update
-                .Set(w => w.ParentTask, persistenceEntity.Id);
-
-            _workTaskCollection.UpdateMany(x => persistenceEntity.ChildTasks.Contains(x.Id), linkUpdateDefinition);
-
-            if (hasParentTaskChanged && databaseEntity.ParentTask != ObjectId.Empty)
-            {
-                var parentUpdateDefinition = Builders<MWorkTask>.Update
-                    .Pull(x => x.ChildTasks, persistenceEntity.Id);
-
-                _workTaskCollection.UpdateOne(x => x.Id == databaseEntity.ParentTask, parentUpdateDefinition);
-            }
-
-            var removedChildren = databaseEntity.ChildTasks.Except(persistenceEntity.ChildTasks);
+            var childTasks = entity.ChildTasks.Select(x => x.ToPersistenceIdentity());
             var childUpdateDefinition = Builders<MWorkTask>.Update
                 .Set(x => x.ParentTask, ObjectId.Empty);
 
-            _workTaskCollection.UpdateMany(x => removedChildren.Contains(x.Id) && x.ParentTask == databaseEntity.Id, childUpdateDefinition);
+            _workTaskCollection.UpdateMany(x => x.ParentTask == entity.Id.ToPersistenceIdentity() && !childTasks.Contains(x.Id), childUpdateDefinition);
+
+            var linkUpdateDefinition = Builders<MWorkTask>.Update
+                .Set(w => w.ParentTask, persistenceEntity.Id);
+
+            _workTaskCollection.UpdateMany(x => childTasks.Contains(x.Id), linkUpdateDefinition);
         }
 
         public override void Delete(Identity id)

@@ -34,5 +34,9 @@ namespace Scrummy.Application.Web.MVC.ViewModels.WorkTask
         public IEnumerable<NavigationViewModel> ChildTasks { get; set; } = new List<NavigationViewModel>();
 
         public IEnumerable<Comment> Comments { get; set; }
+
+        public bool CanEdit { get; set; }
+
+        public bool CanEditParent { get; set; }
     }
 }

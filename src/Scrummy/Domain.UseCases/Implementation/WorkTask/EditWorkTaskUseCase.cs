@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
@@ -18,22 +19,38 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             _projectRepository = projectRepository;
         }
 
-        public bool CanWorkTaskBeEdited(Identity id)
-        {
-            var workTask = _workTaskRepository.Read(id);
-            var backlog = _projectRepository.ReadProductBacklog(workTask.ProjectId);
-            var taskFromBacklog = backlog.First(x => x.WorkTaskId == id);
-
-            return taskFromBacklog.Status != ProductBacklog.WorkTaskStatus.InSprint || taskFromBacklog.Status != ProductBacklog.WorkTaskStatus.Done;
-        }
-
         public EditWorkTaskResponse Execute(EditWorkTaskRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
             var entity = _workTaskRepository.Read(request.Id);
+            var backlog = _projectRepository.ReadProductBacklog(entity.ProjectId);
+
+            var oldChildren = entity.ChildTasks;
             UpdateWorkTask(entity, request);
+
+            var hasBacklogChanged = false;
+
+            if (entity.Type == WorkTaskType.UserStory)
+            {
+                var removedChildren = oldChildren.Except(entity.ChildTasks).ToArray();
+                foreach (var task in entity.ChildTasks)
+                    hasBacklogChanged |= backlog.RemoveTaskFromBacklog(task);
+
+                foreach (var child in removedChildren)
+                    backlog.AddTaskToBacklog(new ProductBacklog.WorkTaskWithStatus(child, ProductBacklog.WorkTaskStatus.ToDo));
+
+                hasBacklogChanged |= removedChildren.Any();
+            }
+            else if (entity.Type != WorkTaskType.Epic && entity.ParentTask.IsBlankIdentity())
+            {
+                backlog.AddTaskToBacklog(new ProductBacklog.WorkTaskWithStatus(entity.Id, ProductBacklog.WorkTaskStatus.ToDo));
+                hasBacklogChanged = true;
+            }
+
             _workTaskRepository.Update(entity);
+            if(hasBacklogChanged)
+                _projectRepository.UpdateProductBacklog(backlog);
 
             return new EditWorkTaskResponse("Work task updated successfully.")
             {

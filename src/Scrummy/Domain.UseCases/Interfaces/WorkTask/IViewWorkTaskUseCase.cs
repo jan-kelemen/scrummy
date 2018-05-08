@@ -44,6 +44,10 @@ namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
         public Identity ParentTask { get; set; }
 
         public IEnumerable<Identity> ChildTasks { get; set; }
+
+        public bool CanEdit { get; set; }
+
+        public bool CanEditParent { get; set; }
     }
 
     public interface IViewWorkTaskUseCase

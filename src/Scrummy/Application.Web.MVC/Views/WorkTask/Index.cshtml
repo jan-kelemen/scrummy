@@ -16,8 +16,11 @@
 
 <div class="row">
     <div class="col-xs-2">
-        <h2>Actions</h2> <hr />
-        <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
+        @if (Model.CanEdit)
+        {
+            <h2>Actions</h2> <hr />
+            <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
+        }
         <h3>Create</h3> <hr />
         @if (Model.Type == "Defect" || Model.Type == "Task")
         {
@@ -26,17 +29,21 @@
         else if (Model.Type == "UserStory")
         {
             <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Epic" asp-route-child="@Model.Id" asp-route-parent="">Create parent Epic</a>
-            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Task" asp-route-parent="@Model.Id" asp-route-child="">Create linked Task</a>
-            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Defect" asp-route-parent="@Model.Id" asp-route-child="">Create linked Defect</a>
+            if (Model.CanEdit)
+            {
+                <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Task" asp-route-parent="@Model.Id" asp-route-child="">Create linked Task</a>
+                <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Defect" asp-route-parent="@Model.Id" asp-route-child="">Create linked Defect</a>
+            }
         }
-        else
+        else if (Model.CanEdit)
         {
-            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="UserStory" asp-route-child="" asp-route-parent="@Model.Id">Create linked Story</a>
+        <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="UserStory" asp-route-child="" asp-route-parent="@Model.Id">Create linked Story</a>
         }
-        @if (Model.ParentTask != null)
+
+        @if (Model.ParentTask != null && Model.CanEdit && Model.CanEditParent)
         {
             <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="@Model.Type" asp-route-child="" asp-route-parent="@Model.ParentTask.Id">Create related @TypeToActionType(Model.Type)</a>
-            @if (Model.Type == "Defect")
+            if (Model.Type == "Defect")
             {
                 <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="Task" asp-route-child="" asp-route-parent="@Model.ParentTask.Id">Create related Task</a>
             }
