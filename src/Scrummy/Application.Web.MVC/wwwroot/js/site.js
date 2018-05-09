@@ -74,4 +74,20 @@ $(function () {
 
         $('#linkedTaskTable tr:last').after(row);
     });
+
+    $("#backlogTable").delegate("button[name='up']", "click", function (e) {
+        e.preventDefault();
+        var $element = this;
+        var row = $($element).parents("tr:first");
+
+        if (!row.prev().is($('#tableHeader'))) {
+            row.insertBefore(row.prev());
+        }
+    });
+    $("#backlogTable").delegate("button[name='down']", "click", function (e) {
+        e.preventDefault();
+        var $element = this;
+        var row = $($element).parents("tr:first");
+        row.insertAfter(row.next());
+    });
 });

@@ -1,0 +1,72 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Project.ManageBacklogViewModel
+
+@{
+    ViewData["Title"] = "Manage backlog " + Model.Project.Text;
+    string TypeToUserType(string s)
+    {
+        if (s == "UserStory") return "User Story";
+        return s;
+    }
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id">Cancel</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Manage backlog - @Model.Project.Id</h2><hr />
+        <form asp-action="ManageBacklog">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x => x.Project.Id)
+            @Html.HiddenFor(x => x.Project.Text)
+            <div class="form-group">
+                <table class="table" id="backlogTable">
+                    <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th colspan="2" class="actionColumn"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for (var i = 0; i < Model.Ids.Length; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="hidden" value="@Model.Ids[i]" name="Ids[]" />
+                                <input type="hidden" value="@Model.Name[i]" name="Name[]" />
+                                @Model.Name[i]
+                            </td>
+                            <td>
+                                @TypeToUserType(Model.Type[i])
+                                <input type="hidden" value="@Model.Type[i]" name="Type[]"/>
+                            </td>
+                            <td>
+                                <select asp-for="@Model.Status[i]" name="Status[]" id="@Model.Ids[i]" asp-items="Model.Statuses" class="form-control"></select>
+                            </td>
+                            <td><button class="btn btn-default tableButton" name="up">Up</button></td>
+                            <td><button class="btn btn-default tableButton" name="down">Down</button></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    @for (var i = 0; i < Model.Ids.Length; i++)
+    {
+        @:document.getElementById("@Model.Ids[i]").value = "@Model.Status[i]";
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

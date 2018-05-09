@@ -13,5 +13,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
         IViewMeetingsUseCase ViewMeetings { get; }
 
         IViewBacklogUseCase ViewBacklog { get; }
+
+        IManageBacklogUseCase ManageBacklog { get; }
     }
 }

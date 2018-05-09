@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
+using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
@@ -184,6 +186,53 @@ namespace Scrummy.Application.Web.MVC.Controllers
             var presenter = new ViewBacklogPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
 
             return View(presenter.Present(response));
+        }
+
+        [HttpGet]
+        public IActionResult ManageBacklog(string id)
+        {
+            var presenter = new ManageBacklogPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            return View(presenter.GetInitialViewModel(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ManageBacklog(ManageBacklogViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var request = ConvertToRequest(vm);
+            var presenter = new ManageBacklogPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _projectUseCaseFactory.ManageBacklog;
+                var response = uc.Execute(request);
+                return RedirectToAction(nameof(Backlog), new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(vm);
+            }
+        }
+
+        private ManageBacklogRequest ConvertToRequest(ManageBacklogViewModel vm)
+        {
+            return new ManageBacklogRequest(CurrentUserId)
+            {
+                ProjectId = Identity.FromString(vm.Project.Id),
+                BacklogItems = vm.Ids.Select((x, i) => new ManageBacklogRequest.BacklogItem
+                {
+                    Id = Identity.FromString(x),
+                    Status = Enum.Parse<ProductBacklog.WorkTaskStatus>(vm.Status[i])
+                }).ToList(),
+            };
         }
     }
 }
