@@ -1,0 +1,44 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Project.ViewSprintsViewModel
+
+@{
+    ViewData["Title"] = "Sprints";
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="Sprint" asp-route-id="@Model.Project.Id">Create</a>
+        <a asp-area="" class="btn btn-default actionButton" asp-action="Plan" asp-controller="Project" asp-route-id="@Model.Project.Id">Plan</a>
+        <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Done">List completed</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>@Model.Type sprints - @Model.Project.Text</h2> <hr />
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Sprint</th>
+                    <th>Time</th>
+                    <th class="actionColumn"></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var sprint in Model.Sprints)
+                {
+                    <tr>
+                        <td>
+                            @sprint.Text
+                        </td>
+                        <td>
+                            @sprint.StartDate - @sprint.EndDate
+                        </td>
+                        <td>
+                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Sprint" asp-route-id="@sprint.Id">View</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

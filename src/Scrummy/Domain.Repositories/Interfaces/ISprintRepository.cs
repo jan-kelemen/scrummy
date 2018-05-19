@@ -16,6 +16,8 @@ namespace Scrummy.Domain.Repositories.Interfaces
 
         void UpdateCurrentTasks(SprintBacklog backlog);
 
+        IEnumerable<Sprint> ReadSprints(Identity projectId, SprintStatus status);
+
         IEnumerable<SprintBacklog> ReadSprintBacklogs(Identity projectId, SprintStatus status);
     }
 }

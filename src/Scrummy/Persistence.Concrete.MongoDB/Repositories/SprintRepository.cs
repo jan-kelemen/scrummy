@@ -151,6 +151,17 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(sprintIdentity); }
         }
 
+        public IEnumerable<Sprint> ReadSprints(Identity projectId, SprintStatus status)
+        {
+            if (projectId.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
+
+            var sprints = _sprintCollection
+                .Find(x => x.ProjectId == projectId.ToPersistenceIdentity() && x.Status == status)
+                .ToEnumerable();
+
+            return sprints.Select(x => x.ToDomainEntity());
+        }
+
         public IEnumerable<SprintBacklog> ReadSprintBacklogs(Identity projectId, SprintStatus status)
         {
             if (projectId.IsBlankIdentity()) { throw CreateInvalidEntityException(); }

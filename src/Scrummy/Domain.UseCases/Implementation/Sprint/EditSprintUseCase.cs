@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Scrummy.Domain.Core.Entities;
+using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
@@ -26,18 +28,15 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
 
             var backlog = _sprintRepository.ReadSprintBacklog(sprint.Id);
             var removedStories = backlog.Stories.Except(request.Stories);
+            backlog.Stories = request.Stories.ToList();
 
             var projectBacklog = _projectRepository.ReadProductBacklog(sprint.ProjectId);
             foreach (var story in removedStories)
-            {
                 projectBacklog.UpdateTask(new ProductBacklog.WorkTaskWithStatus(story, ProductBacklog.WorkTaskStatus.Ready));
-            }
 
             foreach (var story in request.Stories)
-            {
                 projectBacklog.UpdateTask(new ProductBacklog.WorkTaskWithStatus(story, ProductBacklog.WorkTaskStatus.InSprint));
-            }
-            
+
             _sprintRepository.Update(sprint);
             _sprintRepository.UpdatePlannedTasks(backlog);
             _projectRepository.UpdateProductBacklog(projectBacklog);

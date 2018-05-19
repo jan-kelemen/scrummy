@@ -7,9 +7,8 @@
 <div class="row">
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
-        <a asp-action="Board" asp-controller="Sprint" asp-route-id="TODO" class="btn btn-default actionButton">View board</a>
         <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Id">Backlog</a>
-        <a asp-action="Sprints" class="btn btn-default actionButton" asp-route-id="@Model.Id">Sprints</a>
+        <a asp-action="Sprints" class="btn btn-default actionButton" asp-route-id="@Model.Id" asp-route-status="Planned">Sprints</a>
         <a asp-action="Meetings" class="btn btn-default actionButton" asp-route-id="@Model.Id">Meetings</a>
         <a asp-action="Reports" class="btn btn-default actionButton" asp-route-id="@Model.Id">Reports</a>
         <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit project</a>

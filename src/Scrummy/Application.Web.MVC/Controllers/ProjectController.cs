@@ -7,6 +7,7 @@ using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
@@ -233,6 +234,14 @@ namespace Scrummy.Application.Web.MVC.Controllers
                     Status = Enum.Parse<ProductBacklog.WorkTaskStatus>(vm.Status[i])
                 }).ToList(),
             };
+        }
+
+        [HttpGet]
+        public IActionResult Sprints(string id, string status)
+        {
+            var presenter = new ViewSprintsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+
+            return View(presenter.GetInitialViewModel(id, status));
         }
     }
 }
