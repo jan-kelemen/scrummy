@@ -28,7 +28,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             sprint.Status = SprintStatus.Done;
             sprint.TimeSpan = new Tuple<DateTime, DateTime>(sprint.TimeSpan.Item2, request.CurrentTime);
 
-            var backlog = _sprintRepository.GetSprintBacklog(sprint.Id);
+            var backlog = _sprintRepository.ReadSprintBacklog(sprint.Id);
             var projectBacklog = _projectRepository.ReadProductBacklog(sprint.ProjectId);
             var tasksByStory = backlog.Tasks.GroupBy(x => x.ParentTaskId);
 

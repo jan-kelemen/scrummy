@@ -24,7 +24,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             var sprint = _sprintRepository.Read(request.Id);
             Update(sprint, request);
 
-            var backlog = _sprintRepository.GetSprintBacklog(sprint.Id);
+            var backlog = _sprintRepository.ReadSprintBacklog(sprint.Id);
             var removedStories = backlog.Stories.Except(request.Stories);
 
             var projectBacklog = _projectRepository.ReadProductBacklog(sprint.ProjectId);
