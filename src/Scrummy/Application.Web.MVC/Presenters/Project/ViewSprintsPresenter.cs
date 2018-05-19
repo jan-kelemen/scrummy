@@ -23,10 +23,13 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
 
         public ViewSprintsViewModel GetInitialViewModel(string id, string status)
         {
+            var num = Enum.Parse<SprintStatus>(status);
+
             var project = RepositoryProvider.Project.Read(Identity.FromString(id));
+            var planned = num == SprintStatus.Planned;
 
             var sprints = RepositoryProvider.Sprint
-                .ReadSprints(project.Id, Enum.Parse<SprintStatus>(status))
+                .ReadSprints(project.Id, num)
                 .OrderBy(x => x.TimeSpan.Item1);
 
             return new ViewSprintsViewModel
@@ -36,7 +39,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
                     Id = project.Id.ToString(),
                     Text = project.Name,
                 },
-                Type = status,
+                Type = planned ? "Planned" : "Completed",
+                StartSprintAllowed = planned && RepositoryProvider.Sprint.ReadCurrentSprint(project.Id) == null,
                 Sprints = sprints.Select(x => new ViewSprintsViewModel.SprintViewModel
                 {
                     Id = x.Id.ToString(),

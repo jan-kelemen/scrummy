@@ -19,6 +19,10 @@
                 <tr>
                     <th>Sprint</th>
                     <th>Time</th>
+                    @if (Model.StartSprintAllowed)
+                    {
+                        <th class="actionColumn"></th>
+                    }
                     <th class="actionColumn"></th>
                 </tr>
                 </thead>
@@ -32,6 +36,12 @@
                         <td>
                             @sprint.StartDate - @sprint.EndDate
                         </td>
+                        @if (Model.StartSprintAllowed)
+                        {
+                            <td>
+                                <a asp-area="" class="btn btn-default tableButton" asp-action="StartSprint" asp-route-id="@sprint.Id">Start sprint</a>
+                            </td>
+                        }
                         <td>
                             <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Sprint" asp-route-id="@sprint.Id">View</a>
                         </td>

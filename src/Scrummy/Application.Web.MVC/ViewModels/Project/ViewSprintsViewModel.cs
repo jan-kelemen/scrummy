@@ -14,6 +14,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
 
         public NavigationViewModel Project { get; set; }
 
+        public bool StartSprintAllowed { get; set; }
+
         public string Type { get; set; }
 
         public IEnumerable<SprintViewModel> Sprints { get; set; }
