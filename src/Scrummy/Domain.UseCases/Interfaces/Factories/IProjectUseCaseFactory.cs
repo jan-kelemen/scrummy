@@ -15,5 +15,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
         IViewBacklogUseCase ViewBacklog { get; }
 
         IManageBacklogUseCase ManageBacklog { get; }
+
+        IPlanBacklogUseCase PlanBacklog { get; }
     }
 }

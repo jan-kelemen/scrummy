@@ -74,7 +74,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }
 
-        public Sprint GetCurrentSprint(Identity projectId)
+        public Sprint ReadCurrentSprint(Identity projectId)
         {
             if (projectId.IsBlankIdentity()) { throw CreateEntityNotFoundException(projectId); }
 
@@ -88,7 +88,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return sprint?.ToDomainEntity();
         }
 
-        public SprintBacklog GetSprintBacklog(Identity sprintIdentity)
+        public SprintBacklog ReadSprintBacklog(Identity sprintIdentity)
         {
             if (sprintIdentity.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
 
@@ -149,6 +149,23 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var result = _sprintCollection.UpdateOne(x => x.Id == sprintIdentity.ToPersistenceIdentity(), updateDefinition);
 
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(sprintIdentity); }
+        }
+
+        public IEnumerable<SprintBacklog> ReadSprintBacklogs(Identity projectId, SprintStatus status)
+        {
+            if (projectId.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
+
+            var sprints = _sprintCollection
+                .Find(x => x.ProjectId == projectId.ToPersistenceIdentity() && x.Status == status)
+                .ToEnumerable();
+
+            return sprints.Select(x =>
+                new SprintBacklog(x.Id.ToDomainIdentity(),
+                    x.PlannedTasks.Select(t => t.ToDomainIdentity()),
+                    x.Backlog.Select(t => new SprintBacklog.WorkTaskWithStatus(
+                        t.WorkTaskId.ToDomainIdentity(),
+                        t.ParentTaskId.ToDomainIdentity(),
+                        t.Status))));
         }
 
         public override IEnumerable<NavigationInfo> ListAll()

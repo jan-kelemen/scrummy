@@ -26,7 +26,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             request.ThrowExceptionIfInvalid();
 
             var sprint = _sprintRepository.Read(request.Id);
-            var currentSprintOfProject = _sprintRepository.GetCurrentSprint(sprint.ProjectId);
+            var currentSprintOfProject = _sprintRepository.ReadCurrentSprint(sprint.ProjectId);
             if (currentSprintOfProject != null)
             {
                 request.Errors.Add("", "Project already has a active sprint.");
@@ -36,7 +36,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             sprint.Status = SprintStatus.InProgress;
             sprint.TimeSpan = new Tuple<DateTime, DateTime>(request.CurrentTime, sprint.TimeSpan.Item2);
 
-            var backlog = _sprintRepository.GetSprintBacklog(sprint.Id);
+            var backlog = _sprintRepository.ReadSprintBacklog(sprint.Id);
             var tasks = new List<SprintBacklog.WorkTaskWithStatus>();
             foreach (var storyId in backlog.Stories)
             {

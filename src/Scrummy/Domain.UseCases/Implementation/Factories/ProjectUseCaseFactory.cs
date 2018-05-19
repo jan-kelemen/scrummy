@@ -20,5 +20,6 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
         public IViewMeetingsUseCase ViewMeetings => new ViewMeetingsUseCase(_repositoryProvider.Meeting);
         public IViewBacklogUseCase ViewBacklog => new ViewBacklogUseCase(_repositoryProvider.Project, _repositoryProvider.WorkTask);
         public IManageBacklogUseCase ManageBacklog => new ManageBacklogUseCase(_repositoryProvider.Project);
+        public IPlanBacklogUseCase PlanBacklog => new PlanBacklogUseCase(_repositoryProvider.Project, _repositoryProvider.Sprint);
     }
 }

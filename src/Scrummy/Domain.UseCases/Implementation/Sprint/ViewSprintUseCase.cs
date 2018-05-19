@@ -26,7 +26,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             request.ThrowExceptionIfInvalid();
 
             var sprint = _sprintRepository.Read(request.Id);
-            var backlog = _sprintRepository.GetSprintBacklog(sprint.Id);
+            var backlog = _sprintRepository.ReadSprintBacklog(sprint.Id);
             if (sprint.Status == SprintStatus.Planned)
             {
                 var tasks = new List<SprintBacklog.WorkTaskWithStatus>();

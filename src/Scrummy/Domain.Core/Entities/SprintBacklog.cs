@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
 
 namespace Scrummy.Domain.Core.Entities
@@ -45,13 +46,13 @@ namespace Scrummy.Domain.Core.Entities
             IEnumerable<WorkTaskWithStatus> tasks)
         {
             SprintId = sprintId;
-            Stories = stories;
+            Stories = new List<Identity>(stories);
             Tasks = tasks;
         }
 
         public Identity SprintId { get; }
 
-        public IEnumerable<Identity> Stories
+        public IList<Identity> Stories
         {
             get => _stories;
             set => _stories = new List<Identity>(value);
