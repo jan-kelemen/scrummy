@@ -19,9 +19,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
         protected override void ValidateCore()
         {
             if (Id.IsBlankIdentity())
-            {
                 AddError("", "Idenitity is invalid.");
-            }
         }
     }
 

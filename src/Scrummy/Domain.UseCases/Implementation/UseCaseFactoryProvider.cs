@@ -18,6 +18,7 @@ namespace Scrummy.Domain.UseCases.Implementation
             Team = new TeamUseCaseFactory(_repositoryProvider);
             Meeting = new MeetingUseCaseFactory(_repositoryProvider);
             WorkTask = new WorkTaskUseCaseFactory(_repositoryProvider);
+            Sprint = new SprintUseCaseFactory(_repositoryProvider);
         }
 
         public IPersonUseCaseFactory Person { get; }
@@ -25,5 +26,6 @@ namespace Scrummy.Domain.UseCases.Implementation
         public ITeamUseCaseFactory Team { get; }
         public IMeetingUseCaseFactory Meeting { get; }
         public IWorkTaskUseCaseFactory WorkTask { get; }
+        public ISprintUseCaseFactory Sprint { get; }
     }
 }

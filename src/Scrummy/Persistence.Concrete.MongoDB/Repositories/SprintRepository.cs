@@ -4,19 +4,23 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
+using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 {
     internal class SprintRepository : BaseRepository<Sprint>, ISprintRepository
     {
         private readonly IMongoCollection<MSprint> _sprintCollection;
+        private readonly IMongoCollection<MProject> _projectCollection;
 
-        public SprintRepository(IMongoCollection<MSprint> sprintCollection)
+        public SprintRepository(IMongoCollection<MSprint> sprintCollection, IMongoCollection<MProject> projectCollection)
         {
             _sprintCollection = sprintCollection;
+            _projectCollection = projectCollection;
         }
 
         public override Identity Create(Sprint sprint)
@@ -70,6 +74,20 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }
 
+        public Sprint GetCurrentSprint(Identity projectId)
+        {
+            if (projectId.IsBlankIdentity()) { throw CreateEntityNotFoundException(projectId); }
+
+            var entity = _projectCollection.Find(x => x.Id == projectId.ToPersistenceIdentity()).FirstOrDefault();
+            if (entity == null) { throw CreateEntityNotFoundException(projectId); }
+
+            var sprint = _sprintCollection
+                .Find(x => x.ProjectId == projectId.ToPersistenceIdentity() && x.Status == SprintStatus.InProgress)
+                .FirstOrDefault();
+
+            return sprint?.ToDomainEntity();
+        }
+
         public SprintBacklog GetSprintBacklog(Identity sprintIdentity)
         {
             if (sprintIdentity.IsBlankIdentity()) { throw CreateInvalidEntityException(); }
@@ -97,7 +115,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (entity == null) { throw CreateEntityNotFoundException(sprintIdentity); }
 
             var updateDefinition = Builders<MSprint>.Update
-                .Set(x => x.PlannedTasks, backlog.PlannedTaskIds.Select(x => x.ToPersistenceIdentity()));
+                .Set(x => x.PlannedTasks, backlog.Stories.Select(x => x.ToPersistenceIdentity()));
 
             var result = _sprintCollection.UpdateOne(x => x.Id == sprintIdentity.ToPersistenceIdentity(), updateDefinition);
 

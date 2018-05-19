@@ -28,12 +28,6 @@ namespace Scrummy.Domain.Core.Entities
                 TextValidator.ValidateThatContentIsBetweenSpecifiedLength(name, NameMinLength, NameMaxLength);
 
             public static bool ValidateOrganizedBy(Identity id) => !id.IsBlankIdentity();
-
-            public static bool ValidateInvolvedPersons(IEnumerable<Identity> involvedPersons)
-            {
-                var diffChecker = new HashSet<Identity>();
-                return involvedPersons.All(diffChecker.Add);
-            }
         }
 
         private Identity _projectId;
@@ -92,7 +86,7 @@ namespace Scrummy.Domain.Core.Entities
         private List<Identity> CheckInvolvedPersons(IEnumerable<Identity> value)
         {
             var temp = value.ToList();
-            if(!Validation.ValidateInvolvedPersons(temp))
+            if(!SetValidator.ValidateItemsAreUnique(temp))
                 throw CreateEntityValidationException(Validation.InvolvedPersonsErrorKey, Validation.InvolvedPersonsAreInvalidMessage);
             return temp;
         }
@@ -103,6 +97,5 @@ namespace Scrummy.Domain.Core.Entities
                 throw CreateEntityValidationException(Validation.NameErrorKey, Validation.NameIsInvalidMessage);
             return name;
         }
-
     }
 }

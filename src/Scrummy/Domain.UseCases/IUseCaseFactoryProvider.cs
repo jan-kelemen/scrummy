@@ -13,5 +13,7 @@ namespace Scrummy.Domain.UseCases
         IMeetingUseCaseFactory Meeting { get; }
 
         IWorkTaskUseCaseFactory WorkTask { get; }
+
+        ISprintUseCaseFactory Sprint { get; }
     }
 }

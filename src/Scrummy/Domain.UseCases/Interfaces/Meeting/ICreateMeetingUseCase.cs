@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Validators;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 using MeetingValidation = Scrummy.Domain.Core.Entities.Meeting.Validation;
@@ -34,7 +35,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
             if(ProjectId.IsBlankIdentity())
                 AddError("", "Project identity is invalid.");
 
-            if(!MeetingValidation.ValidateInvolvedPersons(InvolvedPersons))
+            if(!SetValidator.ValidateItemsAreUnique(InvolvedPersons))
                 AddError(MeetingValidation.InvolvedPersonsErrorKey, MeetingValidation.InvolvedPersonsAreInvalidMessage);
 
             if(!MeetingValidation.ValidateName(Name))

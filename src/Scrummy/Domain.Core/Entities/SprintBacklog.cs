@@ -9,6 +9,9 @@ namespace Scrummy.Domain.Core.Entities
         {
             public const string WorkTaskErrorKey = nameof(WorkTask);
             public const string WorkTaskIsInvalid = "Work task in the sprint backlog has to be specified.";
+
+            public const string BacklogErrorKey = nameof(SprintBacklog);
+            public const string SprintBacklogContainsDuplicateItems = "Sprint backlog contains duplicate items.";
         }
 
         public enum WorkTaskStatus
@@ -32,26 +35,26 @@ namespace Scrummy.Domain.Core.Entities
             public WorkTaskStatus Status { get; set; }
         }
 
-        private List<Identity> _plannedTasks;
+        private List<Identity> _stories;
 
         private List<WorkTaskWithStatus> _tasks;
 
         public SprintBacklog(
             Identity sprintId, 
-            IEnumerable<Identity> plannedTasks, 
+            IEnumerable<Identity> stories, 
             IEnumerable<WorkTaskWithStatus> tasks)
         {
             SprintId = sprintId;
-            PlannedTaskIds = plannedTasks;
+            Stories = stories;
             Tasks = tasks;
         }
 
         public Identity SprintId { get; }
 
-        public IEnumerable<Identity> PlannedTaskIds
+        public IEnumerable<Identity> Stories
         {
-            get => _plannedTasks;
-            private set => _plannedTasks = new List<Identity>(value);
+            get => _stories;
+            set => _stories = new List<Identity>(value);
         }
 
         public IEnumerable<WorkTaskWithStatus> Tasks
