@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -27,6 +27,9 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             }
 
             var entity = sprint.ToPersistenceEntity();
+            entity.Backlog = new MSprint.BacklogItem[0];
+            entity.BacklogHistory = new MSprint.BacklogHistoryRecord[0];
+            entity.PlannedTasks = new ObjectId[0];
             _sprintCollection.InsertOne(entity);
             return sprint.Id;
         }
@@ -45,8 +48,15 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
         {
             if (sprint == null) { throw CreateInvalidEntityException(); }
 
-            var entity = sprint.ToPersistenceEntity();
-            var result = _sprintCollection.ReplaceOne(x => x.Id == entity.Id, entity);
+            var updateDefinition = Builders<MSprint>.Update
+                .Set(x => x.StartDate, sprint.TimeSpan.Item1)
+                .Set(x => x.EndDate, sprint.TimeSpan.Item2)
+                .Set(x => x.Name, sprint.Name)
+                .Set(x => x.Goal, sprint.Goal)
+                .Set(x => x.Status, sprint.Status);
+
+            var result = _sprintCollection
+                .UpdateOne(x => x.Id == sprint.ProjectId.ToPersistenceIdentity(), updateDefinition);
 
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(sprint.Id); }
         }
@@ -130,11 +140,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 Id = x.Id.ToDomainIdentity(),
                 Name = x.Name,
             });
-        }
-
-        public bool CheckIfSprintOverlapsWithOtherSprint(Identity projectIdentity, Tuple<DateTime, DateTime> timeSpan)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Core.Validators;
 
 namespace Scrummy.Domain.Core.Entities
@@ -36,12 +37,14 @@ namespace Scrummy.Domain.Core.Entities
             Identity projectId,
             string name, 
             Tuple<DateTime, DateTime> timeSpan, 
-            string goal) : base(id)
+            string goal, 
+            SprintStatus status) : base(id)
         {
             ProjectId = projectId;
             Name = name;
             TimeSpan = timeSpan;
             Goal = goal;
+            Status = status;
         }
 
         public Identity ProjectId
@@ -63,6 +66,8 @@ namespace Scrummy.Domain.Core.Entities
         }
 
         public string Goal { get; set; }
+
+        public SprintStatus Status { get; set; }
 
         private string CheckName(string name)
         {

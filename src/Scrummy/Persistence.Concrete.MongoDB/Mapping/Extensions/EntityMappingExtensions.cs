@@ -143,7 +143,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 projectId: sprint.ProjectId.ToDomainIdentity(),
                 name: sprint.Name,
                 timeSpan: new Tuple<DateTime, DateTime>(sprint.StartDate, sprint.EndDate),
-                goal: sprint.Goal
+                goal: sprint.Goal,
+                status: sprint.Status
             );
         }
 
@@ -157,6 +158,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 StartDate = sprint.TimeSpan.Item1,
                 EndDate = sprint.TimeSpan.Item2,
                 Goal = sprint.Goal,
+                Status = sprint.Status,
             };
         }
 

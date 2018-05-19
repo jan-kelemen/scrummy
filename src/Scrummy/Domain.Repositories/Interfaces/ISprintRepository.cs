@@ -11,7 +11,5 @@ namespace Scrummy.Domain.Repositories.Interfaces
         void UpdatePlannedTasks(SprintBacklog backlog);
 
         void UpdateCurrentTasks(SprintBacklog backlog);
-
-        bool CheckIfSprintOverlapsWithOtherSprint(Identity projectIdentity, Tuple<DateTime, DateTime> timeSpan);
     }
 }

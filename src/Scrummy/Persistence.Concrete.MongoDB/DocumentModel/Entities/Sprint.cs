@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Scrummy.Domain.Core.Entities;
+using Scrummy.Domain.Core.Entities.Enumerations;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 {
@@ -36,6 +37,9 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
         public DateTime EndDate { get; set; }
 
         public string Goal { get; set; }
+
+        [BsonRepresentation(BsonType.String)]
+        public SprintStatus Status { get; set; }
 
         public IEnumerable<ObjectId> PlannedTasks { get; set; }
 
