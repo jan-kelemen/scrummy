@@ -9,44 +9,52 @@
         <h2>Actions</h2> <hr />
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="Sprint" asp-route-id="@Model.Project.Id">Create</a>
         <a asp-area="" class="btn btn-default actionButton" asp-action="Plan" asp-controller="Project" asp-route-id="@Model.Project.Id">Plan</a>
-        <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Done">List completed</a>
+        @if (Model.Type == "Planned")
+        {
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Done">List completed</a>
+        }
+        else
+        {
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Planned">List planned</a>
+        }
+
     </div>
     <div class="col-xs-10">
         <h2>@Model.Type sprints - @Model.Project.Text</h2> <hr />
         <div>
             <table class="table">
                 <thead>
-                <tr>
-                    <th>Sprint</th>
-                    <th>Time</th>
-                    @if (Model.StartSprintAllowed)
-                    {
-                        <th class="actionColumn"></th>
-                    }
-                    <th class="actionColumn"></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var sprint in Model.Sprints)
-                {
                     <tr>
-                        <td>
-                            @sprint.Text
-                        </td>
-                        <td>
-                            @sprint.StartDate - @sprint.EndDate
-                        </td>
+                        <th>Sprint</th>
+                        <th>Time</th>
                         @if (Model.StartSprintAllowed)
                         {
-                            <td>
-                                <a asp-area="" class="btn btn-default tableButton" asp-action="StartSprint" asp-route-id="@sprint.Id">Start sprint</a>
-                            </td>
+                            <th class="actionColumn"></th>
                         }
-                        <td>
-                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Sprint" asp-route-id="@sprint.Id">View</a>
-                        </td>
+                        <th class="actionColumn"></th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var sprint in Model.Sprints)
+                    {
+                        <tr>
+                            <td>
+                                @sprint.Text
+                            </td>
+                            <td>
+                                @sprint.StartDate - @sprint.EndDate
+                            </td>
+                            @if (Model.StartSprintAllowed)
+                            {
+                                <td>
+                                    <a asp-area="" class="btn btn-default tableButton" asp-action="StartSprint" asp-route-id="@sprint.Id">Start sprint</a>
+                                </td>
+                            }
+                            <td>
+                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Sprint" asp-route-id="@sprint.Id">View</a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
