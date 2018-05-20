@@ -182,7 +182,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             {
                 var uc = _useCaseFactory.ManageBacklog;
                 var response = uc.Execute(request);
-                return RedirectToAction(nameof(Backlog), new { id = presenter.Present(response) });
+                return RedirectToAction(nameof(Backlog), new { id = presenter.Present(response), flavor = "Backlog"});
             }
             catch (InvalidRequestException ire)
             {

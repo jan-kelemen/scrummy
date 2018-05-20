@@ -41,6 +41,12 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
                         : ProductBacklog.WorkTaskStatus.Ready));
             }
 
+            foreach (var storyWithoutTasks in backlog.Stories.Where(x => backlog.Tasks.Count(y => y.ParentTaskId == x) == 0))
+            {
+                projectBacklog.UpdateTask(new ProductBacklog.WorkTaskWithStatus(storyWithoutTasks, ProductBacklog.WorkTaskStatus.Done));
+            }
+
+            _projectRepository.UpdateProductBacklog(projectBacklog);
             _sprintRepository.Update(sprint);
 
             return new ConfirmationResponse("Sprint ended successfully.")
