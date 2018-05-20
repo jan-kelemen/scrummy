@@ -50,7 +50,7 @@
                             @if (Model.StartSprintAllowed)
                             {
                                 <td>
-                                    <a asp-area="" class="btn btn-default tableButton" asp-action="StartSprint" asp-route-id="@sprint.Id">Start sprint</a>
+                                    <a asp-area="" class="btn btn-default tableButton" asp-action="Start" asp-controller="Sprint" asp-route-id="@sprint.Id">Start sprint</a>
                                 </td>
                             }
                             <td>

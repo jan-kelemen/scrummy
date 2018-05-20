@@ -148,5 +148,56 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 Stories = vm.SelectedStories.Select(Identity.FromString),
             };
         }
+
+        [HttpGet]
+        public IActionResult Start(string id)
+        {
+            var presenter = new StartSprintPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _sprintUseCaseFactory.Start;
+                var response = uc.Execute(new StartSprintRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return RedirectToAction(nameof(Index), "Project", new {id = presenter.Present(response)});
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult End(string id)
+        {
+            var presenter = new EndSprintPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _sprintUseCaseFactory.End;
+                var response = uc.Execute(new EndSprintRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return RedirectToAction(nameof(Index), "Project", new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Scrummy.Application.Web.MVC.Presenters.Sprint;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
@@ -9,12 +10,15 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
     public class ViewProjectPresenter : BasePresenter
     {
+        private readonly ViewSprintPresenter _viewSprintPresenter;
+
         public ViewProjectPresenter(
             Action<MessageType, string> messageHandler,
             Action<string, string> errorHandler,
             IRepositoryProvider repositoryProvider)
             : base(messageHandler, errorHandler, repositoryProvider)
         {
+            _viewSprintPresenter = new ViewSprintPresenter(MessageHandler, ErrorHandler, RepositoryProvider);
         }
 
         public ViewProjectViewModel Present(ViewProjectResponse response)
@@ -30,6 +34,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
                     Text = team.Name,
                 },
                 DefinitionOfDone = response.DefinitionOfDone,
+                Sprint = response.Sprint != null ? _viewSprintPresenter.Present(response.Sprint) : null,
             };
         }
     }

@@ -2,6 +2,7 @@
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
+using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Project
 {
@@ -35,6 +36,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
         public Identity TeamId { get; set; }
 
         public IEnumerable<string> DefinitionOfDone { get; set; }
+
+        public ViewSprintResponse Sprint { get; set; }
     }
 
     public interface IViewProjectUseCase

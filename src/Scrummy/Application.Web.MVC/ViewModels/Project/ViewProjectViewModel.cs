@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Scrummy.Application.Web.MVC.ViewModels.Sprint;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
 
 namespace Scrummy.Application.Web.MVC.ViewModels.Project
@@ -15,5 +16,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
 
         [Display(Name = "Definition of done")]
         public IEnumerable<string> DefinitionOfDone { get; set; }
+
+        public ViewSprintViewModel Sprint { get; set; }
     }
 }

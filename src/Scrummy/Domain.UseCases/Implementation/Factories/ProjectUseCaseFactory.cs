@@ -16,7 +16,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
 
         public ICreateProjectUseCase Create => new CreateProjectUseCase(_repositoryProvider.Project, _repositoryProvider.Team);
         public IEditProjectUseCase Edit => new EditProjectUseCase(_repositoryProvider.Project, _repositoryProvider.Team);
-        public IViewProjectUseCase View => new ViewProjectUseCase(_repositoryProvider.Project);
+        public IViewProjectUseCase View => new ViewProjectUseCase(_repositoryProvider.Project, _repositoryProvider.Sprint, _repositoryProvider.WorkTask);
         public IViewMeetingsUseCase ViewMeetings => new ViewMeetingsUseCase(_repositoryProvider.Meeting);
         public IViewBacklogUseCase ViewBacklog => new ViewBacklogUseCase(_repositoryProvider.Project, _repositoryProvider.WorkTask);
         public IManageBacklogUseCase ManageBacklog => new ManageBacklogUseCase(_repositoryProvider.Project);

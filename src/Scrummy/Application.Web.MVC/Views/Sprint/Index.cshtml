@@ -59,7 +59,7 @@
                             <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id">@p.Text (@p.StoryPoints)</a>
                         </td>
                     </tr>
-                    @foreach (var t in p.Transform())
+                    foreach (var t in p.Transform())
                     {
                         <tr>
                             <td></td>

@@ -53,7 +53,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
 
             return new StartSprintResponse("Sprint started successfully.")
             {
-                Id = request.Id,
+                Id = sprint.ProjectId,
             };
         }
     }

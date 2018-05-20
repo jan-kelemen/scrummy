@@ -44,7 +44,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
 
             return new EndSprintResponse("Sprint ended successfully.")
             {
-                Id = request.Id,
+                Id = sprint.ProjectId,
             };
         }
     }

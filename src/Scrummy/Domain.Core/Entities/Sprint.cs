@@ -30,8 +30,6 @@ namespace Scrummy.Domain.Core.Entities
 
         private string _name;
 
-        private Tuple<DateTime, DateTime> _timeSpan;
-
         public Sprint(
             Identity id,
             Identity projectId,
@@ -59,11 +57,7 @@ namespace Scrummy.Domain.Core.Entities
             set => _name = CheckName(value);
         }
 
-        public Tuple<DateTime, DateTime> TimeSpan
-        {
-            get => _timeSpan;
-            set => _timeSpan = CheckTimeSpan(CheckReferenceNotNull(value, Validation.TimeSpanErrorKey));
-        }
+        public Tuple<DateTime, DateTime> TimeSpan { get; set; }
 
         public string Goal { get; set; }
 
@@ -74,13 +68,6 @@ namespace Scrummy.Domain.Core.Entities
             if (!Validation.ValidateName(name))
                 throw CreateEntityValidationException(Validation.NameErrorKey, Validation.NameIsInvalidMessage);
             return name;
-        }
-
-        private Tuple<DateTime, DateTime> CheckTimeSpan(Tuple<DateTime, DateTime> timeSpan)
-        {
-            if (!Validation.ValidateTimeSpan(timeSpan))
-                throw CreateEntityValidationException(Validation.TimeSpanErrorKey, Validation.TimeSpanIsInvalidMessage);
-            return timeSpan;
         }
     }
 }
