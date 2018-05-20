@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Sprint;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
@@ -153,7 +154,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult Start(string id)
         {
-            var presenter = new StartSprintPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = new Presenter(MessageHandler, ErrorHandler, _repositoryProvider);
             try
             {
                 var uc = _sprintUseCaseFactory.Start;
@@ -178,7 +179,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult End(string id)
         {
-            var presenter = new EndSprintPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = new Presenter(MessageHandler, ErrorHandler, _repositoryProvider);
             try
             {
                 var uc = _sprintUseCaseFactory.End;
@@ -203,7 +204,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult ChangeTaskStatus(string id, string taskId, string status)
         {
-            var presenter = new ChangeTaskStatusPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = new Presenter(MessageHandler, ErrorHandler, _repositoryProvider);
             try
             {
                 var uc = _sprintUseCaseFactory.ChangeTaskStatus;

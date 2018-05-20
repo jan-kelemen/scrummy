@@ -8,7 +8,7 @@ using Scrummy.Domain.UseCases.Interfaces.Project;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public class ViewBacklogPresenter : BasePresenter
+    public class ViewBacklogPresenter : Presenter
     {
         public ViewBacklogPresenter(
             Action<MessageType, string> messageHandler,

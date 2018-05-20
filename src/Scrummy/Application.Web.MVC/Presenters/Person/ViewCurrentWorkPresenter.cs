@@ -11,7 +11,7 @@ using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
-    public class ViewCurrentWorkPresenter : BasePresenter
+    public class ViewCurrentWorkPresenter : Presenter
     {
         public ViewCurrentWorkPresenter(
             Action<MessageType, string> messageHandler,

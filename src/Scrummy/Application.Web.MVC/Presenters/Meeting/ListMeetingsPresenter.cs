@@ -9,7 +9,7 @@ using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Meeting
 {
-    public class ListMeetingsPresenter : BasePresenter
+    public class ListMeetingsPresenter : Presenter
     {
         public ListMeetingsPresenter(
             Action<MessageType, 

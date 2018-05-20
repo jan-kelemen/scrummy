@@ -10,7 +10,7 @@ using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public class ViewSprintsPresenter : BasePresenter
+    public class ViewSprintsPresenter : Presenter
     {
         public ViewSprintsPresenter(
             Action<MessageType, 

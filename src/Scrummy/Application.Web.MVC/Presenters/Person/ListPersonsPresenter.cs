@@ -8,7 +8,7 @@ using Scrummy.Domain.Repositories.Interfaces;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
-    public class ListPersonsPresenter : BasePresenter
+    public class ListPersonsPresenter : Presenter
     {
         public ListPersonsPresenter(
             Action<MessageType, string> messageHandler, 

@@ -9,7 +9,7 @@ using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 
 namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
 {
-    public class ViewWorkTaskPresenter : BasePresenter
+    public class ViewWorkTaskPresenter : Presenter
     {
         public ViewWorkTaskPresenter(
             Action<MessageType, string> messageHandler, 

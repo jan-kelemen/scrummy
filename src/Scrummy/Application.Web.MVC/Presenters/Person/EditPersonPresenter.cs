@@ -7,7 +7,7 @@ using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
-    public class EditPersonPresenter : BasePresenter
+    public class EditPersonPresenter : Presenter
     {
         public EditPersonPresenter(
                         Action<MessageType, string> messageHandler,

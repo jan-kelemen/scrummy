@@ -7,7 +7,7 @@ using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public class ListProjectsPresenter : BasePresenter
+    public class ListProjectsPresenter : Presenter
     {
         public ListProjectsPresenter(
             Action<MessageType, string> messageHandler,

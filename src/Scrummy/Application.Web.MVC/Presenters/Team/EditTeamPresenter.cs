@@ -11,7 +11,7 @@ using Scrummy.Domain.UseCases.Interfaces.Team;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Team
 {
-    public class EditTeamPresenter : BasePresenter
+    public class EditTeamPresenter : Presenter
     {
         public EditTeamPresenter(
             Action<MessageType, string> messageHandler,

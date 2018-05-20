@@ -9,7 +9,7 @@ using Scrummy.Domain.UseCases.Interfaces.Project;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public class ViewMeetingsPresenter : BasePresenter
+    public class ViewMeetingsPresenter : Presenter
     {
         public ViewMeetingsPresenter(
             Action<MessageType, string> messageHandler,

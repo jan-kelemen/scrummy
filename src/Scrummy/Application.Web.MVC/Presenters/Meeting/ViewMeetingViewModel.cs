@@ -11,7 +11,7 @@ using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Meeting
 {
-    public class ViewMeetingPresenter : BasePresenter
+    public class ViewMeetingPresenter : Presenter
     {
         public ViewMeetingPresenter(
             Action<MessageType, string> messageHandler, 

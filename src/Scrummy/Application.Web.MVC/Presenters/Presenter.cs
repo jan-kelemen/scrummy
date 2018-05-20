@@ -6,7 +6,7 @@ using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Application.Web.MVC.Presenters
 {
-    public abstract class BasePresenter
+    public class Presenter
     {
         protected readonly Action<MessageType, string> MessageHandler;
 
@@ -14,7 +14,7 @@ namespace Scrummy.Application.Web.MVC.Presenters
 
         protected readonly IRepositoryProvider RepositoryProvider;
 
-        protected BasePresenter(Action<MessageType, string> messageHandler, Action<string, string> errorHandler, IRepositoryProvider repositoryProvider)
+        public Presenter(Action<MessageType, string> messageHandler, Action<string, string> errorHandler, IRepositoryProvider repositoryProvider)
         {
             MessageHandler = messageHandler;
             ErrorHandler = errorHandler;

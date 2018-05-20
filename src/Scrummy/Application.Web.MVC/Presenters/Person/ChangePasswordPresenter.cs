@@ -6,7 +6,7 @@ using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
-    public class ChangePasswordPresenter : BasePresenter
+    public class ChangePasswordPresenter : Presenter
     {
         public ChangePasswordPresenter(
             Action<MessageType, string> messageHandler,

@@ -11,7 +11,7 @@ using Scrummy.Domain.UseCases.Interfaces.Project;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public class ManageBacklogPresenter : BasePresenter
+    public class ManageBacklogPresenter : Presenter
     {
         public ManageBacklogPresenter(
             Action<MessageType, string> messageHandler, 

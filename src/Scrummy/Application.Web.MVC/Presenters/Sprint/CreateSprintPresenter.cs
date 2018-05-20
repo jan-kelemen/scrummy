@@ -13,7 +13,7 @@ using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Sprint
 {
-    public class CreateSprintPresenter : BasePresenter
+    public class CreateSprintPresenter : Presenter
     {
         public CreateSprintPresenter(
             Action<MessageType, string> messageHandler, 

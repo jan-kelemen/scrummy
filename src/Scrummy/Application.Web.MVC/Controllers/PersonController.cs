@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Person;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
@@ -69,7 +70,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var request = ConvertToRequest(vm);
-            var presenter = new RegisterPersonPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = new Presenter(MessageHandler, ErrorHandler, _repositoryProvider);
             try
             {
                 var uc = _personUseCaseFactory.Create;

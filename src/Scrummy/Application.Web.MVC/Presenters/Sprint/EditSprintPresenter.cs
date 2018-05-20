@@ -14,7 +14,7 @@ using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Sprint
 {
-    public class EditSprintPresenter : BasePresenter
+    public class EditSprintPresenter : Presenter
     {
         public EditSprintPresenter(
             Action<MessageType, string> messageHandler, 
