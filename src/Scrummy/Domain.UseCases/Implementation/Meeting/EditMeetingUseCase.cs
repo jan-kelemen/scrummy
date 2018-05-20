@@ -4,6 +4,7 @@ using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Boundary.Responses;
+using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
 namespace Scrummy.Domain.UseCases.Implementation.Meeting
@@ -23,9 +24,11 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
         {
             request.ThrowExceptionIfInvalid();
 
-            var persons = CheckIfAllInvolvedPersonsExist(request.InvolvedPersons);
-            var entity = _meetingRepository.Read(request.Id);
+            var personsExist = request.InvolvedPersons.All(x => _personRepository.Exists(x));
+            if (!personsExist)
+                throw new UseCaseException("One or more users don't exist.");
 
+            var entity = _meetingRepository.Read(request.Id);
             entity.Name = request.Name;
             entity.Description = request.Description;
             entity.InvolvedPersons = request.InvolvedPersons;
@@ -37,11 +40,6 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
             {
                 Id = entity.Id,
             };
-        }
-
-        private IEnumerable<Core.Entities.Person> CheckIfAllInvolvedPersonsExist(IEnumerable<Identity> identities)
-        {
-            return identities.Select(x => _personRepository.Read(x));
         }
     }
 }

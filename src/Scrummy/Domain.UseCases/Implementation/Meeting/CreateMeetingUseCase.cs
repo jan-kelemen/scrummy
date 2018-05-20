@@ -4,6 +4,7 @@ using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Boundary.Responses;
+using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
 namespace Scrummy.Domain.UseCases.Implementation.Meeting
@@ -25,10 +26,15 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
         {
             request.ThrowExceptionIfInvalid();
 
-            var project = _projectRepository.Read(request.ProjectId);
-            var persons = CheckIfAllInvolvedPersonsExist(request.InvolvedPersons.Concat(new [] {request.OrganizedBy}));
-            var entity = ToDomainEntity(request);
+            var projectExists = _projectRepository.Exists(request.ProjectId);
+            if(!projectExists)
+                throw new UseCaseException("Project doesn't exist.");
 
+            var personsExist = request.InvolvedPersons.Concat(new [] {request.OrganizedBy}).All(x => _personRepository.Exists(x));
+            if(!personsExist)
+                throw new UseCaseException("One or more users don't exist.");
+
+            var entity = ToDomainEntity(request);
             var result = _meetingRepository.Create(entity);
 
             return new ConfirmationResponse("Meeting created successfully.")
@@ -46,11 +52,6 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
                 request.OrganizedBy, 
                 request.Description, 
                 request.InvolvedPersons);
-        }
-
-        private IEnumerable<Core.Entities.Person> CheckIfAllInvolvedPersonsExist(IEnumerable<Identity> identities)
-        {
-            return identities.Select(x => _personRepository.Read(x));
         }
     }
 }
