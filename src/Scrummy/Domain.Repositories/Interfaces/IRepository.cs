@@ -22,6 +22,8 @@ namespace Scrummy.Domain.Repositories.Interfaces
 
         void Delete(Identity id);
 
+        bool Exists(Identity id);
+
         IEnumerable<NavigationInfo> ListAll();
     }
 

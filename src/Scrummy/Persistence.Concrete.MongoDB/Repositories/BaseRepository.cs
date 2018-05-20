@@ -14,6 +14,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
         public abstract T Read(Identity id);
         public abstract void Update(T entity);
         public abstract void Delete(Identity id);
+        public abstract bool Exists(Identity id);
         public abstract IEnumerable<NavigationInfo> ListAll();
 
         protected static EntityNotFoundException CreateEntityNotFoundException(Identity id)

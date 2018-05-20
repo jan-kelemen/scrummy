@@ -67,6 +67,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if(result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }
 
+        public override bool Exists(Identity id) => _personCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
+
         public override IEnumerable<NavigationInfo> ListAll()
         {
             return _personCollection.AsQueryable().ToList().Select(x => new NavigationInfo

@@ -75,6 +75,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }
 
+        public override bool Exists(Identity id) => _sprintCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
+
         public Sprint ReadCurrentSprint(Identity projectId)
         {
             if (projectId.IsBlankIdentity()) { throw CreateEntityNotFoundException(projectId); }

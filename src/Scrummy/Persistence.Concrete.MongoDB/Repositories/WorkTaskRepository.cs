@@ -94,6 +94,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }
 
+        public override bool Exists(Identity id) => _workTaskCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
+
         public Identity AddComment(WorkTask.Comment comment)
         {
             if (comment == null || _workTaskCollection.Find(x => x.Id == comment.WorkTaskId.ToPersistenceIdentity()).FirstOrDefault() != null)
