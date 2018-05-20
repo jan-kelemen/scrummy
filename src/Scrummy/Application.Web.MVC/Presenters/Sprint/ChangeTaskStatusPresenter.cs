@@ -14,11 +14,5 @@ namespace Scrummy.Application.Web.MVC.Presenters.Sprint
             : base(messageHandler, errorHandler, repositoryProvider)
         {
         }
-
-        public string Present(StartSprintResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.ProjectId.ToString();
-        }
     }
 }

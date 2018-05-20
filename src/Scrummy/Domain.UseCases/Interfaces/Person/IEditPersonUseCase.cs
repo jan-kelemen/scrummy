@@ -50,17 +50,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Person
         }
     }
 
-    public class EditPersonResponse : BaseResponse
-    {
-        public EditPersonResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface IEditPersonUseCase
     {
-        EditPersonResponse Execute(EditPersonRequest request);
+        ConfirmationResponse Execute(EditPersonRequest request);
     }
 }

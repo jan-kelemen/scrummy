@@ -2,6 +2,7 @@
 using Scrummy.Domain.Core.Utilities;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 
@@ -16,7 +17,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
             _personRepository = personRepository;
         }
 
-        public CreatePersonResponse Execute(CreatePersonRequest request)
+        public ConfirmationResponse Execute(CreatePersonRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -41,9 +42,9 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
             );
         }
 
-        private CreatePersonResponse CreateResponse(Identity id, string displayName)
+        private ConfirmationResponse CreateResponse(Identity id, string displayName)
         {
-            return new CreatePersonResponse(string.Format("Person {0} sucessfuly created.", displayName))
+            return new ConfirmationResponse(string.Format("Person {0} sucessfuly created.", displayName))
             {
                 Id = id
             };

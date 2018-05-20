@@ -30,11 +30,5 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
                 Email = person.Email,
             };
         }
-
-        public string Present(EditPersonResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
-        }
     }
 }

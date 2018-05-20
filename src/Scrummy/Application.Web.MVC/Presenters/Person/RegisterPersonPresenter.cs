@@ -14,11 +14,5 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
             : base(messageHandler, errorHandler, repositoryProvider)
         {
         }
-
-        public string Present(CreatePersonResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
-        }
     }
 }

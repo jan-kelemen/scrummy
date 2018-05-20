@@ -22,17 +22,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         }
     }
 
-    public class StartSprintResponse : BaseResponse
-    {
-        public StartSprintResponse(string message) : base(message)
-        {
-        }
-
-        public Identity ProjectId { get; set; }
-    }
-
     public interface IStartSprintUseCase
     {
-        StartSprintResponse Execute(StartSprintRequest request);
+        ConfirmationResponse Execute(StartSprintRequest request);
     }
 }

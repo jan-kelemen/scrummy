@@ -37,17 +37,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
         }
     }
 
-    public class EditMeetingResponse : BaseResponse
-    {
-        public EditMeetingResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface IEditMeetingUseCase
     {
-        EditMeetingResponse Execute(EditMeetingRequest request);
+        ConfirmationResponse Execute(EditMeetingRequest request);
     }
 }

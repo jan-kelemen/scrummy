@@ -23,11 +23,5 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
                 Id = id
             };
         }
-
-        public string Present(ChangePasswordResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
-        }
     }
 }

@@ -2,6 +2,7 @@
 using Scrummy.Domain.Core.Utilities;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Person;
@@ -17,7 +18,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
             _personRepository = personRepository;
         }
 
-        public ChangePasswordResponse Execute(ChangePasswordRequest request)
+        public ConfirmationResponse Execute(ChangePasswordRequest request)
         {
             request.ThrowExceptionIfInvalid();
             if (request.ForUserId != Identity.FromString(request.UserId))
@@ -35,7 +36,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
 
             _personRepository.ChangePassword(person);
 
-            return new ChangePasswordResponse("Password changed successfully.")
+            return new ConfirmationResponse("Password changed successfully.")
             {
                 Id = person.Id,
             };

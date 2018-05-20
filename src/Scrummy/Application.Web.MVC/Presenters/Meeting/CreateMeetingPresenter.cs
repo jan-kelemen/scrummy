@@ -48,12 +48,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Meeting
             return vm;
         }
 
-        public string Present(CreateMeetingResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
-        }
-
         private SelectListItem[] Persons()
         {
             return RepositoryProvider.Person.ListAll().Select(x => new SelectListItem

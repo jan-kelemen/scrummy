@@ -42,17 +42,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         }
     }
 
-    public class EditSprintResponse : BaseResponse
-    {
-        public EditSprintResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface IEditSprintUseCase
     {
-        EditSprintResponse Execute(EditSprintRequest request);
+        ConfirmationResponse Execute(EditSprintRequest request);
     }
 }

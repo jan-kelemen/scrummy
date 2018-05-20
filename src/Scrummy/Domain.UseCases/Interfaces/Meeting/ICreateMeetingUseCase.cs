@@ -43,17 +43,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
         }
     }
 
-    public class CreateMeetingResponse : BaseResponse
-    {
-        public CreateMeetingResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface ICreateMeetingUseCase
     {
-        CreateMeetingResponse Execute(CreateMeetingRequest request);
+        ConfirmationResponse Execute(CreateMeetingRequest request);
     }
 }

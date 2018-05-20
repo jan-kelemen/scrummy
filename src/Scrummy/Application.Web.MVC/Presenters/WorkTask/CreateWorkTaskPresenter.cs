@@ -78,12 +78,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
             return vm;
         }
 
-        public string Present(CreateWorkTaskResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
-        }
-
         private WorkTaskType Parse(string type) => Enum.Parse<WorkTaskType>(type);
 
         private Func<WorkTaskType, bool> CreateParentTypeFilter(WorkTaskType type)

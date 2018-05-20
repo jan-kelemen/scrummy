@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Domain.UseCases.Implementation.Sprint
@@ -14,7 +15,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             _sprintRepository = sprintRepository;
         }
 
-        public ChangeTaskStatusResponse Execute(ChangeTaskStatusRequest request)
+        public ConfirmationResponse Execute(ChangeTaskStatusRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -25,9 +26,9 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
 
             var sprint = _sprintRepository.Read(sprintBacklog.SprintId);
 
-            return new ChangeTaskStatusResponse("Task status updated successfully.")
+            return new ConfirmationResponse("Task status updated successfully.")
             {
-                ProjectId = sprint.ProjectId,
+                Id = sprint.ProjectId,
             };
         }
     }

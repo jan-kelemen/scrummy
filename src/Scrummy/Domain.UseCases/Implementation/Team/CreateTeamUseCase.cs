@@ -2,6 +2,7 @@
 using System.Linq;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Team;
 
 namespace Scrummy.Domain.UseCases.Implementation.Team
@@ -17,14 +18,14 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
             _personRepository = personRepository;
         }
 
-        public CreateTeamResponse Execute(CreateTeamRequest request)
+        public ConfirmationResponse Execute(CreateTeamRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
             var entity = ToDomainModel(request);
             var result = _teamRepository.Create(entity);
 
-            return new CreateTeamResponse("Team successfully created.")
+            return new ConfirmationResponse("Team successfully created.")
             {
                 Id = result
             };

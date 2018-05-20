@@ -37,12 +37,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Team
             };
         }
 
-        public string Present(EditTeamResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
-        }
-
         public EditTeamViewModel Present(EditTeamViewModel vm)
         {
             vm.Persons = Persons();

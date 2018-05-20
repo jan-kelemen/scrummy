@@ -3,6 +3,7 @@ using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 
 namespace Scrummy.Domain.UseCases.Implementation.WorkTask
@@ -18,7 +19,7 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             _projectRepository = projectRepository;
         }
 
-        public EditWorkTaskResponse Execute(EditWorkTaskRequest request)
+        public ConfirmationResponse Execute(EditWorkTaskRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -51,7 +52,7 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             if(hasBacklogChanged)
                 _projectRepository.UpdateProductBacklog(backlog);
 
-            return new EditWorkTaskResponse("Work task updated successfully.")
+            return new ConfirmationResponse("Work task updated successfully.")
             {
                 Id = entity.Id,
             };

@@ -1,6 +1,7 @@
 ﻿using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 
@@ -15,7 +16,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
             _personRepository = personRepository;
         }
 
-        public EditPersonResponse Execute(EditPersonRequest request)
+        public ConfirmationResponse Execute(EditPersonRequest request)
         {
             request.ThrowExceptionIfInvalid();
             if (request.ForUserId != Identity.FromString(request.UserId))
@@ -33,7 +34,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Person
 
             _personRepository.Update(entity);
 
-            return new EditPersonResponse("User updated successfully.")
+            return new ConfirmationResponse("User updated successfully.")
             {
                 Id = entity.Id,
             };

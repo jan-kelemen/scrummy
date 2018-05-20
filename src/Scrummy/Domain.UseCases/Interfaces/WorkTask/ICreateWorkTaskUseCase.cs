@@ -46,17 +46,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
         }
     }
 
-    public class CreateWorkTaskResponse : BaseResponse
-    {
-        public CreateWorkTaskResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface ICreateWorkTaskUseCase
     {
-        CreateWorkTaskResponse Execute(CreateWorkTaskRequest request);
+        ConfirmationResponse Execute(CreateWorkTaskRequest request);
     }
 }

@@ -27,17 +27,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         }
     }
 
-    public class ChangeTaskStatusResponse : BaseResponse
-    {
-        public ChangeTaskStatusResponse(string message) : base(message)
-        {
-        }
-
-        public Identity ProjectId { get; set; }
-    }
-
     public interface IChangeTaskStatusUseCase
     {
-        ChangeTaskStatusResponse Execute(ChangeTaskStatusRequest request);
+        ConfirmationResponse Execute(ChangeTaskStatusRequest request);
     }
 }

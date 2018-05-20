@@ -3,6 +3,7 @@ using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
 namespace Scrummy.Domain.UseCases.Implementation.Meeting
@@ -20,7 +21,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
             _projectRepository = projectRepository;
         }
 
-        public CreateMeetingResponse Execute(CreateMeetingRequest request)
+        public ConfirmationResponse Execute(CreateMeetingRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -30,7 +31,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
 
             var result = _meetingRepository.Create(entity);
 
-            return new CreateMeetingResponse("Meeting created successfully.")
+            return new ConfirmationResponse("Meeting created successfully.")
             {
                 Id = result,
             };

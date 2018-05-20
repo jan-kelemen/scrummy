@@ -4,6 +4,7 @@ using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Domain.UseCases.Implementation.Sprint
@@ -19,7 +20,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             _projectRepository = projectRepository;
         }
 
-        public EndSprintResponse Execute(EndSprintRequest request)
+        public ConfirmationResponse Execute(EndSprintRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -42,9 +43,9 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
 
             _sprintRepository.Update(sprint);
 
-            return new EndSprintResponse("Sprint ended successfully.")
+            return new ConfirmationResponse("Sprint ended successfully.")
             {
-                ProjectId = sprint.ProjectId,
+                Id = sprint.ProjectId,
             };
         }
     }

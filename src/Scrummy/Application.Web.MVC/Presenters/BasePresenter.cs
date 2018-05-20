@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Domain.Repositories;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Application.Web.MVC.Presenters
 {
@@ -19,6 +20,13 @@ namespace Scrummy.Application.Web.MVC.Presenters
             ErrorHandler = errorHandler;
             RepositoryProvider = repositoryProvider;
         }
+
+        public virtual string Present(ConfirmationResponse response)
+        {
+            PresentMessage(MessageType.Success, response.Message);
+            return response.Id.ToString();
+        }
+
 
         public virtual void PresentErrors(string message, IDictionary<string, string> errors)
         {

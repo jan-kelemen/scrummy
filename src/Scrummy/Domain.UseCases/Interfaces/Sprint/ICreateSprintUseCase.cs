@@ -41,17 +41,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         }
     }
 
-    public class CreateSprintResponse : BaseResponse
-    {
-        public CreateSprintResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface ICreateSprintUseCase
     {
-        CreateSprintResponse Execute(CreateSprintRequest request);
+        ConfirmationResponse Execute(CreateSprintRequest request);
     }
 }

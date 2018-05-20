@@ -1,6 +1,7 @@
 ﻿using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
@@ -17,7 +18,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
             _teamRepository = teamRepository;
         }
 
-        public EditProjectResponse Execute(EditProjectRequest request)
+        public ConfirmationResponse Execute(EditProjectRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -34,7 +35,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
 
             _projectRepository.Update(entity);
 
-            return new EditProjectResponse("Project updated successfully.")
+            return new ConfirmationResponse("Project updated successfully.")
             {
                 Id = entity.Id,
             };

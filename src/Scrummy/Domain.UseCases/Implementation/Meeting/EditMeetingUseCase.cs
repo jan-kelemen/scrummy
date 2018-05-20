@@ -3,6 +3,7 @@ using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
 namespace Scrummy.Domain.UseCases.Implementation.Meeting
@@ -18,7 +19,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
             _personRepository = personRepository;
         }
 
-        public EditMeetingResponse Execute(EditMeetingRequest request)
+        public ConfirmationResponse Execute(EditMeetingRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -32,7 +33,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
 
             _meetingRepository.Update(entity);
 
-            return new EditMeetingResponse("Meeting updated successfully.")
+            return new ConfirmationResponse("Meeting updated successfully.")
             {
                 Id = entity.Id,
             };

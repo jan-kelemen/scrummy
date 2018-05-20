@@ -32,17 +32,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
         }
     }
 
-    public class ManageBacklogResponse : BaseResponse
-    {
-        public ManageBacklogResponse(string message) : base(message)
-        {
-        }
-
-        public Identity ProjectId { get; set; }
-    }
-
     public interface IManageBacklogUseCase
     {
-        ManageBacklogResponse Execute(ManageBacklogRequest request);
+        ConfirmationResponse Execute(ManageBacklogRequest request);
     }
 }

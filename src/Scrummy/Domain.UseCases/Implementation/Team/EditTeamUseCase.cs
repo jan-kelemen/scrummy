@@ -2,6 +2,7 @@
 using System.Linq;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Team;
 
 namespace Scrummy.Domain.UseCases.Implementation.Team
@@ -18,7 +19,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
         }
 
 
-        public EditTeamResponse Execute(EditTeamRequest request)
+        public ConfirmationResponse Execute(EditTeamRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -29,7 +30,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
 
             _teamRepository.Update(entity);
 
-            return new EditTeamResponse("Team updated successfully.")
+            return new ConfirmationResponse("Team updated successfully.")
             {
                 Id = entity.Id,
             };

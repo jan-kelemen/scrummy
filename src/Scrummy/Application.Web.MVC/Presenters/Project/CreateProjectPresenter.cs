@@ -34,12 +34,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
             return vm;
         }
 
-        public string Present(CreateProjectResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
-        }
-
         private SelectListItem[] Teams()
         {
             return RepositoryProvider.Team.ListAll().Select(x => new SelectListItem

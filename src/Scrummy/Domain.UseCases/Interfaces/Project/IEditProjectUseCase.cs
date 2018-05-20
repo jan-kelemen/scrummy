@@ -33,17 +33,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
         }
     }
 
-    public class EditProjectResponse : BaseResponse
-    {
-        public EditProjectResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface IEditProjectUseCase
     {
-        EditProjectResponse Execute(EditProjectRequest request);
+        ConfirmationResponse Execute(EditProjectRequest request);
     }
 }

@@ -31,17 +31,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
         }
     }
 
-    public class CreateProjectResponse : BaseResponse
-    {
-        public CreateProjectResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface ICreateProjectUseCase
     {
-        CreateProjectResponse Execute(CreateProjectRequest request);
+        ConfirmationResponse Execute(CreateProjectRequest request);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
 namespace Scrummy.Domain.UseCases.Implementation.Project
@@ -14,7 +15,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
             _projectRepository = projectRepository;
         }
 
-        public ManageBacklogResponse Execute(ManageBacklogRequest request)
+        public ConfirmationResponse Execute(ManageBacklogRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -32,9 +33,9 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
 
             _projectRepository.UpdateProductBacklog(backlog);
 
-            return new ManageBacklogResponse("Backlog updated successfully.")
+            return new ConfirmationResponse("Backlog updated successfully.")
             {
-                ProjectId = request.ProjectId,
+                Id = request.ProjectId,
             };
         }
     }

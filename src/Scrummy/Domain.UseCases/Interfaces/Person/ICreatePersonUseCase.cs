@@ -46,15 +46,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Person
         }
     }
 
-    public class CreatePersonResponse : BaseResponse
-    {
-        public CreatePersonResponse(string message) : base(message) { }
-
-        public Identity Id { get; set; }
-    }
-
     public interface ICreatePersonUseCase
     {
-        CreatePersonResponse Execute(CreatePersonRequest request);
+        ConfirmationResponse Execute(CreatePersonRequest request);
     }
 }

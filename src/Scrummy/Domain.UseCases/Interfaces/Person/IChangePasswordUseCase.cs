@@ -36,17 +36,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Person
         }
     }
 
-    public class ChangePasswordResponse : BaseResponse
-    {
-        public ChangePasswordResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface IChangePasswordUseCase
     {
-        ChangePasswordResponse Execute(ChangePasswordRequest request);
+        ConfirmationResponse Execute(ChangePasswordRequest request);
     }
 }

@@ -4,6 +4,7 @@ using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Domain.UseCases.Implementation.Sprint
@@ -19,7 +20,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             _projectRepository = projectRepository;
         }
 
-        public EditSprintResponse Execute(EditSprintRequest request)
+        public ConfirmationResponse Execute(EditSprintRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -41,7 +42,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             _sprintRepository.UpdatePlannedTasks(backlog);
             _projectRepository.UpdateProductBacklog(projectBacklog);
 
-            return new EditSprintResponse("Sprint updated successfully.")
+            return new ConfirmationResponse("Sprint updated successfully.")
             {
                 Id = request.Id,
             };

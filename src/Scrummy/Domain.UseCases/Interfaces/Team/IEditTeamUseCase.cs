@@ -30,17 +30,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
         }
     }
 
-    public class EditTeamResponse : BaseResponse
-    {
-        public EditTeamResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface IEditTeamUseCase
     {
-        EditTeamResponse Execute(EditTeamRequest response);
+        ConfirmationResponse Execute(EditTeamRequest response);
     }
 }

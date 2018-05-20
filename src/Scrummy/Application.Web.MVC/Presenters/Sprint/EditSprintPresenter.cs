@@ -58,12 +58,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Sprint
             return vm;
         }
 
-        public string Present(EditSprintResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
-        }
-
         private SelectListItem[] Stories(Identity projectId, IEnumerable<Identity> include)
         {
             var backlog = RepositoryProvider.Project.ReadProductBacklog(projectId);

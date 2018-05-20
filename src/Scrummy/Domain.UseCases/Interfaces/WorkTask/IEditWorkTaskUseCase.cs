@@ -37,17 +37,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
         }
     }
 
-    public class EditWorkTaskResponse : BaseResponse
-    {
-        public EditWorkTaskResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface IEditWorkTaskUseCase
     {
-        EditWorkTaskResponse Execute(EditWorkTaskRequest request);
+        ConfirmationResponse Execute(EditWorkTaskRequest request);
     }
 }

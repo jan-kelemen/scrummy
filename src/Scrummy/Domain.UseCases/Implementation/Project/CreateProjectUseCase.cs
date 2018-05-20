@@ -1,6 +1,7 @@
 ﻿using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Exceptions;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
@@ -17,7 +18,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
             _projectRepository = projectRepository;
         }
 
-        public CreateProjectResponse Execute(CreateProjectRequest request)
+        public ConfirmationResponse Execute(CreateProjectRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -28,7 +29,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
             var project = ToDomainEntity(request, team);
             var result = _projectRepository.Create(project);
 
-            return new CreateProjectResponse("Project created successfully.")
+            return new ConfirmationResponse("Project created successfully.")
             {
                 Id = result,
             };

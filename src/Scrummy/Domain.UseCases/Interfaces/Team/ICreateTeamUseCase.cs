@@ -29,17 +29,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
         }
     }
 
-    public class CreateTeamResponse : BaseResponse
-    {
-        public CreateTeamResponse(string message) : base(message)
-        {
-        }
-
-        public Identity Id { get; set; }
-    }
-
     public interface ICreateTeamUseCase
     {
-        CreateTeamResponse Execute(CreateTeamRequest request);
+        ConfirmationResponse Execute(CreateTeamRequest request);
     }
 }

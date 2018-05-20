@@ -42,12 +42,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
             };
         }
 
-        public string Present(ManageBacklogResponse response)
-        {
-            PresentMessage(MessageType.Success, response.Message);
-            return response.ProjectId.ToString();
-        }
-
         private Tuple<string[], string[], string[], string[], string[]> GetBacklogItems(ProductBacklog backlog)
         {
             var id = new List<string>();
