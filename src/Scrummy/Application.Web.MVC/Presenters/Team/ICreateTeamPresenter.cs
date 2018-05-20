@@ -2,7 +2,7 @@
 
 namespace Scrummy.Application.Web.MVC.Presenters.Team
 {
-    public interface ICreateTeamPresenter
+    public interface ICreateTeamPresenter : IPresenter
     {
         CreateTeamViewModel GetInitialViewModel();
         CreateTeamViewModel Present(CreateTeamViewModel vm);

@@ -2,7 +2,7 @@
 
 namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
-    public interface IEditPersonPresenter
+    public interface IEditPersonPresenter : IPresenter
     {
         EditPersonViewModel GetInitialViewModel(string id);
     }

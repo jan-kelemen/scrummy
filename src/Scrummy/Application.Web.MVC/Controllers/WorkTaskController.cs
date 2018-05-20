@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask;
+using Scrummy.Application.Web.MVC.Presenters;
+using Scrummy.Application.Web.MVC.Presenters.WorkTask;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.WorkTask;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
-using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Factories;
@@ -16,22 +16,22 @@ namespace Scrummy.Application.Web.MVC.Controllers
 {
     public class WorkTaskController : BaseController
     {
-        private readonly IRepositoryProvider _repositoryProvider;
-        private readonly IWorkTaskUseCaseFactory _workTaskUseCaseFactory;
+        private readonly IWorkTaskUseCaseFactory _useCaseFactory;
+        private readonly IWorkTaskPresenterFactory _presenterFactory;
 
-        public WorkTaskController(IRepositoryProvider repositoryProvider, IUseCaseFactoryProvider useCaseFactoryProvider)
+        public WorkTaskController(IUseCaseFactoryProvider useCaseFactoryProvider, IPresenterFactoryProvider presenterFactoryProvider)
         {
-            _repositoryProvider = repositoryProvider;
-            _workTaskUseCaseFactory = useCaseFactoryProvider.WorkTask;
+            _useCaseFactory = useCaseFactoryProvider.WorkTask;
+            _presenterFactory = presenterFactoryProvider.WorkTask;
         }
 
         [HttpGet]
         public IActionResult Index(string id)
         {
-            var presenter = new ViewWorkTaskPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.View(MessageHandler, ErrorHandler);
             try
             {
-                var uc = _workTaskUseCaseFactory.View;
+                var uc = _useCaseFactory.View;
                 var response = uc.Execute(new ViewWorkTaskRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
@@ -53,8 +53,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult Create(string id, string type, string parent, string child)
         {
-            var presenter = new CreateWorkTaskPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
-
+            var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
             return View(presenter.GetInitialViewModel(id, type, parent, child));
         }
 
@@ -65,11 +64,11 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var presenter = new CreateWorkTaskPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
             var request = ConvertToRequest(vm);
             try
             {
-                var uc = _workTaskUseCaseFactory.Create;
+                var uc = _useCaseFactory.Create;
                 var response = uc.Execute(request);
                 return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
             }
@@ -102,8 +101,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            var presenter = new EditWorkTaskPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
-
+            var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
             return View(presenter.GetInitialViewModel(id));
         }
 
@@ -114,11 +112,11 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var presenter = new EditWorkTaskPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
             var request = ConvertToRequest(vm);
             try
             {
-                var uc = _workTaskUseCaseFactory.Edit;
+                var uc = _useCaseFactory.Edit;
                 var response = uc.Execute(request);
                 return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
             }

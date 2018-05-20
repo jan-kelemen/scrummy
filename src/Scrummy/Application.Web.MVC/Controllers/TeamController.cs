@@ -3,13 +3,13 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Presenters.Implementation.Team;
+using Scrummy.Application.Web.MVC.Presenters;
+using Scrummy.Application.Web.MVC.Presenters.Team;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
-using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Factories;
@@ -20,22 +20,22 @@ namespace Scrummy.Application.Web.MVC.Controllers
     [Authorize]
     public class TeamController : BaseController
     {
-        private readonly ITeamUseCaseFactory _teamUseCaseFactory;
-        private readonly IRepositoryProvider _repositoryProvider;
+        private readonly ITeamUseCaseFactory _useCaseFactory;
+        private readonly ITeamPresenterFactory _presenterFactory;
 
-        public TeamController(IUseCaseFactoryProvider useCaseFactoryProvider, IRepositoryProvider repositoryProvider)
+        public TeamController(IUseCaseFactoryProvider useCaseFactoryProvider, IPresenterFactoryProvider presenterFactoryProvider)
         {
-            _teamUseCaseFactory = useCaseFactoryProvider.Team;
-            _repositoryProvider = repositoryProvider;
+            _useCaseFactory = useCaseFactoryProvider.Team;
+            _presenterFactory = presenterFactoryProvider.Team;
         }
 
         [HttpGet]
         public IActionResult Index(string id)
         {
-            var presenter = new ViewTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.View(MessageHandler, ErrorHandler);
             try
             {
-                var uc = _teamUseCaseFactory.View;
+                var uc = _useCaseFactory.View;
                 var response = uc.Execute(new ViewTeamRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
@@ -57,7 +57,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var presenter = new CreateTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
             return View(presenter.GetInitialViewModel());
         }
 
@@ -67,11 +67,11 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var presenter = new CreateTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
             var request = ConvertToRequest(vm);
             try
             {
-                var uc = _teamUseCaseFactory.Create;
+                var uc = _useCaseFactory.Create;
                 var response = uc.Execute(request);
                 return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
             }
@@ -100,7 +100,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            var presenter = new EditTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
             return View(presenter.GetInitialViewModel(id));
         }
 
@@ -110,11 +110,11 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var presenter = new EditTeamPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
             var request = ConvertToRequest(vm);
             try
             {
-                var uc = _teamUseCaseFactory.Edit;
+                var uc = _useCaseFactory.Edit;
                 var response = uc.Execute(request);
                 return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
             }
@@ -144,7 +144,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var presenter = new ListTeamsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.List(MessageHandler, ErrorHandler);
             return View(presenter.Present());
         }
     }

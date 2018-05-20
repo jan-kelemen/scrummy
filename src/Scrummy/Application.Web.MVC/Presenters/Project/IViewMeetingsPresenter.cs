@@ -3,7 +3,7 @@ using Scrummy.Domain.UseCases.Interfaces.Project;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public interface IViewMeetingsPresenter
+    public interface IViewMeetingsPresenter : IPresenter
     {
         ViewMeetingsViewModel Present(ViewMeetingsResponse response);
     }

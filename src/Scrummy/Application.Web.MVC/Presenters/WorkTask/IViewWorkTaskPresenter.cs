@@ -3,7 +3,7 @@ using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 
 namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
 {
-    public interface IViewWorkTaskPresenter
+    public interface IViewWorkTaskPresenter : IPresenter
     {
         ViewWorkTaskViewModel Present(ViewWorkTaskResponse response);
     }

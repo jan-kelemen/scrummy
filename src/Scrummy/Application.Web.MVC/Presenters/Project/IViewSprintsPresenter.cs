@@ -2,7 +2,7 @@
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public interface IViewSprintsPresenter
+    public interface IViewSprintsPresenter : IPresenter
     {
         ViewSprintsViewModel GetInitialViewModel(string id, string status);
     }

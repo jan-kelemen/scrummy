@@ -2,7 +2,7 @@
 
 namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
-    public interface IChangePasswordPresenter
+    public interface IChangePasswordPresenter : IPresenter
     {
         ChangePasswordViewModel GetInitialViewModel(string id);
     }

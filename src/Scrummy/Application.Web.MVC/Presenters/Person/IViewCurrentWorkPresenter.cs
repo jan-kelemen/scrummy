@@ -3,7 +3,7 @@ using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Person
 {
-    public interface IViewCurrentWorkPresenter
+    public interface IViewCurrentWorkPresenter : IPresenter
     {
         ViewCurrentWorkViewModel Present(ViewCurrentWorkResponse response);
     }

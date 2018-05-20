@@ -2,7 +2,7 @@
 
 namespace Scrummy.Application.Web.MVC.Presenters.Sprint
 {
-    public interface ICreateSprintPresenter
+    public interface ICreateSprintPresenter : IPresenter
     {
         CreateSprintViewModel GetInitialViewModel(string projectId);
         CreateSprintViewModel Present(CreateSprintViewModel vm);

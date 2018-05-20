@@ -2,7 +2,7 @@
 
 namespace Scrummy.Application.Web.MVC.Presenters.WorkTask
 {
-    public interface IEditWorkTaskPresenter
+    public interface IEditWorkTaskPresenter : IPresenter
     {
         EditWorkTaskViewModel GetInitialViewModel(string id);
         EditWorkTaskViewModel Present(EditWorkTaskViewModel vm);

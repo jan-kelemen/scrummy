@@ -2,7 +2,7 @@
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public interface IListProjectsPresenter
+    public interface IListProjectsPresenter : IPresenter
     {
         ListProjectsViewModel Present();
     }

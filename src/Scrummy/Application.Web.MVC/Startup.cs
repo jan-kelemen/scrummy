@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Scrummy.Application.Web.MVC.Presenters;
+using Scrummy.Application.Web.MVC.Presenters.Implementation;
 using Scrummy.Runtime.Common.Initialization;
 
 namespace Scrummy.Application.Web.MVC
@@ -22,6 +24,7 @@ namespace Scrummy.Application.Web.MVC
         {
             RuntimeInitializer.Initialize();
             services.AddMvc();
+            services.AddSingleton(new PresenterFactoryProvider(RuntimeInitializer.RepositoryProvider) as IPresenterFactoryProvider);
             services.AddSingleton(RuntimeInitializer.UseCaseFactoryProvider);
             services.AddSingleton(RuntimeInitializer.RepositoryProvider);
 

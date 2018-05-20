@@ -3,7 +3,7 @@ using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Sprint
 {
-    public interface IViewSprintPresenter
+    public interface IViewSprintPresenter : IPresenter
     {
         ViewSprintViewModel Present(ViewSprintResponse response);
     }

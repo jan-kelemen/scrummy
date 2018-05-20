@@ -1,12 +1,11 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Presenters.Implementation;
-using Scrummy.Application.Web.MVC.Presenters.Implementation.Person;
+using Scrummy.Application.Web.MVC.Presenters;
+using Scrummy.Application.Web.MVC.Presenters.Person;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Factories;
@@ -17,22 +16,22 @@ namespace Scrummy.Application.Web.MVC.Controllers
     [Authorize]
     public class PersonController : BaseController
     {
-        private readonly IPersonUseCaseFactory _personUseCaseFactory;
-        private readonly IRepositoryProvider _repositoryProvider;
+        private readonly IPersonUseCaseFactory _useCaseFactory;
+        private readonly IPersonPresenterFactory _presenterFactory;
 
-        public PersonController(IUseCaseFactoryProvider useCaseFactoryProvider, IRepositoryProvider repositoryProvider)
+        public PersonController(IUseCaseFactoryProvider useCaseFactoryProvider, IPresenterFactoryProvider presenterFactoryProvider)
         {
-            _personUseCaseFactory = useCaseFactoryProvider.Person;
-            _repositoryProvider = repositoryProvider;
+            _useCaseFactory = useCaseFactoryProvider.Person;
+            _presenterFactory = presenterFactoryProvider.Person;
         }
 
         [HttpGet]
         public IActionResult Index(string id)
         {
-            var presenter = new ViewPersonPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.View(MessageHandler, ErrorHandler);
             try
             {
-                var uc = _personUseCaseFactory.View;
+                var uc = _useCaseFactory.View;
                 var response = uc.Execute(new ViewPersonRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
@@ -70,10 +69,10 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var request = ConvertToRequest(vm);
-            var presenter = new Presenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.Presenter(MessageHandler, ErrorHandler);
             try
             {
-                var uc = _personUseCaseFactory.Create;
+                var uc = _useCaseFactory.Create;
                 var response = uc.Execute(request);
                 presenter.Present(response);
                 return RedirectToAction(nameof(Index), new { id = response.Id.ToString() });
@@ -108,8 +107,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (id != CurrentUserId)
                 return Unauthorized();
 
-            var presenter = new EditPersonPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
-
+            var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
             return View(presenter.GetInitialViewModel(id));
         }
 
@@ -121,10 +119,10 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var request = ConvertToRequest(vm);
-            var presenter = new EditPersonPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
             try
             {
-                var uc = _personUseCaseFactory.Edit;
+                var uc = _useCaseFactory.Edit;
                 var response = uc.Execute(request);
                 return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
             }
@@ -158,7 +156,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (id != CurrentUserId)
                 return Unauthorized();
 
-            var presenter = new ChangePasswordPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.ChangePassword(MessageHandler, ErrorHandler);
 
             return View(presenter.GetInitialViewModel(id));
         }
@@ -174,10 +172,10 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var request = ConvertToRequest(vm);
-            var presenter = new ChangePasswordPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            var presenter = _presenterFactory.ChangePassword(MessageHandler, ErrorHandler);
             try
             {
-                var uc = _personUseCaseFactory.ChangePassword;
+                var uc = _useCaseFactory.ChangePassword;
                 var response = uc.Execute(request);
                 return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
             }
@@ -207,19 +205,17 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var presenter = new ListPersonsPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
-
+            var presenter = _presenterFactory.List(MessageHandler, ErrorHandler);
             return View(presenter.Present());
         }
 
         [HttpGet]
         public IActionResult CurrentWork(string id)
         {
-            var presenter = new ViewCurrentWorkPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
-
+            var presenter = _presenterFactory.ViewCurrentWork(MessageHandler, ErrorHandler);
             try
             {
-                var uc = _personUseCaseFactory.ViewCurrentWork;
+                var uc = _useCaseFactory.ViewCurrentWork;
                 var response = uc.Execute(new ViewCurrentWorkRequest(CurrentUserId)
                 {
                     CurrentTime = DateTime.Now,

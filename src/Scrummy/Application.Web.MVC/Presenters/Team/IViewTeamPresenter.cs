@@ -3,7 +3,7 @@ using Scrummy.Domain.UseCases.Interfaces.Team;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Team
 {
-    public interface IViewTeamPresenter
+    public interface IViewTeamPresenter : IPresenter
     {
         ViewTeamViewModel Present(ViewTeamResponse response);
     }

@@ -2,7 +2,7 @@
 
 namespace Scrummy.Application.Web.MVC.Presenters.Project
 {
-    public interface ICreateProjectPresenter
+    public interface ICreateProjectPresenter : IPresenter
     {
         CreateProjectViewModel GetInitialViewModel();
         CreateProjectViewModel Present(CreateProjectViewModel vm);
