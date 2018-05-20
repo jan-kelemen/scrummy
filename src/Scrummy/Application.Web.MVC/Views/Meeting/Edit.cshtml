@@ -7,9 +7,14 @@
 
 <input type="hidden" id="personOptions" data-value="@Html.Raw(string.Join("", Model.Persons.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
 
-<h2>Edit team</h2><hr />
+
 <div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Id">Cancel</a>
+    </div>
     <div class="col-xs-10">
+        <h2>Edit team</h2><hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(x => x.OrganizedBy.Id)
@@ -39,12 +44,12 @@
                         <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
                     </tr>
                     @for (var i = 0; i < Model.SelectedPersonIds.Count; ++i)
-                    {
-                        <tr>
-                            <td><select asp-for="SelectedPersonIds[@i]" name="SelectedPersonIds[]" id="@ToId("ipi", i)" asp-items="Model.Persons" class="form-control"></select></td>
-                            <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
-                        </tr>
-                    }
+                {
+                    <tr>
+                        <td><select asp-for="SelectedPersonIds[@i]" name="SelectedPersonIds[]" id="@ToId("ipi", i)" asp-items="Model.Persons" class="form-control"></select></td>
+                        <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                    </tr>
+            }
                 </table>
                 @Html.ValidationMessage("InvolvedPersons", htmlAttributes: new { @class = "text-danger" })
             </div>

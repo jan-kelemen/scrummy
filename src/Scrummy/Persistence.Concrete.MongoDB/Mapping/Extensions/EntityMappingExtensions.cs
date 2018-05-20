@@ -142,7 +142,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 id: sprint.Id.ToDomainIdentity(),
                 projectId: sprint.ProjectId.ToDomainIdentity(),
                 name: sprint.Name,
-                timeSpan: new Tuple<DateTime, DateTime>(sprint.StartDate, sprint.EndDate),
+                timeSpan: new Tuple<DateTime, DateTime>(
+                    DateTime.ParseExact(sprint.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture), 
+                    DateTime.ParseExact(sprint.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                    ),
                 goal: sprint.Goal,
                 status: sprint.Status
             );
@@ -155,8 +158,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 Id = sprint.Id.ToPersistenceIdentity(),
                 ProjectId = sprint.ProjectId.ToPersistenceIdentity(),
                 Name = sprint.Name,
-                StartDate = sprint.TimeSpan.Item1,
-                EndDate = sprint.TimeSpan.Item2,
+                StartDate = sprint.TimeSpan.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                EndDate = sprint.TimeSpan.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Goal = sprint.Goal,
                 Status = sprint.Status,
             };

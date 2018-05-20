@@ -13,6 +13,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
 
         public string[] Type { get; set; } = new string[0];
 
+        public string[] StoryPoints { get; set; } = new string[0];
+
         public string[] Status { get; set; } = new string[0];
 
         public SelectListItem[] Statuses { get; set; } = {

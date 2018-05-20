@@ -19,14 +19,10 @@ namespace Scrummy.Application.Web.MVC.Controllers
         private readonly IPersonUseCaseFactory _personUseCaseFactory;
         private readonly IRepositoryProvider _repositoryProvider;
 
-        public PersonController(IUseCaseFactoryProvider useCaseFactoryProvider, IRepositoryProvider repositoryProvider) : this(useCaseFactoryProvider.Person)
+        public PersonController(IUseCaseFactoryProvider useCaseFactoryProvider, IRepositoryProvider repositoryProvider)
         {
+            _personUseCaseFactory = useCaseFactoryProvider.Person;
             _repositoryProvider = repositoryProvider;
-        }
-
-        private PersonController(IPersonUseCaseFactory personUseCaseFactory)
-        {
-            _personUseCaseFactory = personUseCaseFactory;
         }
 
         [HttpGet]

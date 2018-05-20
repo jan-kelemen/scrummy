@@ -38,21 +38,24 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Project" asp-action="Create">Create</a></li>
-                            <li><a asp-area="" asp-controller="Project" asp-action="List">View all</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Teams <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Team" asp-action="Create">Create</a></li>
-                            <li><a asp-area="" asp-controller="Team" asp-action="List">View all</a></li>
-                        </ul>
-                    </li>
-                    <li><a asp-area="" asp-controller="Person" asp-action="List">Users</a></li>
+                    @if (isUserLoggedIn)
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Project" asp-action="Create">Create</a></li>
+                                <li><a asp-area="" asp-controller="Project" asp-action="List">View all</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Teams <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Team" asp-action="Create">Create</a></li>
+                                <li><a asp-area="" asp-controller="Team" asp-action="List">View all</a></li>
+                            </ul>
+                        </li>
+                        <li><a asp-area="" asp-controller="Person" asp-action="List">Users</a></li>
+                    }
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                 </ul>
                 

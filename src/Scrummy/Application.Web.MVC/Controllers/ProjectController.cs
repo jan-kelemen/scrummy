@@ -7,7 +7,6 @@ using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
@@ -176,17 +175,26 @@ namespace Scrummy.Application.Web.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Backlog(string id)
+        public IActionResult Backlog(string id, string flavor)
         {
             var uc = _projectUseCaseFactory.ViewBacklog;
-            var response = uc.Execute(new ViewBacklogRequest(CurrentUserId)
-            {
-                ProjectId = Identity.FromString(id),
-            });
+            var f = Enum.Parse<ViewBacklogViewModel.BacklogFlavor>(flavor);
+            var response = uc.Execute(ConvertToRequest(id, f));
 
             var presenter = new ViewBacklogPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
 
-            return View(presenter.Present(response));
+            return View(presenter.Present(response, f));
+        }
+
+        private ViewBacklogRequest ConvertToRequest(string id, ViewBacklogViewModel.BacklogFlavor flavor)
+        {
+            var r = new ViewBacklogRequest(CurrentUserId)
+            {
+                ProjectId = Identity.FromString(id),
+            };
+            if (flavor == ViewBacklogViewModel.BacklogFlavor.Done)
+                r.Include = status => status == ProductBacklog.WorkTaskStatus.Done;
+            return r;
         }
 
         [HttpGet]

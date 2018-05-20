@@ -15,7 +15,7 @@
         <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id">Cancel</a>
     </div>
     <div class="col-xs-10">
-        <h2>Manage backlog - @Model.Project.Id</h2><hr />
+        <h2>Manage backlog - @Model.Project.Text</h2><hr />
         <form asp-action="ManageBacklog">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(x => x.Project.Id)
@@ -26,6 +26,7 @@
                     <tr>
                         <th>Task</th>
                         <th>Type</th>
+                        <th>Story Points</th>
                         <th>Status</th>
                         <th colspan="2" class="actionColumn"></th>
                     </tr>
@@ -42,6 +43,10 @@
                             <td>
                                 @TypeToUserType(Model.Type[i])
                                 <input type="hidden" value="@Model.Type[i]" name="Type[]"/>
+                            </td>
+                            <td>
+                                @Model.StoryPoints[i]
+                                <input type="hidden" value="@Model.StoryPoints[i]" name="StoryPoints[]"/>
                             </td>
                             <td>
                                 <select asp-for="@Model.Status[i]" name="Status[]" id="@Model.Ids[i]" asp-items="Model.Statuses" class="form-control"></select>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
 
 using SprintValidation = Scrummy.Domain.Core.Entities.Sprint.Validation;
@@ -26,8 +27,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Sprint
 
         public string Goal { get; set; }
 
-        public IEnumerable<string> SelectedStories { get; set; } = new string[0];
+        public string[] SelectedStories { get; set; } = new string[0];
 
-        public IEnumerable<string> Stories { get; set; } = new string[0];
+        public SelectListItem[] Stories { get; set; } = new SelectListItem[0];
     }
 }

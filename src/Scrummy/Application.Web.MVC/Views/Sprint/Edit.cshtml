@@ -1,0 +1,76 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Sprint.EditSprintViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    string ToId(string key, int i) => $"{key}{i}";
+}
+
+<input type="hidden" id="storyOptions" data-value="@Html.Raw(string.Join("", Model.Stories.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Id">Cancel</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Edit - @Model.Name</h2><hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.Project.Id)
+            @Html.HiddenFor(x => x.Project.Text)
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Goal" class="control-label"></label>
+                <textarea asp-for="Goal" class="form-control"></textarea>
+                <span asp-validation-for="Goal" class="text-danger"></span>
+            </div>
+            <h5>Planned stories</h5>
+            <div class="form-group">
+                <table class="table" id="storiesTable">
+                    <tr id="tableHeader">
+                        <th class="actionButton">User Story</th>
+                        <th colspan="3"><button class="btn btn-default tableButton" name="add">Add</button></th>
+                    </tr>
+                    @for (var i = 0; i < Model.SelectedStories.Length; i++)
+                    {
+                        <tr>
+                            <td><select asp-for="SelectedStories[@i]" name="SelectedStories[]" id="@ToId("ss", i)" asp-items="Model.Stories" class="form-control"></select></td>
+                            <td><button class="btn btn-default tableButton" name="up">Up</button></td>
+                            <td><button class="btn btn-default tableButton" name="down">Down</button></td>
+                            <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    @for (var i = 0; i < Model.SelectedStories.Length; ++i)
+    {
+        @:document.getElementById("@ToId("ss", i)").value = "@Model.SelectedStories[i]";
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

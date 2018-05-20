@@ -1,4 +1,5 @@
-﻿@model Scrummy.Application.Web.MVC.ViewModels.Project.ViewBacklogViewModel
+﻿@using Scrummy.Application.Web.MVC.ViewModels.Project
+@model ViewBacklogViewModel
 
 @{
     ViewData["Title"] = "Backlog of " + Model.Project.Text;
@@ -12,9 +13,15 @@
 <div class="row">
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
-        <a asp-area="" class="btn btn-default actionButton" asp-action="Plan" asp-controller="Project" asp-route-id="@Model.Project.Id">Plan</a>
         <a asp-area="" class="btn btn-default actionButton" asp-action="ManageBacklog" asp-controller="Project" asp-route-id="@Model.Project.Id">Manage backlog</a>
-        <a asp-area="" class="btn btn-default actionButton" asp-action="ClosedTasks" asp-controller="Project" asp-route-id="@Model.Project.Id">View closed tasks</a>
+        @if (Model.Flavor == ViewBacklogViewModel.BacklogFlavor.Backlog)
+        {
+            <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-flavor="Done">View completed</a>
+        }
+        else
+        {
+            <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-flavor="Backlog">View backlog</a>
+        }
         <h3>Create</h3> <hr />
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="WorkTask" asp-route-id="@Model.Project.Id" asp-route-type="Epic">Create Epic</a>
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="WorkTask" asp-route-id="@Model.Project.Id" asp-route-type="UserStory">Create Story</a>
@@ -22,14 +29,25 @@
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="WorkTask" asp-route-id="@Model.Project.Id" asp-route-type="Defect">Create Defect</a>
     </div>
     <div class="col-xs-10">
-        <h2>Backlog of @Model.Project.Text</h2> <hr />
+        @if (Model.Flavor == ViewBacklogViewModel.BacklogFlavor.Backlog)
+        {
+            <h2>Backlog of @Model.Project.Text</h2> <hr />
+        }
+        else
+        {
+            <h2>Completed tasks of @Model.Project.Text</h2> <hr />
+        }
         <div>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Task</th>
                         <th>Type</th>
-                        <th>Status</th>
+                        <th>Story Points</th>
+                        @if (Model.Flavor == ViewBacklogViewModel.BacklogFlavor.Backlog)
+                        {
+                            <th>Status</th>
+                        }
                         <th>Parent</th>
                         <th class="actionColumn"></th>
                     </tr>
@@ -45,8 +63,14 @@
                                 @TypeToUserType(t.Type)
                             </td>
                             <td>
-                                @t.Status
+                                @t.StoryPoints
                             </td>
+                            @if (Model.Flavor == ViewBacklogViewModel.BacklogFlavor.Backlog)
+                            {
+                                <td>
+                                    @t.Status
+                                </td>
+                            }
                             <td>
                                 @if (t.ParentTask != null)
                                 {

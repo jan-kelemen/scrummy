@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Interfaces.Project;
@@ -34,6 +33,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
                     Name = task.Name,
                     Type = task.Type,
                     Status = x.Status,
+                    StoryPoints = task.StoryPoints,
                     ParentTask = parentTask == null ? null : new NavigationInfo
                     {
                         Id = parentTask.Id,
@@ -42,8 +42,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
                 };
             });
 
-            var activeBacklogTasks = backlogTasks
-                .Where(x => x.Status == ProductBacklog.WorkTaskStatus.ToDo || x.Status == ProductBacklog.WorkTaskStatus.Ready);
+            var activeBacklogTasks = backlogTasks.Where(x => request.Include(x.Status));
 
             return new ViewBacklogResponse
             {

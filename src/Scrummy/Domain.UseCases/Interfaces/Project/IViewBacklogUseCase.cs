@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
@@ -15,6 +16,9 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
         }
 
         public Identity ProjectId { get; set; }
+
+        public Func<ProductBacklog.WorkTaskStatus, bool> Include { get; set; } =
+            status => status == ProductBacklog.WorkTaskStatus.ToDo || status == ProductBacklog.WorkTaskStatus.Ready;
 
         protected override void ValidateCore()
         {
@@ -38,6 +42,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
             public WorkTaskType Type { get; set; }
 
             public string Name { get; set; }
+
+            public int? StoryPoints { get; set; }
         }
 
         public ViewBacklogResponse() : base(null)

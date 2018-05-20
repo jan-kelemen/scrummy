@@ -63,13 +63,6 @@ namespace Scrummy.Domain.Core.Entities
 
         public void UpdateTask(WorkTaskWithStatus task)
         {
-            if (IsTaskInBacklog(task.WorkTaskId))
-                throw new EntityException(Validation.WorkTaskIsAlreadyInBacklog)
-                {
-                    Identity = ProjectId,
-                    EntityName = nameof(Project),
-                };
-
             var backlogTask = _tasks.First(x => x.WorkTaskId == task.WorkTaskId);
             backlogTask.Status = task.Status;
         }

@@ -32,9 +32,9 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 
         public string Name { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public string EndDate { get; set; }
 
         public string Goal { get; set; }
 

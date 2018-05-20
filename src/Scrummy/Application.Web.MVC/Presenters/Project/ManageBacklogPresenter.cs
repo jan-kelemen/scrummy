@@ -37,7 +37,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
                 Ids = items.Item1,
                 Name = items.Item2,
                 Type = items.Item3,
-                Status = items.Item4
+                StoryPoints = items.Item4,
+                Status = items.Item5
             };
         }
 
@@ -47,11 +48,12 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
             return response.ProjectId.ToString();
         }
 
-        private Tuple<string[], string[], string[], string[]> GetBacklogItems(ProductBacklog backlog)
+        private Tuple<string[], string[], string[], string[], string[]> GetBacklogItems(ProductBacklog backlog)
         {
             var id = new List<string>();
             var name = new List<string>();
             var type = new List<string>();
+            var point = new List<string>();
             var status = new List<string>();
 
             var hack = backlog
@@ -63,12 +65,14 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
                     id.Add(task.Id.ToString());
                     name.Add(task.Name);
                     type.Add(task.Type.ToString());
+                    point.Add(task.StoryPoints?.ToString());
                     status.Add(x.Status.ToString());
 
                     return true;
                 });
 
-            return new Tuple<string[], string[], string[], string[]>(id.ToArray(), name.ToArray(), type.ToArray(), status.ToArray());
+            return new Tuple<string[], string[], string[], string[], string[]>(
+                id.ToArray(), name.ToArray(), type.ToArray(), point.ToArray(), status.ToArray());
         }
     }
 }

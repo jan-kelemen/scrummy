@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -53,14 +54,14 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (sprint == null) { throw CreateInvalidEntityException(); }
 
             var updateDefinition = Builders<MSprint>.Update
-                .Set(x => x.StartDate, sprint.TimeSpan.Item1)
-                .Set(x => x.EndDate, sprint.TimeSpan.Item2)
+                .Set(x => x.StartDate, sprint.TimeSpan.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))
+                .Set(x => x.EndDate, sprint.TimeSpan.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))
                 .Set(x => x.Name, sprint.Name)
                 .Set(x => x.Goal, sprint.Goal)
                 .Set(x => x.Status, sprint.Status);
 
             var result = _sprintCollection
-                .UpdateOne(x => x.Id == sprint.ProjectId.ToPersistenceIdentity(), updateDefinition);
+                .UpdateOne(x => x.Id == sprint.Id.ToPersistenceIdentity(), updateDefinition);
 
             if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(sprint.Id); }
         }

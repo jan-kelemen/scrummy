@@ -18,7 +18,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
         {
         }
 
-        public ViewBacklogViewModel Present(ViewBacklogResponse response)
+        public ViewBacklogViewModel Present(ViewBacklogResponse response, ViewBacklogViewModel.BacklogFlavor flavor)
         {
             var project = RepositoryProvider.Project.Read(response.ProjectId);
             return new ViewBacklogViewModel
@@ -28,6 +28,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
                     Id = project.Id.ToString(),
                     Text = project.Name,
                 },
+                Flavor = flavor,
                 Tasks = response.Tasks.Select(x => new ViewBacklogViewModel.Task
                 {
                     Id = x.Id.ToString(),
@@ -38,6 +39,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
                         Id = x.ParentTask.Id.ToString(),
                         Text = x.ParentTask.Name,
                     },
+                    StoryPoints = x.StoryPoints?.ToString(),
                     Status = x.Status.ToString(),
                 }),
             };

@@ -19,9 +19,4 @@
     <ProjectReference Include="..\Runtime.Common\Runtime.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Presenters\Sprint\" />
-    <Folder Include="Views\Sprint\" />
-  </ItemGroup>
-
 </Project>

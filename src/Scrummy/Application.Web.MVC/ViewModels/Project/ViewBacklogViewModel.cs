@@ -5,6 +5,11 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
 {
     public class ViewBacklogViewModel
     {
+        public enum BacklogFlavor
+        {
+            Backlog, Done
+        }
+
         public class Task
         {
             public NavigationViewModel ParentTask { get; set; }
@@ -15,10 +20,14 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
 
             public string Type { get; set; }
 
+            public string StoryPoints { get; set; }
+
             public string Name { get; set; }
         }
 
         public NavigationViewModel Project { get; set; }
+        
+        public BacklogFlavor Flavor { get; set; }
 
         public IEnumerable<Task> Tasks { get; set; }
     }

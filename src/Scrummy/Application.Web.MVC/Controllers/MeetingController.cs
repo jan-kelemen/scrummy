@@ -18,8 +18,8 @@ namespace Scrummy.Application.Web.MVC.Controllers
     [Authorize]
     public class MeetingController : BaseController
     {
-        private IMeetingUseCaseFactory _meetingUseCaseFactory;
-        private IRepositoryProvider _repositoryProvider;
+        private readonly IMeetingUseCaseFactory _meetingUseCaseFactory;
+        private readonly IRepositoryProvider _repositoryProvider;
 
         public MeetingController(IUseCaseFactoryProvider useCaseFactoryProvider, IRepositoryProvider repositoryProvider)
         {

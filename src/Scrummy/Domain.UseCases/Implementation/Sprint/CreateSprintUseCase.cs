@@ -24,17 +24,15 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             request.ThrowExceptionIfInvalid();
 
             var entity = ToDomainEntity(request);
-            var result = _sprintRepository.Create(entity);
 
             var projectBacklog = _projectRepository.ReadProductBacklog(request.ProjectId);
-            
-            var backlog = ToDomainEntity(result, request.Stories);
-
-            foreach (var story in backlog.Stories)
+            foreach (var story in request.Stories)
             {
                 projectBacklog.UpdateTask(new ProductBacklog.WorkTaskWithStatus(story, ProductBacklog.WorkTaskStatus.InSprint));
             }
 
+            var result = _sprintRepository.Create(entity);
+            var backlog = ToDomainEntity(result, request.Stories);
             _sprintRepository.UpdatePlannedTasks(backlog);
             _projectRepository.UpdateProductBacklog(projectBacklog);
 

@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
-        <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Id">Backlog</a>
+        <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Id" asp-route-flavor="Backlog">Backlog</a>
         <a asp-action="Sprints" class="btn btn-default actionButton" asp-route-id="@Model.Id" asp-route-status="Planned">Sprints</a>
         <a asp-action="Meetings" class="btn btn-default actionButton" asp-route-id="@Model.Id">Meetings</a>
         <a asp-action="Reports" class="btn btn-default actionButton" asp-route-id="@Model.Id">Reports</a>
@@ -29,19 +29,15 @@
                 <dd>
                     <a asp-area="" asp-controller="Team" asp-action="Index" asp-route-id="@Model.Team.Id">@Model.Team.Text</a>
                 </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.DefinitionOfDone)
-                </dt>
-                <dd>
-                    <ul>
-                        @foreach (var condition in Model.DefinitionOfDone)
-                        {
-                            <li>@condition</li>
-
-                        }
-                    </ul>
-                </dd>
             </dl>
+            <h5><b>Definition of Done</b></h5> <hr/>
+            <ul>
+                @foreach (var condition in Model.DefinitionOfDone)
+                {
+                    <li>@condition</li>
+
+                }
+            </ul>
             <h3>Sprint</h3>
             TODO: Start, Close, Board
         </div>
