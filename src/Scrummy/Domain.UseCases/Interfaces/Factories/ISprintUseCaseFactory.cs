@@ -13,5 +13,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Factories
         IStartSprintUseCase Start { get; }
 
         IEndSprintUseCase End { get; }
+
+        IChangeTaskStatusUseCase ChangeTaskStatus { get; }
     }
 }

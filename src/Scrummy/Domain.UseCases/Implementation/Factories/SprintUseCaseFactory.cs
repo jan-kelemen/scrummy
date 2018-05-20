@@ -28,5 +28,8 @@ namespace Scrummy.Domain.UseCases.Implementation.Factories
 
         public IEndSprintUseCase End =>
             new EndSprintUseCase(_repositoryProvider.Sprint, _repositoryProvider.Project);
+
+        public IChangeTaskStatusUseCase ChangeTaskStatus =>
+            new ChangeTaskStatusUseCase(_repositoryProvider.Sprint);
     }
 }

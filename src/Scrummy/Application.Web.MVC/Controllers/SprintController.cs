@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Scrummy.Application.Web.MVC.Presenters.Sprint;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
+using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases;
@@ -199,5 +200,36 @@ namespace Scrummy.Application.Web.MVC.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult ChangeTaskStatus(string id, string taskId, string status)
+        {
+            var presenter = new ChangeTaskStatusPresenter(MessageHandler, ErrorHandler, _repositoryProvider);
+            try
+            {
+                var uc = _sprintUseCaseFactory.ChangeTaskStatus;
+                var response = uc.Execute(ConvertToRequest(id, taskId, status));
+                return RedirectToAction(nameof(Index), "Project", new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
+
+        private ChangeTaskStatusRequest ConvertToRequest(string sprintId, string taskId, string status)
+        {
+            return new ChangeTaskStatusRequest(CurrentUserId)
+            {
+                SprintId = Identity.FromString(sprintId),
+                TaskId = Identity.FromString(taskId),
+                Status = Enum.Parse<SprintBacklog.WorkTaskStatus>(status)
+            };
+        }
     }
 }

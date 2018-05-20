@@ -28,7 +28,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         {
         }
 
-        public Identity Id { get; set; }
+        public Identity ProjectId { get; set; }
     }
 
     public interface IEndSprintUseCase

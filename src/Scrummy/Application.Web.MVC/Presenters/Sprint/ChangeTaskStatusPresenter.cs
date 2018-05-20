@@ -5,9 +5,9 @@ using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Sprint
 {
-    public class EndSprintPresenter : BasePresenter
+    public class StartSprintPresenter : BasePresenter
     {
-        public EndSprintPresenter(
+        public StartSprintPresenter(
             Action<MessageType, string> messageHandler, 
             Action<string, string> errorHandler, 
             IRepositoryProvider repositoryProvider) 
@@ -15,7 +15,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Sprint
         {
         }
 
-        public string Present(EndSprintResponse response)
+        public string Present(StartSprintResponse response)
         {
             PresentMessage(MessageType.Success, response.Message);
             return response.ProjectId.ToString();
