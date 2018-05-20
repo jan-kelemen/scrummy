@@ -7,5 +7,7 @@
         IEditMeetingUseCase Edit { get; }
 
         IViewMeetingUseCase View { get; }
+        
+        IDeleteMeetingUseCase Delete { get; }
     }
 }

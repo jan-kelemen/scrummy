@@ -14,7 +14,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
             _database = database;
 
             Person = new PersonRepository(_database.PersonCollection);
-            Project = new ProjectRepository(_database.ProjectCollection);
+            Project = new ProjectRepository(_database.ProjectCollection, _database.MeetingCollection, _database.SprintCollection, _database.WorkTaskCollection);
             Team = new TeamRepository(_database.TeamCollection);
             Meeting = new MeetingRepository(_database.MeetingCollection);
             Sprint = new SprintRepository(_database.SprintCollection, _database.ProjectCollection);

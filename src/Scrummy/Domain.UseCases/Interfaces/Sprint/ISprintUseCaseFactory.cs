@@ -8,6 +8,8 @@
 
         IViewSprintUseCase View { get; }
 
+        IDeleteSprintUseCase Delete { get; }
+
         IStartSprintUseCase Start { get; }
 
         IEndSprintUseCase End { get; }

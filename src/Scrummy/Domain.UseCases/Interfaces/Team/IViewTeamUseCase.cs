@@ -38,6 +38,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
         public IEnumerable<Core.Entities.Team.Member> Members { get; set; }
 
         public IEnumerable<Identity> CurrentProjects { get; set; }
+
+        public bool CanDelete { get; set; }
     }
 
     public interface IViewTeamUseCase

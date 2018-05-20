@@ -9,6 +9,10 @@ using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
+using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Meeting;
+using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
+using MWorkTask = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.WorkTask;
+
 using Project = Scrummy.Domain.Core.Entities.Project;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
@@ -16,10 +20,16 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
     internal class ProjectRepository : BaseRepository<Project>, IProjectRepository
     {
         private readonly IMongoCollection<MProject> _projectCollection;
+        private readonly IMongoCollection<MMeeting> _meetingCollection;
+        private readonly IMongoCollection<MSprint> _sprintCollection;
+        private readonly IMongoCollection<MWorkTask> _workTaskCollection;
 
-        public ProjectRepository(IMongoCollection<MProject> projectCollection)
+        public ProjectRepository(IMongoCollection<MProject> projectCollection, IMongoCollection<MMeeting> meetingCollection, IMongoCollection<MSprint> sprintCollection, IMongoCollection<MWorkTask> workTaskCollection)
         {
             _projectCollection = projectCollection;
+            _meetingCollection = meetingCollection;
+            _sprintCollection = sprintCollection;
+            _workTaskCollection = workTaskCollection;
         }
 
         public override Identity Create(Project project)
@@ -129,6 +139,9 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
 
             var result = _projectCollection.DeleteOne(x => x.Id == id.ToPersistenceIdentity());
+            _meetingCollection.DeleteMany(x => x.ProjectId == id.ToPersistenceIdentity());
+            _sprintCollection.DeleteMany(x => x.ProjectId == id.ToPersistenceIdentity());
+            _workTaskCollection.DeleteMany(x => x.ProjectId == id.ToPersistenceIdentity());
 
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }

@@ -7,5 +7,7 @@
         IEditWorkTaskUseCase Edit { get; }
 
         IViewWorkTaskUseCase View { get; }
+
+        IDeleteWorkTaskUseCase Delete { get; }
     }
 }

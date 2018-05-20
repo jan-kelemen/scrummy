@@ -28,6 +28,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
                 TimeOfDailyScrum = entity.TimeOfDailyScrum,
                 Members = entity.Members,
                 CurrentProjects = _projectRepository.GetProjectsOfTeamAtTimePoint(request.Id, request.CurrentTime),
+                CanDelete = false, //TODO
             };
         }
     }

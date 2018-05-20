@@ -7,5 +7,7 @@
         IEditTeamUseCase Edit { get; }
 
         IViewTeamUseCase View { get; }
+
+        IDeleteTeamUseCase Team { get; }
     }
 }

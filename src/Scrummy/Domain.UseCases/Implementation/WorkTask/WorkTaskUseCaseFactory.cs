@@ -12,13 +12,9 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             _repositoryProvider = repositoryProvider;
         }
 
-        public ICreateWorkTaskUseCase Create =>
-            new CreateWorkTaskUseCase(_repositoryProvider.WorkTask, _repositoryProvider.Project);
-
-        public IEditWorkTaskUseCase Edit =>
-            new EditWorkTaskUseCase(_repositoryProvider.WorkTask, _repositoryProvider.Project);
-
-        public IViewWorkTaskUseCase View =>
-            new ViewWorkTaskUseCase(_repositoryProvider.WorkTask, _repositoryProvider.Project);
+        public ICreateWorkTaskUseCase Create => new CreateWorkTaskUseCase(_repositoryProvider.WorkTask, _repositoryProvider.Project);
+        public IEditWorkTaskUseCase Edit => new EditWorkTaskUseCase(_repositoryProvider.WorkTask, _repositoryProvider.Project);
+        public IViewWorkTaskUseCase View => new ViewWorkTaskUseCase(_repositoryProvider.WorkTask, _repositoryProvider.Project);
+        public IDeleteWorkTaskUseCase Delete => new DeleteWorkTaskUseCase(_repositoryProvider.WorkTask,  _repositoryProvider.Project);
     }
 }

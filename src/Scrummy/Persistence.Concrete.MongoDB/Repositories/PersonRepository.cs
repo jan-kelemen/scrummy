@@ -14,6 +14,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
     {
         private readonly IMongoCollection<MPerson> _personCollection;
 
+
         public PersonRepository(IMongoCollection<MPerson> personCollection)
         {
             _personCollection = personCollection;

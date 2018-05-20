@@ -46,6 +46,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         public string Goal { get; set; }
 
         public IEnumerable<Story> Stories { get; set; }
+
+        public bool CanDelete { get; set; }
     }
 
     public interface IViewSprintUseCase

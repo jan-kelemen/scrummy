@@ -88,8 +88,11 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
         public override void Delete(Identity id)
         {
             if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
-
+      
             var result = _workTaskCollection.DeleteOne(x => x.Id == id.ToPersistenceIdentity());
+
+            var updateFilter = Builders<MWorkTask>.Update.Set(x => x.ParentTask, ObjectId.Empty);
+            _workTaskCollection.UpdateMany(x => x.ParentTask == id.ToPersistenceIdentity(), updateFilter);
 
             if (result.DeletedCount != 1) { throw CreateEntityNotFoundException(id); }
         }

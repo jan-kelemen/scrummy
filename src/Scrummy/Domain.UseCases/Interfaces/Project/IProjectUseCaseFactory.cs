@@ -8,6 +8,8 @@
 
         IViewProjectUseCase View { get; }
 
+        IDeleteProjectUseCase Delete { get; }
+
         IViewMeetingsUseCase ViewMeetings { get; }
 
         IViewBacklogUseCase ViewBacklog { get; }
