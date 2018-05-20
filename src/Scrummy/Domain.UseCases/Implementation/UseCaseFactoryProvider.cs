@@ -1,24 +1,29 @@
 ﻿using Scrummy.Domain.Repositories;
-using Scrummy.Domain.UseCases.Implementation.Factories;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
+using Scrummy.Domain.UseCases.Implementation.Meeting;
+using Scrummy.Domain.UseCases.Implementation.Person;
+using Scrummy.Domain.UseCases.Implementation.Project;
+using Scrummy.Domain.UseCases.Implementation.Sprint;
+using Scrummy.Domain.UseCases.Implementation.Team;
+using Scrummy.Domain.UseCases.Implementation.WorkTask;
+using Scrummy.Domain.UseCases.Interfaces.Meeting;
+using Scrummy.Domain.UseCases.Interfaces.Person;
+using Scrummy.Domain.UseCases.Interfaces.Project;
+using Scrummy.Domain.UseCases.Interfaces.Sprint;
+using Scrummy.Domain.UseCases.Interfaces.Team;
+using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 
 namespace Scrummy.Domain.UseCases.Implementation
 {
     internal class UseCaseFactoryProvider : IUseCaseFactoryProvider
     {
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-        private readonly IRepositoryProvider _repositoryProvider;
-
         public UseCaseFactoryProvider(IRepositoryProvider repositoryProvider)
         {
-            _repositoryProvider = repositoryProvider;
-
-            Person = new PersonUseCaseFactory(_repositoryProvider);
-            Project = new ProjectUseCaseFactory(_repositoryProvider);
-            Team = new TeamUseCaseFactory(_repositoryProvider);
-            Meeting = new MeetingUseCaseFactory(_repositoryProvider);
-            WorkTask = new WorkTaskUseCaseFactory(_repositoryProvider);
-            Sprint = new SprintUseCaseFactory(_repositoryProvider);
+            Person = new PersonUseCaseFactory(repositoryProvider);
+            Project = new ProjectUseCaseFactory(repositoryProvider);
+            Team = new TeamUseCaseFactory(repositoryProvider);
+            Meeting = new MeetingUseCaseFactory(repositoryProvider);
+            WorkTask = new WorkTaskUseCaseFactory(repositoryProvider);
+            Sprint = new SprintUseCaseFactory(repositoryProvider);
         }
 
         public IPersonUseCaseFactory Person { get; }

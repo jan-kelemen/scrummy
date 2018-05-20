@@ -1,9 +1,7 @@
 ﻿using Scrummy.Domain.Repositories;
-using Scrummy.Domain.UseCases.Implementation.Project;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
-namespace Scrummy.Domain.UseCases.Implementation.Factories
+namespace Scrummy.Domain.UseCases.Implementation.Project
 {
     internal class ProjectUseCaseFactory : IProjectUseCaseFactory
     {

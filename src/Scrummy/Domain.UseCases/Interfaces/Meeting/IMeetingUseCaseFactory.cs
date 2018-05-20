@@ -1,6 +1,4 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.Meeting;
-
-namespace Scrummy.Domain.UseCases.Interfaces.Factories
+﻿namespace Scrummy.Domain.UseCases.Interfaces.Meeting
 {
     public interface IMeetingUseCaseFactory
     {

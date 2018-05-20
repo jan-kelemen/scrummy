@@ -1,9 +1,7 @@
 ﻿using Scrummy.Domain.Repositories;
-using Scrummy.Domain.UseCases.Implementation.WorkTask;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 
-namespace Scrummy.Domain.UseCases.Implementation.Factories
+namespace Scrummy.Domain.UseCases.Implementation.WorkTask
 {
     internal class WorkTaskUseCaseFactory : IWorkTaskUseCaseFactory
     {

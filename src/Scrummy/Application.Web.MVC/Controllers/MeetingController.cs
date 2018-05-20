@@ -5,11 +5,9 @@ using Scrummy.Application.Web.MVC.ViewModels.Meeting;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 using System;
-using System.Globalization;
-using System.Linq;
+using Scrummy.Application.Web.MVC.Controllers.Extensions;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Meeting;
 
@@ -66,8 +64,8 @@ namespace Scrummy.Application.Web.MVC.Controllers
             var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
             if (!ModelState.IsValid)
                 return View(presenter.Present(vm));
-            
-            var request = ConvertToRequest(vm);
+
+            var request = vm.ToRequest(CurrentUserId);
             try
             {
                 var uc = _useCaseFactory.Create;
@@ -86,19 +84,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
             }
         }
 
-        private CreateMeetingRequest ConvertToRequest(CreateMeetingViewModel vm)
-        {
-            return new CreateMeetingRequest(CurrentUserId)
-            {
-                Name = vm.Name,
-                Description = vm.Description,
-                ProjectId = Identity.FromString(vm.Project.Id),
-                OrganizedBy = Identity.FromString(vm.OrganizedBy.Id),
-                InvolvedPersons = vm.SelectedPersonIds.Select(Identity.FromString),
-                Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
-            };
-        }
-
         [HttpGet]
         public IActionResult Edit(string id)
         {
@@ -114,7 +99,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(presenter.Present(vm));
 
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             try
             {
                 var uc = _useCaseFactory.Edit;
@@ -131,18 +116,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 presenter.PresentMessage(MessageType.Error, e.Message);
                 return View(presenter.Present(vm));
             }
-        }
-
-        private EditMeetingRequest ConvertToRequest(EditMeetingViewModel vm)
-        {
-            return new EditMeetingRequest(CurrentUserId)
-            {
-                Id = Identity.FromString(vm.Id),
-                Name = vm.Name,
-                Description = vm.Description,
-                InvolvedPersons = vm.SelectedPersonIds.Select(Identity.FromString),
-                Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
-            };
         }
 
         [HttpGet]

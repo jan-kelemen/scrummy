@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Globalization;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scrummy.Application.Web.MVC.Controllers.Extensions;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Sprint;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
-using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Application.Web.MVC.Controllers
@@ -69,7 +66,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             try
             {
                 var uc = _useCaseFactory.Create;
@@ -88,20 +85,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
             }
         }
 
-        private CreateSprintRequest ConvertToRequest(CreateSprintViewModel vm)
-        {
-            return new CreateSprintRequest(CurrentUserId)
-            {
-                Goal = vm.Goal,
-                Name = vm.Name,
-                ProjectId = Identity.FromString(vm.Project.Id),
-                TimeSpan = new Tuple<DateTime, DateTime>(
-                    DateTime.ParseExact(vm.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                    DateTime.ParseExact(vm.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture)),
-                Stories = vm.SelectedStories.Select(Identity.FromString),
-            };
-        }
-
         [HttpGet]
         public IActionResult Edit(string id)
         {
@@ -117,7 +100,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             try
             {
                 var uc = _useCaseFactory.Edit;
@@ -134,20 +117,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 presenter.PresentMessage(MessageType.Error, e.Message);
                 return View(presenter.Present(vm));
             }
-        }
-
-        private EditSprintRequest ConvertToRequest(EditSprintViewModel vm)
-        {
-            return new EditSprintRequest(CurrentUserId)
-            {
-                Id = Identity.FromString(vm.Id),
-                Goal = vm.Goal,
-                Name = vm.Name,
-                TimeSpan = new Tuple<DateTime, DateTime>(
-                    DateTime.ParseExact(vm.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                    DateTime.ParseExact(vm.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture)),
-                Stories = vm.SelectedStories.Select(Identity.FromString),
-            };
         }
 
         [HttpGet]
@@ -207,7 +176,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.ChangeTaskStatus;
-                var response = uc.Execute(ConvertToRequest(id, taskId, status));
+                var response = uc.Execute(id.ToRequest(taskId, status, CurrentUserId));
                 return RedirectToAction(nameof(Index), "Project", new { id = presenter.Present(response) });
             }
             catch (InvalidRequestException ire)
@@ -220,16 +189,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 presenter.PresentMessage(MessageType.Error, e.Message);
                 return RedirectToAction(nameof(Index), "Home");
             }
-        }
-
-        private ChangeTaskStatusRequest ConvertToRequest(string sprintId, string taskId, string status)
-        {
-            return new ChangeTaskStatusRequest(CurrentUserId)
-            {
-                SprintId = Identity.FromString(sprintId),
-                TaskId = Identity.FromString(taskId),
-                Status = Enum.Parse<SprintBacklog.WorkTaskStatus>(status)
-            };
         }
     }
 }

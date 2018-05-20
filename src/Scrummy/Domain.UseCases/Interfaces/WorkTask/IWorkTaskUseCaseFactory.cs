@@ -1,6 +1,4 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.WorkTask;
-
-namespace Scrummy.Domain.UseCases.Interfaces.Factories
+﻿namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
 {
     public interface IWorkTaskUseCaseFactory
     {

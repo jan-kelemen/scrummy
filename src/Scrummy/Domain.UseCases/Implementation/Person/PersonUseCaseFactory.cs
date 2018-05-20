@@ -1,9 +1,7 @@
 ﻿using Scrummy.Domain.Repositories;
-using Scrummy.Domain.UseCases.Implementation.Person;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 
-namespace Scrummy.Domain.UseCases.Implementation.Factories
+namespace Scrummy.Domain.UseCases.Implementation.Person
 {
     public class PersonUseCaseFactory : IPersonUseCaseFactory
     {

@@ -1,6 +1,4 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.Sprint;
-
-namespace Scrummy.Domain.UseCases.Interfaces.Factories
+﻿namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 {
     public interface ISprintUseCaseFactory
     {

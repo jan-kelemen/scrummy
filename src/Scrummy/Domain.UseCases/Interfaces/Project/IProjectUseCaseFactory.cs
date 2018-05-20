@@ -1,6 +1,4 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.Project;
-
-namespace Scrummy.Domain.UseCases.Interfaces.Factories
+﻿namespace Scrummy.Domain.UseCases.Interfaces.Project
 {
     public interface IProjectUseCaseFactory
     {

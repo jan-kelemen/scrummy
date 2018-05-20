@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Scrummy.Application.Web.MVC.Controllers.Extensions;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.WorkTask;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.WorkTask;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 
 namespace Scrummy.Application.Web.MVC.Controllers
@@ -65,7 +63,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             try
             {
                 var uc = _useCaseFactory.Create;
@@ -84,20 +82,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
             }
         }
 
-        private CreateWorkTaskRequest ConvertToRequest(CreateWorkTaskViewModel vm)
-        {
-            return new CreateWorkTaskRequest(CurrentUserId)
-            {
-                Name = vm.Name,
-                ProjectId = Identity.FromString(vm.Project.Id),
-                ParentTask = string.IsNullOrWhiteSpace(vm.ParentTaskId) ? Identity.BlankIdentity : Identity.FromString(vm.ParentTaskId),
-                Type = Enum.Parse<WorkTaskType>(vm.Type),
-                Description = vm.Description,
-                ChildTasks = vm.ChildTaskIds.Select(Identity.FromString),
-                StoryPoints = vm.StoryPoints,
-            };
-        }
-
         [HttpGet]
         public IActionResult Edit(string id)
         {
@@ -113,7 +97,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             try
             {
                 var uc = _useCaseFactory.Edit;
@@ -130,19 +114,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 presenter.PresentMessage(MessageType.Error, e.Message);
                 return View(presenter.Present(vm));
             }
-        }
-
-        private EditWorkTaskRequest ConvertToRequest(EditWorkTaskViewModel vm)
-        {
-            return new EditWorkTaskRequest(CurrentUserId)
-            {
-                Name = vm.Name,
-                ParentTask = string.IsNullOrWhiteSpace(vm.ParentTaskId) ? Identity.BlankIdentity : Identity.FromString(vm.ParentTaskId),
-                Description = vm.Description,
-                ChildTasks = vm.ChildTaskIds.Select(Identity.FromString),
-                StoryPoints = vm.StoryPoints,
-                Id = Identity.FromString(vm.Id),
-            };
         }
     }
 }

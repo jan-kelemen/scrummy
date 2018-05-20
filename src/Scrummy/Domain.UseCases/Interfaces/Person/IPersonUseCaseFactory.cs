@@ -1,6 +1,4 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.Person;
-
-namespace Scrummy.Domain.UseCases.Interfaces.Factories
+﻿namespace Scrummy.Domain.UseCases.Interfaces.Person
 {
     public interface IPersonUseCaseFactory
     {

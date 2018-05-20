@@ -1,9 +1,7 @@
 ﻿using Scrummy.Domain.Repositories;
-using Scrummy.Domain.UseCases.Implementation.Sprint;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
-namespace Scrummy.Domain.UseCases.Implementation.Factories
+namespace Scrummy.Domain.UseCases.Implementation.Sprint
 {
     internal class SprintUseCaseFactory : ISprintUseCaseFactory
     {

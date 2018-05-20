@@ -1,6 +1,4 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.Team;
-
-namespace Scrummy.Domain.UseCases.Interfaces.Factories
+﻿namespace Scrummy.Domain.UseCases.Interfaces.Team
 {
     public interface ITeamUseCaseFactory
     {

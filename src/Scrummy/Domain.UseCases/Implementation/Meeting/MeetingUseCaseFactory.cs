@@ -1,9 +1,7 @@
 ﻿using Scrummy.Domain.Repositories;
-using Scrummy.Domain.UseCases.Implementation.Meeting;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
-namespace Scrummy.Domain.UseCases.Implementation.Factories
+namespace Scrummy.Domain.UseCases.Implementation.Meeting
 {
     internal class MeetingUseCaseFactory : IMeetingUseCaseFactory
     {

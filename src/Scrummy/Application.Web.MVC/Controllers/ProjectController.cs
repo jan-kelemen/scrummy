@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scrummy.Application.Web.MVC.Controllers.Extensions;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
-using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
 namespace Scrummy.Application.Web.MVC.Controllers
@@ -66,7 +64,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(vm);
 
             var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             try
             {
                 var uc = _useCaseFactory.Create;
@@ -86,16 +84,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
             }
         }
 
-        private CreateProjectRequest ConvertToRequest(CreateProjectViewModel vm)
-        {
-            return new CreateProjectRequest(CurrentUserId)
-            {
-                Name = vm.Name,
-                DefinitionOfDone = vm.DefinitionOfDone,
-                TeamId = Identity.FromString(vm.SelectedTeamId),
-            };
-        }
-
         [HttpGet]
         public IActionResult Edit(string id)
         {
@@ -110,7 +98,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
             try
             {
@@ -128,17 +116,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 presenter.PresentMessage(MessageType.Error, e.Message);
                 return View(presenter.Present(vm));
             }
-        }
-
-        private EditProjectRequest ConvertToRequest(EditProjectViewModel vm)
-        {
-            return new EditProjectRequest(CurrentUserId)
-            {
-                Id = Identity.FromString(vm.Id),
-                DefinitionOfDone = vm.DefinitionOfDone,
-                Name = vm.Name,
-                TeamId = Identity.FromString(vm.SelectedTeamId),
-            };
         }
 
         [HttpGet]
@@ -178,22 +155,11 @@ namespace Scrummy.Application.Web.MVC.Controllers
         {
             var uc = _useCaseFactory.ViewBacklog;
             var f = Enum.Parse<ViewBacklogViewModel.BacklogFlavor>(flavor);
-            var response = uc.Execute(ConvertToRequest(id, f));
+            var response = uc.Execute(id.ToRequest(f, CurrentUserId));
 
             var presenter = _presenterFactory.ViewBacklog(MessageHandler, ErrorHandler);
 
             return View(presenter.Present(response, f));
-        }
-
-        private ViewBacklogRequest ConvertToRequest(string id, ViewBacklogViewModel.BacklogFlavor flavor)
-        {
-            var r = new ViewBacklogRequest(CurrentUserId)
-            {
-                ProjectId = Identity.FromString(id),
-            };
-            if (flavor == ViewBacklogViewModel.BacklogFlavor.Done)
-                r.Include = status => status == ProductBacklog.WorkTaskStatus.Done;
-            return r;
         }
 
         [HttpGet]
@@ -210,7 +176,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             var presenter = _presenterFactory.ManageBacklog(MessageHandler, ErrorHandler);
             try
             {
@@ -228,19 +194,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 presenter.PresentMessage(MessageType.Error, e.Message);
                 return View(vm);
             }
-        }
-
-        private ManageBacklogRequest ConvertToRequest(ManageBacklogViewModel vm)
-        {
-            return new ManageBacklogRequest(CurrentUserId)
-            {
-                ProjectId = Identity.FromString(vm.Project.Id),
-                BacklogItems = vm.Ids.Select((x, i) => new ManageBacklogRequest.BacklogItem
-                {
-                    Id = Identity.FromString(x),
-                    Status = Enum.Parse<ProductBacklog.WorkTaskStatus>(vm.Status[i])
-                }).ToList(),
-            };
         }
 
         [HttpGet]

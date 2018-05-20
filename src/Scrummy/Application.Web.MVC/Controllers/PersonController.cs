@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scrummy.Application.Web.MVC.Controllers.Extensions;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Person;
 using Scrummy.Application.Web.MVC.Utility;
@@ -8,7 +9,6 @@ using Scrummy.Application.Web.MVC.ViewModels.Person;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
-using Scrummy.Domain.UseCases.Interfaces.Factories;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 
 namespace Scrummy.Application.Web.MVC.Controllers
@@ -68,7 +68,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest();
             var presenter = _presenterFactory.Presenter(MessageHandler, ErrorHandler);
             try
             {
@@ -89,18 +89,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
             }
         }
 
-        private CreatePersonRequest ConvertToRequest(RegisterPersonViewModel vm)
-        {
-            return new CreatePersonRequest
-            {
-                DisplayName = vm.DisplayName,
-                Email = vm.Email,
-                FirstName = vm.FirstName,
-                LastName = vm.LastName,
-                Password = vm.Password,
-            };
-        }
-
         [HttpGet]
         public IActionResult Edit(string id)
         {
@@ -118,7 +106,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
             try
             {
@@ -136,18 +124,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 presenter.PresentMessage(MessageType.Error, e.Message);
                 return View(vm);
             }
-        }
-
-        private EditPersonRequest ConvertToRequest(EditPersonViewModel vm)
-        {
-            return new EditPersonRequest(CurrentUserId)
-            {
-                ForUserId = Identity.FromString(vm.Id),
-                FirstName = vm.FirstName,
-                LastName = vm.LastName,
-                DisplayName = vm.DisplayName,
-                Email = vm.Email,
-            };
         }
 
         [HttpGet]
@@ -171,7 +147,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var request = ConvertToRequest(vm);
+            var request = vm.ToRequest(CurrentUserId);
             var presenter = _presenterFactory.ChangePassword(MessageHandler, ErrorHandler);
             try
             {
@@ -192,16 +168,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
 
         }
 
-        private ChangePasswordRequest ConvertToRequest(ChangePasswordViewModel vm)
-        {
-            return new ChangePasswordRequest(CurrentUserId)
-            {
-                ForUserId = Identity.FromString(vm.Id),
-                OldPassword = vm.OldPassword,
-                NewPassword = vm.NewPassword,
-            };
-        }
-
         [HttpGet]
         public IActionResult List()
         {
@@ -218,7 +184,6 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 var uc = _useCaseFactory.ViewCurrentWork;
                 var response = uc.Execute(new ViewCurrentWorkRequest(CurrentUserId)
                 {
-                    CurrentTime = DateTime.Now,
                     ForUserId = Identity.FromString(CurrentUserId),
                 });
                 return View(presenter.Present(response));

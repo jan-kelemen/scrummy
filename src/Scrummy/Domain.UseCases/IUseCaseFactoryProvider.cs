@@ -1,4 +1,9 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.Factories;
+﻿using Scrummy.Domain.UseCases.Interfaces.Meeting;
+using Scrummy.Domain.UseCases.Interfaces.Person;
+using Scrummy.Domain.UseCases.Interfaces.Project;
+using Scrummy.Domain.UseCases.Interfaces.Sprint;
+using Scrummy.Domain.UseCases.Interfaces.Team;
+using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 
 namespace Scrummy.Domain.UseCases
 {
