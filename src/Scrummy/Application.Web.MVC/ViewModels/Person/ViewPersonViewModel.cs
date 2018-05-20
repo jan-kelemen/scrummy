@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
 
 namespace Scrummy.Application.Web.MVC.ViewModels.Person

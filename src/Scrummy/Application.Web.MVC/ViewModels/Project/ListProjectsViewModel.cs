@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
 
 namespace Scrummy.Application.Web.MVC.ViewModels.Project

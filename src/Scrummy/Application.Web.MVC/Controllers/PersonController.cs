@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Presenters;
-using Scrummy.Application.Web.MVC.Presenters.Person;
+using Scrummy.Application.Web.MVC.Presenters.Implementation;
+using Scrummy.Application.Web.MVC.Presenters.Implementation.Person;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
 using Scrummy.Domain.Core.Entities.Common;

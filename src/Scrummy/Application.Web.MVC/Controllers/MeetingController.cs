@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Presenters.Meeting;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Meeting;
 using Scrummy.Domain.Core.Entities.Common;
@@ -12,6 +11,7 @@ using Scrummy.Domain.UseCases.Interfaces.Meeting;
 using System;
 using System.Globalization;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {

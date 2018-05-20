@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Presenters.Team;
+using Scrummy.Application.Web.MVC.Presenters.Implementation.Team;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
 using Scrummy.Domain.Core.Entities;

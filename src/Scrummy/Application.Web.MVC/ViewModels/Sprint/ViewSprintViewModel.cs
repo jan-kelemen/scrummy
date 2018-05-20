@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
-using Scrummy.Domain.Core.Entities;
 
 namespace Scrummy.Application.Web.MVC.ViewModels.Sprint
 {

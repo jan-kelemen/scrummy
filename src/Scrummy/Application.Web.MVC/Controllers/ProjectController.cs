@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Presenters.Project;
+using Scrummy.Application.Web.MVC.Presenters.Implementation.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
 using Scrummy.Domain.Core.Entities;
