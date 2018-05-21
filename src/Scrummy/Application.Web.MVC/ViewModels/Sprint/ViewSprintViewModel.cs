@@ -46,5 +46,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Sprint
         public string Goal { get; set; }
 
         public IEnumerable<StoryViewModel> Stories { get; set; } = new StoryViewModel[0];
+
+        public bool CanDelete { get; set; }
     }
 }

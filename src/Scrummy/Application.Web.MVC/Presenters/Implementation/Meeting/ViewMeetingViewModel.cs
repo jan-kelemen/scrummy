@@ -50,7 +50,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
                         Id = person.Id.ToString(),
                         Text = person.DisplayName,
                     };
-                })
+                }),
+                CanDelete = response.CanDelete,
             };
         }
     }

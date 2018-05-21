@@ -38,6 +38,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
         public IEnumerable<string> DefinitionOfDone { get; set; }
 
         public ViewSprintResponse Sprint { get; set; }
+
+        public bool CanDelete { get; set; } = true;
     }
 
     public interface IViewProjectUseCase

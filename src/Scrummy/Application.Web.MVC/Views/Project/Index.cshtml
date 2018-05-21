@@ -4,6 +4,9 @@
     ViewData["Title"] = @Model.Name;
 }
 
+<input type="hidden" id="deleteMessage" data-value="Are you sure you want to delete @Model.Name?" />
+<input type="hidden" id="deleteUrl" data-value="/Project/Delete/@Model.Id" />
+
 <div class="row">
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
@@ -15,6 +18,11 @@
         @if (Model.Sprint != null)
         {
             <a asp-action="End" class="btn btn-default actionButton" asp-controller="Sprint" asp-route-id="@Model.Sprint.Id">End sprint</a>
+        }
+        @if (Model.CanDelete)
+        {
+            <h3>Delete</h3> <hr />
+            <button type="button" class="btn btn-danger actionButton" id="deleteBtn">Delete</button>
         }
     </div>
     <div class="col-xs-10">

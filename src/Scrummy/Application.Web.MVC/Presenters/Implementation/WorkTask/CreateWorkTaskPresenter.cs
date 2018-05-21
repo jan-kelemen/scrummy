@@ -64,12 +64,12 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
 
             var possibleParents = GetTasksFromBacklog(
                 backlog,
-                status => status != ProductBacklog.WorkTaskStatus.Done,
+                status => status != ProductBacklog.WorkTaskStatus.Done && status != ProductBacklog.WorkTaskStatus.InSprint,
                 CreateParentTypeFilter(Parse(vm.Type)));
 
             var possibleChildren = GetTasksFromBacklog(
                 backlog,
-                status => status != ProductBacklog.WorkTaskStatus.Done,
+                status => status != ProductBacklog.WorkTaskStatus.Done && status != ProductBacklog.WorkTaskStatus.InSprint,
                 CreateChildTypeFilter(Parse(vm.Type)));
 
             vm.ParentTasks = ToSelectListWithBlankEntry(possibleParents);

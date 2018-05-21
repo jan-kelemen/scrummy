@@ -8,6 +8,6 @@
 
         IViewTeamUseCase View { get; }
 
-        IDeleteTeamUseCase Team { get; }
+        IDeleteTeamUseCase Delete { get; }
     }
 }

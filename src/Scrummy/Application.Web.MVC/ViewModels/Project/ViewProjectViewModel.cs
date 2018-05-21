@@ -18,5 +18,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
         public IEnumerable<string> DefinitionOfDone { get; set; }
 
         public ViewSprintViewModel Sprint { get; set; }
+
+        public bool CanDelete { get; set; }
     }
 }

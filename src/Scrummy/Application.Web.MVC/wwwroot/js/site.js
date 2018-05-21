@@ -121,4 +121,12 @@ $(function () {
         var row = $($element).parents("tr:first");
         row.insertAfter(row.next());
     });
+
+    $("#deleteBtn").click(function () {
+        var deleteUrl = $("#deleteUrl").data("value");
+        var deleteMessage = $("#deleteMessage").data("value");
+        if (confirm(deleteMessage)) {
+            $(location).attr('href', deleteUrl);
+        }
+    });
 });

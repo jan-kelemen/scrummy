@@ -20,5 +20,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Meeting
         public string Description { get; set; }
 
         public IEnumerable<NavigationViewModel> InvolvedPersons { get; set; }
+
+        public bool CanDelete { get; set; }
     }
 }

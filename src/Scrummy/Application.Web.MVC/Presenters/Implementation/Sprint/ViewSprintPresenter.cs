@@ -71,7 +71,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
                         StoryPoints = story.StoryPoints?.ToString(),
                         Tasks = dict,
                     };
-                })
+                }),
+                CanDelete = response.CanDelete,
             };
         }
     }

@@ -36,6 +36,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                 },
                 DefinitionOfDone = response.DefinitionOfDone,
                 Sprint = response.Sprint != null ? _viewSprintPresenter.Present(response.Sprint) : null,
+                CanDelete = response.CanDelete,
             };
         }
     }

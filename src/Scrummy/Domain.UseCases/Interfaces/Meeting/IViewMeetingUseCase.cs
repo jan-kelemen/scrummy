@@ -42,6 +42,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
         public string Description { get; set; }
 
         public IEnumerable<Identity> InvolvedPersons { get; set; }
+
+        public bool CanDelete = true;
     }
 
     public interface IViewMeetingUseCase

@@ -38,5 +38,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.WorkTask
         public bool CanEdit { get; set; }
 
         public bool CanEditParent { get; set; }
+
+        public bool CanDelete => CanEdit && CanEditParent;
     }
 }

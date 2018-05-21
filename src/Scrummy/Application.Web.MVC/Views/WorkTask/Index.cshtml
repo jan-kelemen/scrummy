@@ -14,6 +14,9 @@
     }
 }
 
+<input type="hidden" id="deleteMessage" data-value="Are you sure you want to delete @Model.Name?" />
+<input type="hidden" id="deleteUrl" data-value="/WorkTask/Delete/@Model.Id" />
+
 <div class="row">
     <div class="col-xs-2">
         @if (Model.CanEdit)
@@ -53,6 +56,11 @@
             }
         }
         <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="@Model.Type">Create @TypeToActionType(Model.Type)</a>
+        @if (Model.CanDelete)
+        {
+            <h3>Delete</h3> <hr />
+            <button type="button" class="btn btn-danger actionButton" id="deleteBtn">Delete</button>
+        }
     </div>
     <div class="col-xs-10">
         <h2>@TypeToUserType(Model.Type) - @Model.Name</h2> <hr />

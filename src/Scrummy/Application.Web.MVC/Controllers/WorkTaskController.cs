@@ -115,5 +115,31 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return View(presenter.Present(vm));
             }
         }
+
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            var presenter = _presenterFactory.Presenter(MessageHandler, ErrorHandler);
+            try
+            {
+                var uc = _useCaseFactory.Delete;
+                var response = uc.Execute(new DeleteWorkTaskRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                presenter.Present(response);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), new { id });
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), new { id });
+            }
+        }
     }
 }

@@ -48,6 +48,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
                         Text = p.Name,
                     };
                 }),
+                CanDelete = response.CanDelete,
             };
         }
 

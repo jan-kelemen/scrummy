@@ -4,12 +4,20 @@
     ViewData["Title"] = @Model.Name;
 }
 
+<input type="hidden" id="deleteMessage" data-value="Are you sure you want to delete @Model.Name?" />
+<input type="hidden" id="deleteUrl" data-value="/Team/Delete/@Model.Id" />
+
 <div class="row">
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
         <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
         <a asp-action="MemberHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">Member history</a>
         <a asp-action="ProjectHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">Project history</a>
+        @if (Model.CanDelete)
+        {
+            <h3>Delete</h3> <hr />
+            <button type="button" class="btn btn-danger actionButton" id="deleteBtn">Delete</button>
+        }
     </div>
     <div class="col-xs-10">
         <h2>Team - @Model.Name</h2> <hr/>
