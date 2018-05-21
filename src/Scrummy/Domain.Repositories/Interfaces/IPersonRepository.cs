@@ -1,4 +1,6 @@
 ﻿using Scrummy.Domain.Core.Entities;
+using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 
 namespace Scrummy.Domain.Repositories.Interfaces
 {

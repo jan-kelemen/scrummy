@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 
 using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Person;

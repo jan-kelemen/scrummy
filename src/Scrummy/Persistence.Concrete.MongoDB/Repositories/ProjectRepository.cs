@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 
@@ -58,7 +59,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override void Update(Project project)
         {
-            if(project == null) { throw CreateInvalidEntityException(); }
+            if (project == null) { throw CreateInvalidEntityException(); }
 
             var updateDefinition = Builders<MProject>.Update
                 .Set(p => p.Name, project.Name)
@@ -71,7 +72,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             {
                 var currentTeam = entity.CurrentTeam;
                 currentTeam.To = DateTime.Now;
-                
+
                 var updateTeam = Builders<MProject>.Update
                     .Set(p => p.CurrentTeam, new TeamHistoryRecord
                     {
@@ -86,7 +87,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var result = _projectCollection.UpdateOne(x => x.Id == project.Id.ToPersistenceIdentity(), updateDefinition);
 
-            if(result.MatchedCount != 1) { throw CreateEntityNotFoundException(project.Id); }
+            if (result.MatchedCount != 1) { throw CreateEntityNotFoundException(project.Id); }
         }
 
         public ProductBacklog ReadProductBacklog(Identity projectIdentity)
@@ -123,10 +124,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var updateDefinition = Builders<MProject>.Update
                 .Set(p => p.Backlog, productBacklog.Select(x => new MProject.BacklogItem
-                    {
-                        WorkTaskId = x.WorkTaskId.ToPersistenceIdentity(),
-                        Status = x.Status
-                    }))
+                {
+                    WorkTaskId = x.WorkTaskId.ToPersistenceIdentity(),
+                    Status = x.Status
+                }))
                 .Push(p => p.BacklogHistory, historyRecord);
 
             var result = _projectCollection.UpdateOne(x => x.Id == projectIdentity.ToPersistenceIdentity(), updateDefinition);
@@ -168,6 +169,64 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 y.TeamId == teamId.ToPersistenceIdentity() && y.From >= timePoint && y.To <= timePoint));
 
             return _projectCollection.Find(f | f2).ToEnumerable().Select(x => x.Id.ToDomainIdentity()).Distinct();
+        }
+
+        public HistoryDTO<Identity> ReadProjectTeamHistory(Identity projectId)
+        {
+            if (projectId.IsBlankIdentity()) { throw CreateEntityNotFoundException(projectId); }
+
+            var entity = _projectCollection.Find(x => x.Id == projectId.ToPersistenceIdentity()).FirstOrDefault();
+            if (entity == null) { throw CreateEntityNotFoundException(projectId); }
+
+            var history = new[] { entity.CurrentTeam }.Concat(entity.TeamHistory).OrderByDescending(x => x.From);
+
+            return new HistoryDTO<Identity>
+            {
+                Id = entity.Id.ToDomainIdentity(),
+                Records = history.Select(x => new HistoryDTO<Identity>.Record
+                {
+                    From = x.From,
+                    To = x.To,
+                    RecordId = x.TeamId.ToDomainIdentity(),
+                })
+            };
+        }
+
+        public HistoryDTO<Identity> ReadTeamProjectHistory(Identity teamId)
+        {
+            var f = Builders<MProject>.Filter.Where(x =>
+                x.CurrentTeam.TeamId == teamId.ToPersistenceIdentity());
+            var f2 = Builders<MProject>.Filter.Where(x => x.TeamHistory.Any(y =>
+                y.TeamId == teamId.ToPersistenceIdentity()));
+
+            var records = new List<HistoryDTO<Identity>.Record>();
+
+            foreach (var project in _projectCollection.Find(f | f2).ToEnumerable())
+            {
+                if (project.CurrentTeam.TeamId == teamId.ToPersistenceIdentity())
+                {
+                    records.Add(new HistoryDTO<Identity>.Record
+                    {
+                        From = project.CurrentTeam.From,
+                        To = project.CurrentTeam.To,
+                        RecordId = project.Id.ToDomainIdentity(),
+                    });
+                }
+
+                records.AddRange(project.TeamHistory.Where(x => x.TeamId == teamId.ToPersistenceIdentity())
+                    .Select(record => new HistoryDTO<Identity>.Record
+                    {
+                        From = record.From,
+                        To = record.To,
+                        RecordId = project.Id.ToDomainIdentity(),
+                    }));
+            }
+
+            return new HistoryDTO<Identity>
+            {
+                Id = teamId,
+                Records = records.OrderByDescending(x => x.From),
+            };
         }
     }
 }

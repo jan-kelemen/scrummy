@@ -1,4 +1,5 @@
-﻿using Scrummy.Domain.Repositories.Interfaces;
+﻿using System.Linq;
+using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Interfaces.Team;
 
@@ -20,6 +21,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
             request.ThrowExceptionIfInvalid();
 
             var entity = _teamRepository.Read(request.Id);
+            var historyRecord = _projectRepository.ReadTeamProjectHistory(entity.Id);
 
             return new ViewTeamResponse
             {
@@ -28,7 +30,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
                 TimeOfDailyScrum = entity.TimeOfDailyScrum,
                 Members = entity.Members,
                 CurrentProjects = _projectRepository.GetProjectsOfTeamAtTimePoint(request.Id, request.CurrentTime),
-                CanDelete = false, //TODO
+                CanDelete = !historyRecord.Records.Any()
             };
         }
     }
