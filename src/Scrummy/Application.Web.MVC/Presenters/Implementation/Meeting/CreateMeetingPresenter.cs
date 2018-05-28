@@ -28,6 +28,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
             return new CreateMeetingViewModel
             {
                 Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                Duration = DateTime.Now.ToString("HH:mm", CultureInfo.InvariantCulture),
                 Project = new NavigationViewModel
                 {
                     Id = project.Id.ToString(),

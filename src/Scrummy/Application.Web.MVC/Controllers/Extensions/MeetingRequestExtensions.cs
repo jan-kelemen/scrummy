@@ -18,7 +18,9 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                 ProjectId = Identity.FromString(vm.Project.Id),
                 OrganizedBy = Identity.FromString(vm.OrganizedBy.Id),
                 InvolvedPersons = vm.SelectedPersonIds.Select(Identity.FromString),
-                Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
+                Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                Duration = DateTime.ParseExact(vm.Duration, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay,
+                Log = vm.Log,
             };
         }
 
@@ -31,6 +33,8 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                 Description = vm.Description,
                 InvolvedPersons = vm.SelectedPersonIds.Select(Identity.FromString),
                 Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                Duration = DateTime.ParseExact(vm.Duration, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay,
+                Log = vm.Log,
             };
         }
     }

@@ -33,7 +33,9 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
                 Name = meeting.Name,
                 Description = meeting.Description,
                 Time = meeting.Time.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                Duration = meeting.Duration.ToString(@"hh\:mm", CultureInfo.InvariantCulture),
                 SelectedPersonIds = meeting.InvolvedPersons.Select(x => x.Id.ToString()).ToList(),
+                Log = meeting.Log,
                 Project = new NavigationViewModel
                 {
                     Id = project.Id.ToString(),

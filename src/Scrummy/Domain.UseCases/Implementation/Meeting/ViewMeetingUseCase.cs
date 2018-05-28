@@ -28,6 +28,8 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
                 OrganizedBy = entity.OrganizedBy,
                 ProjectId = entity.ProjectId,
                 Time = entity.Time,
+                Duration = entity.Duration,
+                Log = entity.Log,
             };
         }
     }

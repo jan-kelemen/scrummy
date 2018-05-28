@@ -50,6 +50,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Person
                     Id = meeting.Id.ToString(),
                     Text = meeting.Name,
                     Time = meeting.Time.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                    Duration = meeting.Duration.ToString(@"hh\:mm", CultureInfo.InvariantCulture),
                 };
             });
         }

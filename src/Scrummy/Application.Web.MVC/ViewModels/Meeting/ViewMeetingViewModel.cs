@@ -17,7 +17,11 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Meeting
 
         public string Time { get; set; }
 
+        public string Duration { get; set; }
+
         public string Description { get; set; }
+
+        public string Log { get; set; }
 
         public IEnumerable<NavigationViewModel> InvolvedPersons { get; set; }
 

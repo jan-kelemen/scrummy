@@ -116,8 +116,10 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 projectId: meeting.ProjectId.ToDomainIdentity(),
                 name: meeting.Name,
                 time: DateTime.ParseExact(meeting.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                duration: meeting.Duration,
                 organizedBy: meeting.OrganizedBy.ToDomainIdentity(),
                 description: meeting.Description,
+                log: meeting.Log,
                 involvedPersons: meeting.InvolvedPersons.Select(m => m.ToDomainIdentity())
             );
         }
@@ -132,7 +134,9 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 Description = meeting.Description,
                 OrganizedBy = meeting.OrganizedBy.ToPersistenceIdentity(),
                 Time = meeting.Time.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                Duration = meeting.Duration,
                 InvolvedPersons = meeting.InvolvedPersons.Select(x => x.ToPersistenceIdentity()),
+                Log = meeting.Log,
             };
         }
 

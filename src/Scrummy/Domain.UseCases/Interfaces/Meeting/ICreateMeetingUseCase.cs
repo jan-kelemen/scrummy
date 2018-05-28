@@ -23,7 +23,11 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
 
         public DateTime Time { get; set; }
 
+        public TimeSpan Duration { get; set; }
+
         public string Description { get; set; }
+
+        public string Log { get; set; }
 
         public IEnumerable<Identity> InvolvedPersons { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MongoDB.Bson;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
@@ -11,9 +12,13 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 
         public string Time { get; set; }
 
+        public TimeSpan Duration { get; set; }
+
         public ObjectId OrganizedBy { get; set; }
 
         public string Description { get; set; }
+
+        public string Log { get; set; }
 
         public IEnumerable<ObjectId> InvolvedPersons { get; set; }
     }

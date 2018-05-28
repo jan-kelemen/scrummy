@@ -43,8 +43,10 @@ namespace Scrummy.Domain.Core.Entities
             Identity projectId,
             string name,
             DateTime time,
+            TimeSpan duration,
             Identity organizedBy,
             string description,
+            string log,
             IEnumerable<Identity> involvedPersons) : base(id)
         {
             ProjectId = projectId;
@@ -53,6 +55,8 @@ namespace Scrummy.Domain.Core.Entities
             OrganizedBy = organizedBy;
             Description = description;
             InvolvedPersons = involvedPersons;
+            Duration = duration;
+            Log = log;
         }
 
         public Identity ProjectId
@@ -69,6 +73,8 @@ namespace Scrummy.Domain.Core.Entities
 
         public DateTime Time { get; set; }
 
+        public TimeSpan Duration { get; set; }
+
         public Identity OrganizedBy
         {
             get => _organizedBy;
@@ -76,6 +82,8 @@ namespace Scrummy.Domain.Core.Entities
         }
 
         public string Description { get; set; }
+
+        public string Log { get; set; }
 
         public IEnumerable<Identity> InvolvedPersons
         {

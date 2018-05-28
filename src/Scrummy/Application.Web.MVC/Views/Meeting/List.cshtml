@@ -18,6 +18,7 @@
                 <tr>
                     <th>Meeting</th>
                     <th>Time</th>
+                    <th>Duration</th>
                     <th class="actionColumn"></th>
                 </tr>
                 </thead>
@@ -30,6 +31,9 @@
                         </td>
                         <td>
                             @meeting.Time
+                        </td>
+                        <td>
+                            @meeting.Duration
                         </td>
                         <td>
                             <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Meeting" asp-route-id="@meeting.Id">View</a>

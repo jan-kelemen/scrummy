@@ -31,6 +31,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
                 Description = response.Description,
                 Name = response.Name,
                 Time = response.Time.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                Duration = response.Duration.ToString(@"hh\:mm", CultureInfo.InvariantCulture),
+                Log = response.Log,
                 OrganizedBy = new NavigationViewModel
                 {
                     Id = organizer.Id.ToString(),

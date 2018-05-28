@@ -8,6 +8,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Person
         public class Meeting : NavigationViewModel
         {
             public string Time { get; set; }
+
+            public string Duration { get; set; }
         }
 
         public IEnumerable<NavigationViewModel> CurrentProjects { get; set; }

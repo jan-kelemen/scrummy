@@ -31,6 +31,8 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
             entity.Description = request.Description;
             entity.InvolvedPersons = request.InvolvedPersons;
             entity.Time = request.Time;
+            entity.Duration = request.Duration;
+            entity.Log = request.Log;
 
             _meetingRepository.Update(entity);
 

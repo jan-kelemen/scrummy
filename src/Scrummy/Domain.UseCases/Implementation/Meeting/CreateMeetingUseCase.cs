@@ -48,9 +48,11 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
             return new Core.Entities.Meeting(_meetingRepository.GenerateNewIdentity(), 
                 request.ProjectId, 
                 request.Name, 
-                request.Time, 
+                request.Time,
+                request.Duration,
                 request.OrganizedBy, 
                 request.Description, 
+                request.Log,
                 request.InvolvedPersons);
         }
     }

@@ -32,9 +32,19 @@
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Log" class="control-label"></label>
+                <textarea asp-for="Log" class="form-control"></textarea>
+                <span asp-validation-for="Log" class="text-danger"></span>
             </div>
             <h5>Persons</h5>
             <div class="form-group">
@@ -44,12 +54,12 @@
                         <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
                     </tr>
                     @for (var i = 0; i < Model.SelectedPersonIds.Count; ++i)
-                {
-                    <tr>
-                        <td><select asp-for="SelectedPersonIds[@i]" name="SelectedPersonIds[]" id="@ToId("ipi", i)" asp-items="Model.Persons" class="form-control"></select></td>
-                        <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
-                    </tr>
-            }
+                    {
+                        <tr>
+                            <td><select asp-for="SelectedPersonIds[@i]" name="SelectedPersonIds[]" id="@ToId("ipi", i)" asp-items="Model.Persons" class="form-control"></select></td>
+                            <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                        </tr>
+                    }
                 </table>
                 @Html.ValidationMessage("InvolvedPersons", htmlAttributes: new { @class = "text-danger" })
             </div>

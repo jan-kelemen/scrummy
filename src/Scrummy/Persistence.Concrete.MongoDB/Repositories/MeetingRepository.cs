@@ -105,9 +105,16 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 .Select(x => new
                 {
                     x.Id,
-                    Time = DateTime.ParseExact(x.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
+                    Time = DateTime.ParseExact(x.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                    x.Duration
                 })
-                .Where(x => x.Time >= fromTime && x.Time <= toTime);
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Time,
+                    TimeWithDuration = x.Time.Add(x.Duration)
+                })
+                .Where(x => x.Time >= fromTime && x.Time <= toTime || fromTime >= x.Time && fromTime <= x.TimeWithDuration);
 
             return idAndTime.Select(x => x.Id.ToDomainIdentity());
         }
@@ -124,9 +131,16 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 .Select(x => new
                 {
                     x.Id,
-                    Time = DateTime.ParseExact(x.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
+                    Time = DateTime.ParseExact(x.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                    x.Duration
                 })
-                .Where(x => x.Time >= fromTime && x.Time <= toTime);
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Time,
+                    TimeWithDuration = x.Time.Add(x.Duration)
+                })
+                .Where(x => x.Time >= fromTime && x.Time <= toTime || fromTime >= x.Time && fromTime <= x.TimeWithDuration);
 
             return idAndTime.Select(x => x.Id.ToDomainIdentity());
         }
