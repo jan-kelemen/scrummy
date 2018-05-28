@@ -69,6 +69,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
                         Id = story.Id.ToString(),
                         Text = story.Name,
                         StoryPoints = story.StoryPoints?.ToString(),
+                        Completed = x.Completed ? "Yes" : "No",
                         Tasks = dict,
                     };
                 }),

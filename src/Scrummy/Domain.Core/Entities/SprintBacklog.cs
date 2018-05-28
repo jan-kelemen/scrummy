@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Scrummy.Domain.Core.Entities.Common;
 
 namespace Scrummy.Domain.Core.Entities
@@ -38,15 +37,19 @@ namespace Scrummy.Domain.Core.Entities
 
         private List<Identity> _stories;
 
+        private List<Identity> _completedStories;
+
         private List<WorkTaskWithStatus> _tasks;
 
         public SprintBacklog(
             Identity sprintId, 
-            IEnumerable<Identity> stories, 
+            IEnumerable<Identity> stories,
+            IEnumerable<Identity> completedStories,
             IEnumerable<WorkTaskWithStatus> tasks)
         {
             SprintId = sprintId;
             Stories = new List<Identity>(stories);
+            CompletedStories = new List<Identity>(completedStories);
             Tasks = tasks;
         }
 
@@ -56,6 +59,12 @@ namespace Scrummy.Domain.Core.Entities
         {
             get => _stories;
             set => _stories = new List<Identity>(value);
+        }
+
+        public IList<Identity> CompletedStories
+        {
+            get => _completedStories;
+            set => _completedStories = new List<Identity>(value);
         }
 
         public IEnumerable<WorkTaskWithStatus> Tasks

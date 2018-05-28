@@ -43,6 +43,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 
         public IEnumerable<ObjectId> PlannedTasks { get; set; }
 
+        public IEnumerable<ObjectId> CompletedTasks { get; set; }
+
         public IEnumerable<BacklogItem> Backlog { get; set; }
 
         public IEnumerable<BacklogHistoryRecord> BacklogHistory { get; set; }

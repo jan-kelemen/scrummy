@@ -19,5 +19,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
 
         public IViewSprintPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
             => new ViewSprintPresenter(messageHandler, errorHandler, RepositoryProvider);
+
+        public IEndSprintPresenter End(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
+            => new EndSprintPresenter(messageHandler, errorHandler, RepositoryProvider);
     }
 }

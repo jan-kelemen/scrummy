@@ -148,14 +148,21 @@ namespace Scrummy.Application.Web.MVC.Controllers
         [HttpGet]
         public IActionResult End(string id)
         {
-            var presenter = _presenterFactory.Presenter(MessageHandler, ErrorHandler);
+            var presenter = _presenterFactory.End(MessageHandler, ErrorHandler);
+            return View(presenter.GetInitialViewModel(id));
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult End(EndSprintViewModel vm)
+        {
+            var presenter = _presenterFactory.End(MessageHandler, ErrorHandler);
             try
             {
                 var uc = _useCaseFactory.End;
-                var response = uc.Execute(new EndSprintRequest(CurrentUserId)
-                {
-                    Id = Identity.FromString(id),
-                });
+                var request = vm.ToRequest(CurrentUserId);
+                var response = uc.Execute(request);
                 return RedirectToAction(nameof(Index), "Project", new { id = presenter.Present(response) });
             }
             catch (InvalidRequestException ire)

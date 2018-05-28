@@ -8,5 +8,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Sprint
         ICreateSprintPresenter Create(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IEditSprintPresenter Edit(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IViewSprintPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
+        IEndSprintPresenter End(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
     }
 }

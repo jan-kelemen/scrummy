@@ -47,6 +47,6 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             new Core.Entities.Sprint(_sprintRepository.GenerateNewIdentity(), request.ProjectId, request.Name, request.TimeSpan, request.Goal, SprintStatus.Planned);
 
         private SprintBacklog ToDomainEntity(Identity sprintId, IEnumerable<Identity> stories) => 
-            new SprintBacklog(sprintId, stories, new SprintBacklog.WorkTaskWithStatus[0]);
+            new SprintBacklog(sprintId, stories, new Identity[0], new SprintBacklog.WorkTaskWithStatus[0]);
     }
 }

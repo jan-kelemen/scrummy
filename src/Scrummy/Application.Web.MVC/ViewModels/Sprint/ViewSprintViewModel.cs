@@ -14,6 +14,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Sprint
 
             public string StoryPoints { get; set; }
 
+            public string Completed { get; set; }
+
             public Dictionary<string, IList<NavigationViewModel>> Tasks { get; set; }
 
             public IEnumerable<Tuple<NavigationViewModel, NavigationViewModel, NavigationViewModel>> Transform()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -44,6 +45,19 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                 SprintId = Identity.FromString(sprintId),
                 TaskId = Identity.FromString(taskId),
                 Status = Enum.Parse<SprintBacklog.WorkTaskStatus>(status)
+            };
+        }
+
+        public static EndSprintRequest ToRequest(this EndSprintViewModel vm, string userId)
+        {
+            return new EndSprintRequest(userId)
+            {
+                Id = Identity.FromString(vm.Sprint.Id),
+                Stories = vm.Ids.Select((t, i) => new EndSprintRequest.Story
+                {
+                    Id = Identity.FromString(t),
+                    Decision = Enum.Parse<EndSprintRequest.StoryDecision>(vm.Decisions[i]),
+                }),
             };
         }
     }

@@ -44,6 +44,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             var responseStories = backlog.Stories.Select(x => new ViewSprintResponse.Story
             {
                 Id = x,
+                Completed = backlog.CompletedStories.Contains(x),
                 Tasks = backlog.Tasks
                     .Where(y => y.ParentTaskId == x)
                     .Select(y => new Tuple<Identity, SprintBacklog.WorkTaskStatus>(y.WorkTaskId, y.Status)),

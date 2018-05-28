@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
@@ -7,6 +8,18 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 {
     public class EndSprintRequest : AuthorizedRequest
     {
+        public enum StoryDecision
+        {
+            Backlog, Done
+        }
+
+        public class Story
+        {
+            public Identity Id { get; set; }
+
+            public StoryDecision Decision { get; set; }
+        }
+
         public EndSprintRequest(string userId) : base(userId)
         {
         }
@@ -14,6 +27,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         public Identity Id { get; set; }
 
         public DateTime CurrentTime { get; set; } = DateTime.Now;
+
+        public IEnumerable<Story> Stories { get; set; }
 
         protected override void ValidateCore()
         {

@@ -35,6 +35,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             entity.Backlog = new MSprint.BacklogItem[0];
             entity.BacklogHistory = new MSprint.BacklogHistoryRecord[0];
             entity.PlannedTasks = new ObjectId[0];
+            entity.CompletedTasks = new ObjectId[0];
             _sprintCollection.InsertOne(entity);
             return sprint.Id;
         }
@@ -101,6 +102,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return new SprintBacklog(
                 sprintIdentity,
                 entity.PlannedTasks.Select(t => t.ToDomainIdentity()),
+                entity.CompletedTasks.Select(t => t.ToDomainIdentity()),
                 entity.Backlog.Select(t => new SprintBacklog.WorkTaskWithStatus(
                     t.WorkTaskId.ToDomainIdentity(),
                     t.ParentTaskId.ToDomainIdentity(),
@@ -147,6 +149,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                     ParentTaskId = x.ParentTaskId.ToPersistenceIdentity(),
                     Status = x.Status
                 }))
+                .Set(x => x.CompletedTasks, backlog.CompletedStories.Select(x => x.ToPersistenceIdentity()))
                 .Push(p => p.BacklogHistory, historyRecord);
 
             var result = _sprintCollection.UpdateOne(x => x.Id == sprintIdentity.ToPersistenceIdentity(), updateDefinition);
@@ -176,6 +179,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             return sprints.Select(x =>
                 new SprintBacklog(x.Id.ToDomainIdentity(),
                     x.PlannedTasks.Select(t => t.ToDomainIdentity()),
+                    x.CompletedTasks.Select(t => t.ToDomainIdentity()),
                     x.Backlog.Select(t => new SprintBacklog.WorkTaskWithStatus(
                         t.WorkTaskId.ToDomainIdentity(),
                         t.ParentTaskId.ToDomainIdentity(),

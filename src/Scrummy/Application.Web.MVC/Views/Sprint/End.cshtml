@@ -1,0 +1,56 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Sprint.EndSprintViewModel
+
+@{
+    ViewData["Title"] = "End sprint";
+    string ToId(string key, int i) => $"{key}{i}";
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Sprint.Id">Cancel</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>End sprint - @Model.Sprint.Text</h2><hr />
+        <form asp-action="End">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x => x.Sprint.Id)
+            @Html.HiddenFor(x => x.Sprint.Text)
+            <div class="form-group">
+                <table class="table">
+                    <tr id="tableHeader">
+                        <th>User Story</th>
+                        <th class="actionColumn"></th>
+                    </tr>
+                    @for (var i = 0; i < Model.Ids.Length; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="hidden" value="@Model.Ids[i]" name="Ids[]" />
+                                <input type="hidden" value="@Model.Names[i]" name="Names[]" />
+                                @Model.Names[i]
+                            </td>
+                            <td>
+                                <select asp-for="@Model.Decisions[i]" name="Decisions[]" id="@Model.Decisions[i]" asp-items="Model.Statuses" class="form-control"></select>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    @for (var i = 0; i < Model.Ids.Length; i++)
+    {
+        @:document.getElementById("@ToId("ss", i)").value = "@Model.Decisions[i]";
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

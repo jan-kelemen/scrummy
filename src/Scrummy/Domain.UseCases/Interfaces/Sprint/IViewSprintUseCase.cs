@@ -28,6 +28,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         {
             public Identity Id { get; set; }
 
+            public bool Completed { get; set; }
+
             public IEnumerable<Tuple<Identity, SprintBacklog.WorkTaskStatus>> Tasks {get;set;}
         }
 

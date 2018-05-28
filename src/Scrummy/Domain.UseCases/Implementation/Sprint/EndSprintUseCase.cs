@@ -31,21 +31,32 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
 
             var backlog = _sprintRepository.ReadSprintBacklog(sprint.Id);
             var projectBacklog = _projectRepository.ReadProductBacklog(sprint.ProjectId);
-            var tasksByStory = backlog.Tasks.GroupBy(x => x.ParentTaskId);
 
-            foreach (var story in tasksByStory)
+            var doneStories = request.Stories
+                .Where(x => x.Decision == EndSprintRequest.StoryDecision.Done)
+                .Select(x => x.Id)
+                .ToList();
+
+            var backlogStories = request.Stories
+                .Where(x => x.Decision == EndSprintRequest.StoryDecision.Backlog)
+                .Select(x => x.Id);
+
+            foreach (var done in doneStories)
             {
-                projectBacklog.UpdateTask(new ProductBacklog.WorkTaskWithStatus(story.Key,
-                    story.All(x => x.Status == SprintBacklog.WorkTaskStatus.Done) 
-                        ? ProductBacklog.WorkTaskStatus.Done 
-                        : ProductBacklog.WorkTaskStatus.Ready));
+                foreach (var task in backlog.Tasks.Where(x => x.ParentTaskId == done))
+                {
+                    task.Status = SprintBacklog.WorkTaskStatus.Done;
+                }
+                projectBacklog.First(x => x.WorkTaskId == done).Status = ProductBacklog.WorkTaskStatus.Done;
+            }
+            backlog.CompletedStories = doneStories;
+
+            foreach (var ready in backlogStories)
+            {
+                projectBacklog.First(x => x.WorkTaskId == ready).Status = ProductBacklog.WorkTaskStatus.Ready;
             }
 
-            foreach (var storyWithoutTasks in backlog.Stories.Where(x => backlog.Tasks.Count(y => y.ParentTaskId == x) == 0))
-            {
-                projectBacklog.UpdateTask(new ProductBacklog.WorkTaskWithStatus(storyWithoutTasks, ProductBacklog.WorkTaskStatus.Done));
-            }
-
+            _sprintRepository.UpdateCurrentTasks(backlog);
             _projectRepository.UpdateProductBacklog(projectBacklog);
             _sprintRepository.Update(sprint);
 
