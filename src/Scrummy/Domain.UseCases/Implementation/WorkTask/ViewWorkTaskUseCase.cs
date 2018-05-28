@@ -33,6 +33,7 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
                 Type = entity.Type,
                 ChildTasks = entity.ChildTasks,
                 StoryPoints = entity.StoryPoints,
+                Steps = entity.Steps,
                 CanEdit = CanWorkTaskBeEdited(entity),
                 CanEditParent = entity.ParentTask.IsBlankIdentity() || CanWorkTaskBeEdited(_workTaskRepository.Read(entity.ParentTask)),
             };

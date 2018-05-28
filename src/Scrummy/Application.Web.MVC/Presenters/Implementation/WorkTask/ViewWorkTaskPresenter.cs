@@ -51,6 +51,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
                         Content = x.Content,
                     };
                 }),
+                Steps = response.Steps.ToList(),
                 CanEdit = response.CanEdit,
                 CanEditParent = response.CanEditParent,
             };

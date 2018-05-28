@@ -26,6 +26,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.WorkTask
         [Display(Name = "Parent task")]
         public string ParentTaskId { get; set; }
 
+        public List<string> Steps { get; set; } = new List<string>();
+
         public List<string> ChildTaskIds { get; set; } = new List<string>();
 
         public List<string> OriginalChildTaskIds { get; set; } = new List<string>();

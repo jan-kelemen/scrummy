@@ -30,6 +30,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
 
         public IEnumerable<Identity> ChildTasks { get; set; }
 
+        public IEnumerable<string> Steps { get; set; }
+
         protected override void ValidateCore()
         {
             if(ProjectId.IsBlankIdentity())

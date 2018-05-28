@@ -57,6 +57,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
                 ParentTasks = ToSelectListWithBlankEntry(possibleParents),
                 ChildTasks = ToSelectListWithBlankEntry(possibleChildren),
                 OriginalChildTaskIds = task.ChildTasks.Select(x => x.ToString()).ToList(),
+                Steps = task.Steps.ToList(),
             };
         }
 

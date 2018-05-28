@@ -12,7 +12,7 @@ $(function () {
                 '<td><button class="btn btn-default tableButton" name="up">Up</button></td>' +
                 '<td><button class="btn btn-default tableButton" name="down">Down</button></td>' +
                 '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
-                '</tr>';
+            '</tr>';
 
         $('#dodTable tr:last').after(row);
     });
@@ -128,5 +128,34 @@ $(function () {
         if (confirm(deleteMessage)) {
             $(location).attr('href', deleteUrl);
         }
+    });
+
+    $("#stepTable").delegate("button[name='add']", "click", function (e) {
+        e.preventDefault();
+        var row =
+            '<tr>' +
+                '<td><input name="Steps[]" class="form-control"></td>' +
+                '<td><button class="btn btn-default tableButton" name="up">Up</button></td>' +
+                '<td><button class="btn btn-default tableButton" name="down">Down</button></td>' +
+                '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
+            '</tr>';
+
+        $('#stepTable tr:last').after(row);
+    });
+
+    $("#stepTable").delegate("button[name='up']", "click", function (e) {
+        e.preventDefault();
+        var $element = this;
+        var row = $($element).parents("tr:first");
+
+        if (!row.prev().is($('#tableHeader'))) {
+            row.insertBefore(row.prev());
+        }
+    });
+    $("#stepTable").delegate("button[name='down']", "click", function (e) {
+        e.preventDefault();
+        var $element = this;
+        var row = $($element).parents("tr:first");
+        row.insertAfter(row.next());
     });
 });

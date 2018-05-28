@@ -40,7 +40,7 @@
         }
         else if (Model.CanEdit)
         {
-        <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="UserStory" asp-route-child="" asp-route-parent="@Model.Id">Create linked Story</a>
+            <a asp-action="Create" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-type="UserStory" asp-route-child="" asp-route-parent="@Model.Id">Create linked Story</a>
         }
 
         @if (Model.ParentTask != null && Model.CanEdit && Model.CanEditParent)
@@ -103,6 +103,21 @@
                     @Html.DisplayFor(model => model.Description)
                 </dd>
             </dl>
+            @if (Model.Type != "Epic" && Model.Type != "Task")
+            {
+                <h5>Steps</h5>
+                <table class="table">
+                    <tr id="tableHeader">
+                        <th>Step</th>
+                    </tr>
+                    @foreach (var p in Model.Steps)
+                    {
+                        <tr>
+                            <td>@p</td>
+                        </tr>
+                    }
+                </table>
+            }
             @if (Model.Type != "Defect" && Model.Type != "Task")
             {
                 <h5>Linked tasks</h5>

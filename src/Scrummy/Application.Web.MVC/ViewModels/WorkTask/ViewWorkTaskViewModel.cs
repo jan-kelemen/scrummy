@@ -35,6 +35,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.WorkTask
 
         public IEnumerable<Comment> Comments { get; set; }
 
+        public List<string> Steps { get; set; } = new List<string>();
+
         public bool CanEdit { get; set; }
 
         public bool CanEditParent { get; set; }

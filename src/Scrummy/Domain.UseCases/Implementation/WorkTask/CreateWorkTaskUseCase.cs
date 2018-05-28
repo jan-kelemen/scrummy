@@ -65,7 +65,8 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
                 request.Description,
                 request.ParentTask,
                 request.ChildTasks,
-                new Identity[0]);
+                new Identity[0],
+                request.Steps);
         }
     }
 }

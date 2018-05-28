@@ -66,7 +66,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 .Set(w => w.Name, persistenceEntity.Name)
                 .Set(w => w.StoryPoints, persistenceEntity.StoryPoints)
                 .Set(w => w.Description, persistenceEntity.Description)
-                .Set(w => w.ParentTask, persistenceEntity.ParentTask);
+                .Set(w => w.ParentTask, persistenceEntity.ParentTask)
+                .Set(w => w.Steps, persistenceEntity.Steps);
 
             var updateEntityResult = _workTaskCollection.UpdateOne(x => x.Id == persistenceEntity.Id, updateDefinition);
 
