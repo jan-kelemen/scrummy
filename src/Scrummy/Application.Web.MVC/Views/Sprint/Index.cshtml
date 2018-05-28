@@ -52,51 +52,55 @@
                     @Html.DisplayFor(model => model.Goal)
                 </dd>
             </dl>
-            <h5>Stories</h5>
+            <h5><b>Stories</b></h5>
             <table class="table">
-                <tr id="tableHeader">
-                    <th>Story</th>
-                    <th>To Do</th>
-                    <th>In Progress</th>
-                    <th>Done</th>
-                    <th>Completed</th>
-                </tr>
-                @foreach (var p in Model.Stories)
-                {
-                    <tr>
-                        <td colspan="4">
-                            <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id">@p.Text (@p.StoryPoints)</a>
-                        </td>
-                        <td>
-                            @p.Completed
-                        </td>
+                <thead>
+                    <tr id="tableHeader">
+                        <th>Story</th>
+                        <th>To Do</th>
+                        <th>In Progress</th>
+                        <th>Done</th>
+                        <th>Completed</th>
                     </tr>
-                    foreach (var t in p.Transform())
+                </thead>
+                <tbody>
+                    @foreach (var p in Model.Stories)
                     {
                         <tr>
-                            <td></td>
-                            <td>
-                                @if (t.Item1 != null)
-                                {
-                                    <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item1.Id">@t.Item1.Text</a>
-                                }
+                            <td colspan="4">
+                                <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id">@p.Text (@p.StoryPoints)</a>
                             </td>
                             <td>
-                                @if (t.Item2 != null)
-                                {
-                                    <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item2.Id">@t.Item2.Text</a>
-                                }
+                                @p.Completed
                             </td>
-                            <td>
-                                @if (t.Item3 != null)
-                                {
-                                    <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item3.Id">@t.Item3.Text</a>
-                                }
-                            </td>
-                            <td></td>
                         </tr>
+                        foreach (var t in p.Transform())
+                        {
+                            <tr>
+                                <td></td>
+                                <td>
+                                    @if (t.Item1 != null)
+                                    {
+                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item1.Id">@t.Item1.Text</a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (t.Item2 != null)
+                                    {
+                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item2.Id">@t.Item2.Text</a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (t.Item3 != null)
+                                    {
+                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item3.Id">@t.Item3.Text</a>
+                                    }
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
                     }
-                }
+                </tbody>
             </table>
         </div>
     </div>

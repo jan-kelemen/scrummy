@@ -18,23 +18,27 @@
             @Html.HiddenFor(x => x.Sprint.Text)
             <div class="form-group">
                 <table class="table">
-                    <tr id="tableHeader">
-                        <th>User Story</th>
-                        <th class="actionColumn"></th>
-                    </tr>
-                    @for (var i = 0; i < Model.Ids.Length; i++)
-                    {
-                        <tr>
-                            <td>
-                                <input type="hidden" value="@Model.Ids[i]" name="Ids[]" />
-                                <input type="hidden" value="@Model.Names[i]" name="Names[]" />
-                                @Model.Names[i]
-                            </td>
-                            <td>
-                                <select asp-for="@Model.Decisions[i]" name="Decisions[]" id="@Model.Decisions[i]" asp-items="Model.Statuses" class="form-control"></select>
-                            </td>
+                    <thead>
+                        <tr id="tableHeader">
+                            <th>User Story</th>
+                            <th class="actionColumn"></th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.Ids.Length; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="@Model.Ids[i]" name="Ids[]" />
+                                    <input type="hidden" value="@Model.Names[i]" name="Names[]" />
+                                    @Model.Names[i]
+                                </td>
+                                <td>
+                                    <select asp-for="@Model.Decisions[i]" name="Decisions[]" id="@Model.Decisions[i]" asp-items="Model.Statuses" class="form-control"></select>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
             <div class="form-group">

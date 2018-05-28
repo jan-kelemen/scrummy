@@ -39,22 +39,26 @@
                 <textarea asp-for="Goal" class="form-control"></textarea>
                 <span asp-validation-for="Goal" class="text-danger"></span>
             </div>
-            <h5>Planned stories</h5>
+            <h5><b>Planned stories</b></h5> <hr/>
             <div class="form-group">
                 <table class="table" id="storiesTable">
-                    <tr id="tableHeader">
-                        <th class="actionButton">User Story</th>
-                        <th colspan="3"><button class="btn btn-default tableButton" name="add">Add</button></th>
-                    </tr>
-                    @for (var i = 0; i < Model.SelectedStories.Length; i++)
-                    {
-                        <tr>
-                            <td><select asp-for="SelectedStories[@i]" name="SelectedStories[]" id="@ToId("ss", i)" asp-items="Model.Stories" class="form-control"></select></td>
-                            <td><button class="btn btn-default tableButton" name="up">Up</button></td>
-                            <td><button class="btn btn-default tableButton" name="down">Down</button></td>
-                            <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                    <thead>
+                        <tr id="tableHeader">
+                            <th class="actionButton">User Story</th>
+                            <th colspan="3"><button class="btn btn-default tableButton" name="add">Add</button></th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.SelectedStories.Length; i++)
+                        {
+                            <tr>
+                                <td><select asp-for="SelectedStories[@i]" name="SelectedStories[]" id="@ToId("ss", i)" asp-items="Model.Stories" class="form-control"></select></td>
+                                <td><button class="btn btn-default tableButton" name="up">Up</button></td>
+                                <td><button class="btn btn-default tableButton" name="down">Down</button></td>
+                                <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
             <div class="form-group">

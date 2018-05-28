@@ -20,7 +20,7 @@
         }
     </div>
     <div class="col-xs-10">
-        <h2>Team - @Model.Name</h2> <hr/>
+        <h2>Team - @Model.Name</h2> <hr />
         <div>
             <dl class="dl-horizontal">
                 <dt>
@@ -36,40 +36,48 @@
                     @Html.DisplayFor(model => model.TimeOfDailyScrum)
                 </dd>
             </dl>
-            <h5>Members</h5>
+            <h5><b>Members</b></h5>
             <table class="table">
-                <tr>
-                    <th>Member</th>
-                    <th>Role</th>
-                    <th class="actionColumn"></th>
-                </tr>
-                @foreach(var m in Model.Members)
-                {
+                <thead>
                     <tr>
-                        <td>@m.Text</td>
-                        <td>@m.Role</td>
-                        <td>
-                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Person" asp-route-id="@m.Id">View</a>
-                        </td>
+                        <th>Member</th>
+                        <th>Role</th>
+                        <th class="actionColumn"></th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var m in Model.Members)
+                    {
+                        <tr>
+                            <td>@m.Text</td>
+                            <td>@m.Role</td>
+                            <td>
+                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Person" asp-route-id="@m.Id">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
 
-            <h5>Projects</h5>
+            <h5><b>Projects</b></h5>
             <table class="table">
-                <tr>
-                    <th>Project</th>
-                    <th class="actionColumn"></th>
-                </tr>
-                @foreach (var p in Model.CurrentProjects)
-                {
+                <thead>
                     <tr>
-                        <td>@p.Text</td>
-                        <td>
-                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Project" asp-route-id="@p.Id">View</a>
-                        </td>
+                        <th>Project</th>
+                        <th class="actionColumn"></th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var p in Model.CurrentProjects)
+                    {
+                        <tr>
+                            <td>@p.Text</td>
+                            <td>
+                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Project" asp-route-id="@p.Id">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>

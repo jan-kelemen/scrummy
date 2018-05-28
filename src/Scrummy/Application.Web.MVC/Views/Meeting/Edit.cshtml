@@ -46,20 +46,25 @@
                 <textarea asp-for="Log" class="form-control"></textarea>
                 <span asp-validation-for="Log" class="text-danger"></span>
             </div>
-            <h5>Persons</h5>
+            <h5><b>Persons</b></h5>
             <div class="form-group">
                 <table class="table" id="personTable">
-                    <tr id="tableHeader">
-                        <th>Person</th>
-                        <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
-                    </tr>
-                    @for (var i = 0; i < Model.SelectedPersonIds.Count; ++i)
-                    {
-                        <tr>
-                            <td><select asp-for="SelectedPersonIds[@i]" name="SelectedPersonIds[]" id="@ToId("ipi", i)" asp-items="Model.Persons" class="form-control"></select></td>
-                            <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                    <thead>
+                        <tr id="tableHeader">
+                            <th>Person</th>
+                            <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.SelectedPersonIds.Count; ++i)
+                        {
+                            <tr>
+                                <td><select asp-for="SelectedPersonIds[@i]" name="SelectedPersonIds[]" id="@ToId("ipi", i)" asp-items="Model.Persons" class="form-control"></select></td>
+                                <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                            </tr>
+                        }
+                    </tbody>
+
                 </table>
                 @Html.ValidationMessage("InvolvedPersons", htmlAttributes: new { @class = "text-danger" })
             </div>

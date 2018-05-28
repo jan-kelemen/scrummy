@@ -23,38 +23,38 @@
             <div class="form-group">
                 <table class="table" id="backlogTable">
                     <thead>
-                    <tr>
-                        <th>Task</th>
-                        <th>Type</th>
-                        <th>Story Points</th>
-                        <th>Status</th>
-                        <th colspan="2" class="actionColumn"></th>
-                    </tr>
+                        <tr>
+                            <th>Task</th>
+                            <th>Type</th>
+                            <th>Story Points</th>
+                            <th>Status</th>
+                            <th colspan="2" class="actionColumn"></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @for (var i = 0; i < Model.Ids.Length; i++)
-                    {
-                        <tr>
-                            <td>
-                                <input type="hidden" value="@Model.Ids[i]" name="Ids[]" />
-                                <input type="hidden" value="@Model.Name[i]" name="Name[]" />
-                                @Model.Name[i]
-                            </td>
-                            <td>
-                                @TypeToUserType(Model.Type[i])
-                                <input type="hidden" value="@Model.Type[i]" name="Type[]"/>
-                            </td>
-                            <td>
-                                @Model.StoryPoints[i]
-                                <input type="hidden" value="@Model.StoryPoints[i]" name="StoryPoints[]"/>
-                            </td>
-                            <td>
-                                <select asp-for="@Model.Status[i]" name="Status[]" id="@Model.Ids[i]" asp-items="Model.Statuses" class="form-control"></select>
-                            </td>
-                            <td><button class="btn btn-default tableButton" name="up">Up</button></td>
-                            <td><button class="btn btn-default tableButton" name="down">Down</button></td>
-                        </tr>
-                    }
+                        @for (var i = 0; i < Model.Ids.Length; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="@Model.Ids[i]" name="Ids[]" />
+                                    <input type="hidden" value="@Model.Name[i]" name="Name[]" />
+                                    @Model.Name[i]
+                                </td>
+                                <td>
+                                    @TypeToUserType(Model.Type[i])
+                                    <input type="hidden" value="@Model.Type[i]" name="Type[]" />
+                                </td>
+                                <td>
+                                    @Model.StoryPoints[i]
+                                    <input type="hidden" value="@Model.StoryPoints[i]" name="StoryPoints[]" />
+                                </td>
+                                <td>
+                                    <select asp-for="@Model.Status[i]" name="Status[]" id="@Model.Ids[i]" asp-items="Model.Statuses" class="form-control"></select>
+                                </td>
+                                <td><button class="btn btn-default tableButton" name="up">Up</button></td>
+                                <td><button class="btn btn-default tableButton" name="down">Down</button></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

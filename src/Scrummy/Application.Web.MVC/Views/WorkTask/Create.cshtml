@@ -45,42 +45,51 @@
             </div>
             @if (Model.Type != "Epic" && Model.Type != "Task")
             {
-                <h5>Steps</h5>
+                <h5><b>Steps</b></h5>
                 <div class="form-group">
                     <table class="table" id="stepTable">
-                        <tr id="tableHeader">
-                            <th class="actionButton">Step</th>
-                            <th colspan="3"><button class="btn btn-default tableButton" name="add">Add</button></th>
-                        </tr>
-                        @foreach(var step in Model.Steps)
-                        {
-                            <tr>
-                                <td><input name="Steps[]" class="form-control" value="@step" /></td>
-                                <td><button class="btn btn-default tableButton" name="up">Up</button></td>
-                                <td><button class="btn btn-default tableButton" name="down">Down</button></td>
-                                <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                        <thead>
+                            <tr id="tableHeader">
+                                <th class="actionButton">Step</th>
+                                <th colspan="3"><button class="btn btn-default tableButton" name="add">Add</button></th>
                             </tr>
-                        }
+                        </thead>
+                        <tbody>
+                            @foreach (var step in Model.Steps)
+                            {
+                                <tr>
+                                    <td><input name="Steps[]" class="form-control" value="@step" /></td>
+                                    <td><button class="btn btn-default tableButton" name="up">Up</button></td>
+                                    <td><button class="btn btn-default tableButton" name="down">Down</button></td>
+                                    <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                                </tr>
+                            }
+                        </tbody>
                     </table>
                     @Html.ValidationMessage("Steps", htmlAttributes: new { @class = "text-danger" })
                 </div>
             }
             @if (Model.Type != "Defect" && Model.Type != "Task")
             {
-                <h5>Linked tasks</h5>
+                <h5><b>Linked tasks</b></h5>
                 <div class="form-group">
                     <table class="table" id="linkedTaskTable">
-                        <tr id="tableHeader">
-                            <th>Task</th>
-                            <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
-                        </tr>
-                        @for (var i = 0; i < Model.ChildTaskIds.Count; ++i)
-                        {
-                            <tr>
-                                <td><select asp-for="ChildTaskIds[@i]" name="ChildTaskIds[]" id="@ToId("cti", i)" asp-items="Model.ChildTasks" class="form-control"></select></td>
-                                <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                        <thead>
+                            <tr id="tableHeader">
+                                <th>Task</th>
+                                <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
                             </tr>
-                        }
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.ChildTaskIds.Count; ++i)
+                            {
+                                <tr>
+                                    <td><select asp-for="ChildTaskIds[@i]" name="ChildTaskIds[]" id="@ToId("cti", i)" asp-items="Model.ChildTasks" class="form-control"></select></td>
+                                    <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                                </tr>
+                            }
+                        </tbody>
+
                     </table>
                     @Html.ValidationMessage("Link", htmlAttributes: new { @class = "text-danger" })
                 </div>

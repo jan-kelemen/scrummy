@@ -51,7 +51,7 @@
                     </dd>
                 }
             </dl>
-            <h5><b>Definition of Done</b></h5> <hr />
+            <h5><b>Definition of Done</b></h5>
             <ul>
                 @foreach (var condition in Model.DefinitionOfDone)
                 {
@@ -62,48 +62,52 @@
             {
                 <h3>Sprint</h3>
                 <table class="table">
-                    <tr id="tableHeader">
-                        <th>Story</th>
-                        <th>To Do</th>
-                        <th>In Progress</th>
-                        <th>Done</th>
-                    </tr>
-                    @foreach (var p in Model.Sprint.Stories)
-                    {
-                        <tr>
-                            <td colspan="4">
-                                <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id">@p.Text (@p.StoryPoints)</a>
-                            </td>
+                    <thead>
+                        <tr id="tableHeader">
+                            <th>Story</th>
+                            <th>To Do</th>
+                            <th>In Progress</th>
+                            <th>Done</th>
                         </tr>
-                        foreach (var t in p.Transform())
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model.Sprint.Stories)
                         {
                             <tr>
-                                <td></td>
-                                <td>
-                                    @if (t.Item1 != null)
-                                    {
-                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item1.Id">@t.Item1.Text</a>
-                                        <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item1.Id" asp-route-status="InProgress">&gt</a>
-                                    }
-                                </td>
-                                <td>
-                                    @if (t.Item2 != null)
-                                    {
-                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item2.Id">@t.Item2.Text</a>
-                                        <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="ToDo">&lt</a>
-                                        <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="Done">&gt</a>
-                                    }
-                                </td>
-                                <td>
-                                    @if (t.Item3 != null)
-                                    {
-                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item3.Id">@t.Item3.Text</a>
-                                        <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item3.Id" asp-route-status="InProgress">&lt</a>
-                                    }
+                                <td colspan="4">
+                                    <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id">@p.Text (@p.StoryPoints)</a>
                                 </td>
                             </tr>
+                            foreach (var t in p.Transform())
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        @if (t.Item1 != null)
+                                        {
+                                            <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item1.Id">@t.Item1.Text</a>
+                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item1.Id" asp-route-status="InProgress">&gt</a>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (t.Item2 != null)
+                                        {
+                                            <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item2.Id">@t.Item2.Text</a>
+                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="ToDo">&lt</a>
+                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="Done">&gt</a>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (t.Item3 != null)
+                                        {
+                                            <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item3.Id">@t.Item3.Text</a>
+                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item3.Id" asp-route-status="InProgress">&lt</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
                         }
-                    }
+                    </tbody>
                 </table>
             }
         </div>

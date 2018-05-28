@@ -30,21 +30,26 @@
                 <input asp-for="TimeOfDailyScrum" class="form-control" />
                 <span asp-validation-for="TimeOfDailyScrum" class="text-danger"></span>
             </div>
+            <h5><b>Members</b></h5>
             <div class="form-group">
                 <table class="table" id="memberTable">
-                    <tr id="tableHeader">
-                        <th>Member</th>
-                        <th>Role</th>
-                        <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
-                    </tr>
-                    @for (var i = 0; i < Model.SelectedMemberIds.Count; ++i)
-                    {
-                        <tr>
-                            <td><select asp-for="SelectedMemberIds[@i]" name="SelectedMemberIds[]" id="@ToId("smi", i)" asp-items="Model.Persons" class="form-control"></select></td>
-                            <td><select asp-for="SelectedRoles[@i]" name="SelectedRoles[]" id="@ToId("sr", i)" asp-items="Model.Roles" class="form-control"></select></td>
-                            <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                    <thead>
+                        <tr id="tableHeader">
+                            <th>Member</th>
+                            <th>Role</th>
+                            <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.SelectedMemberIds.Count; ++i)
+                        {
+                            <tr>
+                                <td><select asp-for="SelectedMemberIds[@i]" name="SelectedMemberIds[]" id="@ToId("smi", i)" asp-items="Model.Persons" class="form-control"></select></td>
+                                <td><select asp-for="SelectedRoles[@i]" name="SelectedRoles[]" id="@ToId("sr", i)" asp-items="Model.Roles" class="form-control"></select></td>
+                                <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
                 @Html.ValidationMessage("Members", htmlAttributes: new { @class = "text-danger" })
             </div>

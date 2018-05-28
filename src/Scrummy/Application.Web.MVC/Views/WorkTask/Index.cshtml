@@ -105,55 +105,67 @@
             </dl>
             @if (Model.Type != "Epic" && Model.Type != "Task")
             {
-                <h5>Steps</h5>
+                <h5><b>Steps</b></h5>
                 <table class="table">
-                    <tr id="tableHeader">
-                        <th>Step</th>
-                    </tr>
-                    @foreach (var p in Model.Steps)
-                    {
-                        <tr>
-                            <td>@p</td>
+                    <thead>
+                        <tr id="tableHeader">
+                            <th>Step</th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model.Steps)
+                        {
+                            <tr>
+                                <td>@p</td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             }
             @if (Model.Type != "Defect" && Model.Type != "Task")
             {
-                <h5>Linked tasks</h5>
+                <h5><b>Linked tasks</b></h5>
                 <table class="table">
-                    <tr id="tableHeader">
-                        <th>Task</th>
-                        <th class="actionColumn"></th>
+                    <thead>
+                        <tr id="tableHeader">
+                            <th>Task</th>
+                            <th class="actionColumn"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model.ChildTasks)
+                        {
+                            <tr>
+                                <td>@p.Text</td>
+                                <td>
+                                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@p.Id">View</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            <h5><b>Comments</b></h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Author</th>
+                        <th></th>
                     </tr>
-                    @foreach (var p in Model.ChildTasks)
+                </thead>
+                <tbody>
+                    @foreach (var c in Model.Comments)
                     {
                         <tr>
-                            <td>@p.Text</td>
                             <td>
-                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@p.Id">View</a>
+                                <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
+                            </td>
+                            <td>
+                                @c.Content
                             </td>
                         </tr>
                     }
-                </table>
-            }
-            <h5>Comments</h5>
-            <table class="table">
-                <tr>
-                    <th>Author</th>
-                    <th></th>
-                </tr>
-                @foreach (var c in Model.Comments)
-                {
-                    <tr>
-                        <td>
-                            <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
-                        </td>
-                        <td>
-                            @c.Content
-                        </td>
-                    </tr>
-                }
+                </tbody>
             </table>
         </div>
     </div>

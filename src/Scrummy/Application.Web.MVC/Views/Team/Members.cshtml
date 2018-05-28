@@ -12,37 +12,41 @@
     <div class="col-xs-10">
         <h2>Member history of - @Model.Team.Text</h2><hr />
         <table class="table">
-            <tr id="tableHeader">
-                <th>Time</th>
-                <th>Member</th>
-                <th>Role</th>
-                <th class="actionColumn"></th>
-            </tr>
-            @foreach (var r in Model.Members)
-            {
-                <tr>
-                    @if (r.To != "9999-12-31")
-                    {
-                        <td>@r.From - @r.To</td>
-                    }
-                    else
-                    {
-                        <td>@r.From - Currently</td>
-                    }
-                    <td></td>
-                    <td></td>
-                    <td></td>
+            <thead>
+                <tr id="tableHeader">
+                    <th>Time</th>
+                    <th>Member</th>
+                    <th>Role</th>
+                    <th class="actionColumn"></th>
                 </tr>
-                foreach (var m in r.Members)
+            </thead>
+            <tbody>
+                @foreach (var r in Model.Members)
                 {
                     <tr>
+                        @if (r.To != "9999-12-31")
+                        {
+                            <td>@r.From - @r.To</td>
+                        }
+                        else
+                        {
+                            <td>@r.From - Currently</td>
+                        }
                         <td></td>
-                        <td>@m.Text</td>
-                        <td>@m.Role</td>
-                        <td><a asp-action="Index" class="btn btn-default tableButton" asp-controller="Person" asp-route-id="@m.Id">View</a></td>
+                        <td></td>
+                        <td></td>
                     </tr>
+                    foreach (var m in r.Members)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@m.Text</td>
+                            <td>@m.Role</td>
+                            <td><a asp-action="Index" class="btn btn-default tableButton" asp-controller="Person" asp-route-id="@m.Id">View</a></td>
+                        </tr>
+                    }
                 }
-            }
+            </tbody>
         </table>
     </div>
 </div>

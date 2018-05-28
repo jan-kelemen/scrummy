@@ -5,7 +5,7 @@
 }
 
 <input type="hidden" id="deleteMessage" data-value="Are you sure you want to delete @Model.Name?" />
-<input type="hidden" id="deleteUrl" data-value="/Meeting/Delete/@Model.Id"/>
+<input type="hidden" id="deleteUrl" data-value="/Meeting/Delete/@Model.Id" />
 
 <div class="row">
     <div class="col-xs-2">
@@ -64,21 +64,25 @@
                     @Html.DisplayFor(model => model.Log)
                 </dd>
             </dl>
-            <h5>Persons</h5>
+            <h5><b>Persons</b></h5>
             <table class="table" id="personTable">
-                <tr id="tableHeader">
-                    <th>Person</th>
-                    <th class="actionColumn"></th>
-                </tr>
-                @foreach (var p in Model.InvolvedPersons)
-                {
-                    <tr>
-                        <td>@p.Text</td>
-                        <td>
-                            <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Person" asp-route-id="@p.Id">View</a>
-                        </td>
+                <thead>
+                    <tr id="tableHeader">
+                        <th>Person</th>
+                        <th class="actionColumn"></th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var p in Model.InvolvedPersons)
+                    {
+                        <tr>
+                            <td>@p.Text</td>
+                            <td>
+                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Person" asp-route-id="@p.Id">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>
