@@ -11,8 +11,8 @@
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
         <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
-        <a asp-action="MemberHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">Member history</a>
-        <a asp-action="ProjectHistory" class="btn btn-default actionButton" asp-route-id="@Model.Id">Project history</a>
+        <a asp-action="Members" class="btn btn-default actionButton" asp-route-id="@Model.Id">Member history</a>
+        <a asp-action="Projects" class="btn btn-default actionButton" asp-route-id="@Model.Id">Project history</a>
         @if (Model.CanDelete)
         {
             <h3>Delete</h3> <hr />

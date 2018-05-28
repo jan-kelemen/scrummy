@@ -1,0 +1,46 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Team.ViewProjectHistoryViewModel
+
+@{
+    ViewData["Title"] = "Project history";
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Team.Id">Team</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Project history of - @Model.Team.Text</h2><hr />
+        <table class="table">
+            <tr id="tableHeader">
+                <th>Project</th>
+                <th>From</th>
+                <th>To</th>
+                <th class="actionColumn"></th>
+            </tr>
+            @foreach (var p in Model.Projects)
+            {
+                <tr>
+                    <td>@p.Text</td>
+                    @if (p.From != "0001-01-01")
+                    {
+                        <td>@p.From</td>
+                    }
+                    else
+                    {
+                        <td>Beginning</td>
+                    }
+                    @if (p.To != "9999-12-31")
+                    {
+                        <td>@p.To</td>
+                    }
+                    else
+                    {
+                        <td>Currently</td>
+                    }
+                    <td><a asp-action="Index" class="btn btn-default tableButton" asp-controller="Project" asp-route-id="@p.Id">View</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

@@ -9,5 +9,9 @@
         IViewTeamUseCase View { get; }
 
         IDeleteTeamUseCase Delete { get; }
+
+        IViewProjectHistoryUseCase ProjectHistory { get; }
+
+        IViewMemberHistoryUseCase MemberHistory { get; }
     }
 }

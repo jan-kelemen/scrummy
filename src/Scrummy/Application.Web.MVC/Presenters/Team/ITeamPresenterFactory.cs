@@ -9,5 +9,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Team
         IEditTeamPresenter Edit(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IListTeamsPresenter List(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IViewTeamPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
+        IViewProjectHistoryPresenter ProjectHistory(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
+        IViewMemberHistoryPresenter MemberHistory(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
     }
 }

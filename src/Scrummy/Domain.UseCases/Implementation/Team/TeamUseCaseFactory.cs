@@ -16,5 +16,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
         public IEditTeamUseCase Edit => new EditTeamUseCase(_repositoryProvider.Team, _repositoryProvider.Person);
         public IViewTeamUseCase View => new ViewTeamUseCase(_repositoryProvider.Team, _repositoryProvider.Project);
         public IDeleteTeamUseCase Delete => new DeleteTeamUseCase(_repositoryProvider.Team);
+        public IViewProjectHistoryUseCase ProjectHistory => new ViewProjectHistoryUseCase(_repositoryProvider.Team, _repositoryProvider.Project);
+        public IViewMemberHistoryUseCase MemberHistory => new ViewMemberHistoryUseCase(_repositoryProvider.Team);
     }
 }

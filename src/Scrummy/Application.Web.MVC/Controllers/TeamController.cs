@@ -148,5 +148,55 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return RedirectToAction(nameof(Index), new { id });
             }
         }
+
+        [HttpGet]
+        public IActionResult Members(string id)
+        {
+            var presenter = _presenterFactory.MemberHistory(MessageHandler, ErrorHandler);
+            try
+            {
+                var uc = _useCaseFactory.MemberHistory;
+                var response = uc.Execute(new ViewMemberHistoryRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Projects(string id)
+        {
+            var presenter = _presenterFactory.ProjectHistory(MessageHandler, ErrorHandler);
+            try
+            {
+                var uc = _useCaseFactory.ProjectHistory;
+                var response = uc.Execute(new ViewProjectHistoryRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
     }
 }
