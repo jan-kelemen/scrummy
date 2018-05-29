@@ -34,5 +34,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
 
         public IViewProjectPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
             => new ViewProjectPresenter(messageHandler, errorHandler, RepositoryProvider);
+
+        public IViewTeamHistoryPresenter TeamHistory(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
+            => new ViewTeamHistoryPresenter(messageHandler, errorHandler, RepositoryProvider);
     }
 }

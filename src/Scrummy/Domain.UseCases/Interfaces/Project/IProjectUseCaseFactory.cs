@@ -17,5 +17,7 @@
         IManageBacklogUseCase ManageBacklog { get; }
 
         IPlanBacklogUseCase PlanBacklog { get; }
+
+        IViewTeamHistoryUseCase TeamHistory { get; }
     }
 }

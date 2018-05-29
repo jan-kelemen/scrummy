@@ -13,6 +13,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
         IViewMeetingsPresenter ViewMeetings(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IViewSprintsPresenter ViewSprints(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IViewProjectPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
-
+        IViewTeamHistoryPresenter TeamHistory(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
     }
 }

@@ -15,6 +15,7 @@
         <a asp-action="Meetings" class="btn btn-default actionButton" asp-route-id="@Model.Id">Meetings</a>
         <a asp-action="Reports" class="btn btn-default actionButton" asp-route-id="@Model.Id">Reports</a>
         <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit project</a>
+        <a asp-action="Teams" class="btn btn-default actionButton" asp-route-id="@Model.Id">Team history</a>
         @if (Model.Sprint != null)
         {
             <a asp-action="End" class="btn btn-default actionButton" asp-controller="Sprint" asp-route-id="@Model.Sprint.Id">End sprint</a>
