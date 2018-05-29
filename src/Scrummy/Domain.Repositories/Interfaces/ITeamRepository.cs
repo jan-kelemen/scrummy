@@ -13,6 +13,6 @@ namespace Scrummy.Domain.Repositories.Interfaces
 
         HistoryDTO<IEnumerable<Tuple<Identity, PersonRole>>> ReadTeamPersonHistory(Identity teamId);
 
-        HistoryDTO<Identity> ReadPersonTeamHistory(Identity personId);
+        HistoryDTO<Tuple<Identity, IEnumerable<PersonRole>>> ReadPersonTeamHistory(Identity personId);
     }
 }

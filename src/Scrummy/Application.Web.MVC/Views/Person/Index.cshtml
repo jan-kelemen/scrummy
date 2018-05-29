@@ -13,6 +13,7 @@
             <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit details</a>
         }
         <a class="btn btn-default actionButton" href="mailto:@Model.Email">Contact</a>
+        <a asp-action="Teams" class="btn btn-default actionButton" asp-route-id="@Model.Id">Team history</a>
     </div>
     <div class="col-xs-10">
         <h2>Person - @Model.DisplayName</h2> <hr />

@@ -25,5 +25,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Person
 
         public IViewPersonPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
             => new ViewPersonPresenter(messageHandler, errorHandler, RepositoryProvider);
+
+        public IViewTeamHistoryPresenter TeamHistory(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
+            => new ViewTeamHistoryPresenter(messageHandler, errorHandler, RepositoryProvider);
     }
 }

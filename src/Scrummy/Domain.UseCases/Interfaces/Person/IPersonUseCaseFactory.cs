@@ -11,5 +11,7 @@
         IChangePasswordUseCase ChangePassword { get; }
 
         IViewCurrentWorkUseCase ViewCurrentWork { get; }
+
+        IViewTeamHistoryUseCase TeamHistory { get; }
     }
 }

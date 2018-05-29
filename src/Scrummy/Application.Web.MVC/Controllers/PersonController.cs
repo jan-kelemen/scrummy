@@ -199,5 +199,30 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return RedirectToAction(nameof(Index), "Home");
             }
         }
+
+        [HttpGet]
+        public IActionResult Teams(string id)
+        {
+            var presenter = _presenterFactory.TeamHistory(MessageHandler, ErrorHandler);
+            try
+            {
+                var uc = _useCaseFactory.TeamHistory;
+                var response = uc.Execute(new ViewTeamHistoryRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
     }
 }

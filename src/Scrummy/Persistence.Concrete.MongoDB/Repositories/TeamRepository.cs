@@ -116,37 +116,41 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             };
         }
 
-        public HistoryDTO<Identity> ReadPersonTeamHistory(Identity personId)
+        public HistoryDTO<Tuple<Identity, IEnumerable<PersonRole>>> ReadPersonTeamHistory(Identity personId)
         {
             var f = Builders<MTeam>.Filter.Where(x =>
                 x.CurrentMembers.Members.Any(y => y.Id == personId.ToPersistenceIdentity()));
             var f2 = Builders<MTeam>.Filter.Where(x => x.MembersHistory.Any(y =>
                 y.Members.Any(z => z.Id == personId.ToPersistenceIdentity())));
 
-            var records = new List<HistoryDTO<Identity>.Record>();
+            var records = new List<HistoryDTO<Tuple<Identity, IEnumerable<PersonRole>>>.Record>();
 
             foreach (var team in _teamCollection.Find(f | f2).ToEnumerable())
             {
                 if (team.CurrentMembers.Members.Any(y => y.Id == personId.ToPersistenceIdentity()))
                 {
-                    records.Add(new HistoryDTO<Identity>.Record
+                    records.Add(new HistoryDTO<Tuple<Identity, IEnumerable<PersonRole>>>.Record
                     {
                         From = team.CurrentMembers.From,
                         To = team.CurrentMembers.To,
-                        RecordId = team.Id.ToDomainIdentity(),
+                        RecordId = new Tuple<Identity, IEnumerable<PersonRole>>(
+                            team.Id.ToDomainIdentity(), 
+                            team.CurrentMembers.Members.Where(y => y.Id == personId.ToPersistenceIdentity()).Select(x => x.Role))
                     });
                 }
 
                 records.AddRange(team.MembersHistory.Where(x => x.Members.Any(y => y.Id == personId.ToPersistenceIdentity()))
-                    .Select(record => new HistoryDTO<Identity>.Record
+                    .Select(record => new HistoryDTO<Tuple<Identity, IEnumerable<PersonRole>>>.Record
                     {
                         From = record.From,
                         To = record.To,
-                        RecordId = team.Id.ToDomainIdentity(),
+                        RecordId = new Tuple<Identity, IEnumerable<PersonRole>>(
+                            team.Id.ToDomainIdentity(),
+                            record.Members.Where(y => y.Id == personId.ToPersistenceIdentity()).Select(x => x.Role))
                     }));
             }
 
-            return new HistoryDTO<Identity>
+            return new HistoryDTO<Tuple<Identity, IEnumerable<PersonRole>>>
             {
                 Id = personId,
                 Records = records.OrderByDescending(x => x.From),

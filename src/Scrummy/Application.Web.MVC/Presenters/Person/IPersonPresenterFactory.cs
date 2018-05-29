@@ -10,5 +10,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Person
         IListPersonsPresenter List(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IViewCurrentWorkPresenter ViewCurrentWork(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IViewPersonPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
+        IViewTeamHistoryPresenter TeamHistory(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
     }
 }
