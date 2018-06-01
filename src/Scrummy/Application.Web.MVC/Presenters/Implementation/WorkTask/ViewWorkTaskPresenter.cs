@@ -48,6 +48,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
                             Id = author.Id.ToString(),
                             Text = author.DisplayName,
                         },
+                        Id = x.Id.ToString(),
                         Content = x.Content,
                     };
                 }),

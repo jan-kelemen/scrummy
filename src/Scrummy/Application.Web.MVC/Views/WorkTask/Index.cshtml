@@ -1,6 +1,10 @@
-﻿@model Scrummy.Application.Web.MVC.ViewModels.WorkTask.ViewWorkTaskViewModel
+﻿@using System.Security.Claims
+@using System.Security.Cryptography.X509Certificates
+@model Scrummy.Application.Web.MVC.ViewModels.WorkTask.ViewWorkTaskViewModel
 
 @{
+    var id = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+    var name = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
     ViewData["Title"] = Model.Name;
     string TypeToUserType(string s)
     {
@@ -148,25 +152,54 @@
             <h5><b>Comments</b></h5>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Author</th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th>Author</th>
+                    <th></th>
+                    <th class="actionColumn" colspan="2"></th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var c in Model.Comments)
-                    {
-                        <tr>
+                @foreach (var c in Model.Comments)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
+                        </td>
+                        <td></td>
+                        @if (id == c.Author.Id)
+                        {
                             <td>
-                                <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
+                                <a class="btn btn-default tableButton" asp-action="EditComment" asp-route-id="@Model.Id" asp-route-cid="@c.Id">Edit</a>
                             </td>
                             <td>
-                                @c.Content
+                                <a class="btn btn-danger tableButton" asp-action="DeleteComment" asp-route-id="@Model.Id" asp-route-cid="@c.Id">Delete</a>
                             </td>
-                        </tr>
-                    }
+                        }
+                        else
+                        {
+                            <td colspan="2"></td>
+                        }
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <textarea class="form-control" readonly>@c.Content</textarea>
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
+            <h3>Add comment</h3><hr />
+            <form asp-action="AddComment">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="WorkTask.Id" value="@Model.Id"/>
+                <input type="hidden" name="WorkTask.Name" value="@Model.Name"/>
+                <div class="form-group">
+                    <textarea class="form-control" name="Content"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add" class="btn btn-default" />
+                </div>
+            </form>
         </div>
     </div>
 </div>

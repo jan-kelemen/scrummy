@@ -102,7 +102,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public Identity AddComment(WorkTask.Comment comment)
         {
-            if (comment == null || _workTaskCollection.Find(x => x.Id == comment.WorkTaskId.ToPersistenceIdentity()).FirstOrDefault() != null)
+            if (comment == null || _workTaskCollection.Find(x => x.Id == comment.WorkTaskId.ToPersistenceIdentity()).FirstOrDefault() == null)
             {
                 throw CreateInvalidEntityException();
             }

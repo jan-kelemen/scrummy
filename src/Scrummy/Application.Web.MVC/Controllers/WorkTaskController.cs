@@ -5,10 +5,12 @@ using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.WorkTask;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.WorkTask;
+using Scrummy.Application.Web.MVC.ViewModels.WorkTask.Comment;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
+using Scrummy.Domain.UseCases.Interfaces.WorkTask.Comment;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {
@@ -129,6 +131,93 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 });
                 presenter.Present(response);
                 return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), new { id });
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), new { id });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddComment(AddCommentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
+            var request = vm.ToRequest(CurrentUserId);
+            try
+            {
+                var uc = _useCaseFactory.AddComment;
+                var response = uc.Execute(request);
+                return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(vm);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult EditComment(string id, string cid)
+        {
+            var presenter = _presenterFactory.EditComment(MessageHandler, ErrorHandler);
+            return View(presenter.GetInitialViewModel(id, cid));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditComment(EditCommentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var presenter = _presenterFactory.Edit(MessageHandler, ErrorHandler);
+            var request = vm.ToRequest(CurrentUserId);
+            try
+            {
+                var uc = _useCaseFactory.EditComment;
+                var response = uc.Execute(request);
+                return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return View(vm);
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return View(vm);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult DeleteComment(string id, string cid)
+        {
+            var presenter = _presenterFactory.Presenter(MessageHandler, ErrorHandler);
+            try
+            {
+                var uc = _useCaseFactory.DeleteComment;
+                var response = uc.Execute(new DeleteCommentRequest(CurrentUserId)
+                {
+                    WorkTaskId = Identity.FromString(id),
+                    CommentId = Identity.FromString(cid),
+                });
+                return RedirectToAction(nameof(Index), new { id = presenter.Present(response) });
             }
             catch (InvalidRequestException ire)
             {

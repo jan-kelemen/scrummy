@@ -9,6 +9,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.WorkTask
     {
         public class Comment
         {
+            public string Id { get; set; }
+
             public NavigationViewModel Author { get; set; }
 
             public string Content { get; set; }

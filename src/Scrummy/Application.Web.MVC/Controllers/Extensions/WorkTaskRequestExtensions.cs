@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Scrummy.Application.Web.MVC.ViewModels.WorkTask;
+using Scrummy.Application.Web.MVC.ViewModels.WorkTask.Comment;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
+using Scrummy.Domain.UseCases.Interfaces.WorkTask.Comment;
 
 namespace Scrummy.Application.Web.MVC.Controllers.Extensions
 {
@@ -35,6 +37,26 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                 StoryPoints = vm.StoryPoints,
                 Id = Identity.FromString(vm.Id),
                 Steps = vm.Steps
+            };
+        }
+
+        public static AddCommentRequest ToRequest(this AddCommentViewModel vm, string userId)
+        {
+            return new AddCommentRequest(userId)
+            {
+                WorkTaskId = Identity.FromString(vm.WorkTask.Id),
+                AuthorId = Identity.FromString(userId),
+                Content = vm.Content,
+            };
+        }
+
+        public static EditCommentRequest ToRequest(this EditCommentViewModel vm, string userId)
+        {
+            return new EditCommentRequest(userId)
+            {
+                WorkTaskId = Identity.FromString(vm.WorkTask.Id),
+                CommentId = Identity.FromString(vm.CommentId),
+                Content = vm.Content,
             };
         }
     }

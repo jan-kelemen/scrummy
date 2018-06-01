@@ -1,5 +1,7 @@
 ﻿using System;
+using Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask.Comment;
 using Scrummy.Application.Web.MVC.Presenters.WorkTask;
+using Scrummy.Application.Web.MVC.Presenters.WorkTask.Comment;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Domain.Repositories;
 
@@ -19,5 +21,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
 
         public IViewWorkTaskPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
             => new ViewWorkTaskPresenter(messageHandler, errorHandler, RepositoryProvider);
+
+        public IEditCommentPresenter EditComment(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
+            => new EditCommentPresenter(messageHandler, errorHandler, RepositoryProvider);
     }
 }
