@@ -25,6 +25,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 
         public IEnumerable<Identity> Stories { get; set; }
 
+        public IEnumerable<Identity> Documents { get; set; }
+
         protected override void ValidateCore()
         {
             if (ProjectId.IsBlankIdentity())

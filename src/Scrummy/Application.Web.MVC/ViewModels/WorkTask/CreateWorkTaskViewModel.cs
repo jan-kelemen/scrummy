@@ -27,8 +27,12 @@ namespace Scrummy.Application.Web.MVC.ViewModels.WorkTask
 
         public List<string> Steps { get; set; } = new List<string>();
 
+        public List<string> SelectedDocumentIds { get; set; } = new List<string>();
+
         public SelectListItem[] ParentTasks { get; set; } = new SelectListItem[0];
 
         public SelectListItem[] ChildTasks { get; set; } = new SelectListItem[0];
+
+        public SelectListItem[] Documents { get; set; } = new SelectListItem[0];
     }
 }

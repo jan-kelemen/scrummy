@@ -37,22 +37,23 @@ namespace Scrummy.Domain.Core.Entities
         }
 
         private string _name;
-
         private DefinitionOfDone _definitionOfDone;
-
         private Identity _teamId;
+        private List<Identity> _documents;
 
         public Project(
             Identity id, 
             string name,
             string description,
             DefinitionOfDone definitionOfDone, 
-            Identity teamId) : base(id)
+            Identity teamId,
+            IEnumerable<Identity> documents) : base(id)
         {
             Name = name;
             DefinitionOfDone = definitionOfDone;
             Description = description;
             TeamId = teamId;
+            Documents = documents;
         }
 
         public string Name
@@ -62,6 +63,12 @@ namespace Scrummy.Domain.Core.Entities
         }
 
         public string Description { get; set; }
+
+        public IEnumerable<Identity> Documents
+        {
+            get => _documents;
+            set => _documents = new List<Identity>(value);
+        }
 
         public DefinitionOfDone DefinitionOfDone
         {

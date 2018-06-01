@@ -23,6 +23,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
         public IEnumerable<Comment> Comments { get; set; }
 
         public IEnumerable<string> Steps { get; set; }
+
+        public IEnumerable<ObjectId> Documents { get; set; }
     }
 
     internal class Comment : BaseEntity

@@ -12,6 +12,7 @@ using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Mee
 using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
 using MWorkTask = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.WorkTask;
 using MComment = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Comment;
+using MDocument = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Document;
 using Person = Scrummy.Domain.Core.Entities.Person;
 using Project = Scrummy.Domain.Core.Entities.Project;
 using Team = Scrummy.Domain.Core.Entities.Team;
@@ -19,6 +20,7 @@ using Meeting = Scrummy.Domain.Core.Entities.Meeting;
 using Sprint = Scrummy.Domain.Core.Entities.Sprint;
 using WorkTask = Scrummy.Domain.Core.Entities.WorkTask;
 using Comment = Scrummy.Domain.Core.Entities.WorkTask.Comment;
+using Document = Scrummy.Domain.Core.Entities.Document;
 
 // ReSharper disable ArgumentsStyleOther
 // ReSharper disable ArgumentsStyleNamedExpression
@@ -51,14 +53,15 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
             };
         }
 
-        public static Project ToDomainEntity(this MProject project)
+        public static Project ToDomainEntity(this MProject project, IEnumerable<ObjectId> documents)
         {
             return new Project(
                 id: project.Id.ToDomainIdentity(),
                 name: project.Name,
                 description: project.Description,
                 definitionOfDone: new DefinitionOfDone(project.DefinitionOfDoneConditions),
-                teamId: project.CurrentTeam.TeamId.ToDomainIdentity()
+                teamId: project.CurrentTeam.TeamId.ToDomainIdentity(),
+                documents: documents.Select(x => x.ToDomainIdentity())
             );
         }
 
@@ -121,7 +124,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 organizedBy: meeting.OrganizedBy.ToDomainIdentity(),
                 description: meeting.Description,
                 log: meeting.Log,
-                involvedPersons: meeting.InvolvedPersons.Select(m => m.ToDomainIdentity())
+                involvedPersons: meeting.InvolvedPersons.Select(m => m.ToDomainIdentity()),
+                documents: meeting.Documents.Select(x => x.ToDomainIdentity())
             );
         }
 
@@ -138,6 +142,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 Duration = meeting.Duration,
                 InvolvedPersons = meeting.InvolvedPersons.Select(x => x.ToPersistenceIdentity()),
                 Log = meeting.Log,
+                Documents = meeting.Documents.Select(x => x.ToPersistenceIdentity())
             };
         }
 
@@ -152,7 +157,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                     DateTime.ParseExact(sprint.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture)
                     ),
                 goal: sprint.Goal,
-                status: sprint.Status
+                status: sprint.Status,
+                documents: sprint.Documents.Select(x => x.ToDomainIdentity())
             );
         }
 
@@ -167,6 +173,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 EndDate = sprint.TimeSpan.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Goal = sprint.Goal,
                 Status = sprint.Status,
+                Documents = sprint.Documents.Select(x => x.ToPersistenceIdentity())
             };
         }
 
@@ -182,7 +189,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 childTasks: childTasks.Select(i => i.ToDomainIdentity()),
                 parentTask: task.ParentTask.ToDomainIdentity(),
                 comments: task.Comments.Select(i => i.Id.ToDomainIdentity()),
-                steps: task.Steps
+                steps: task.Steps,
+                documents: task.Documents.Select(x => x.ToDomainIdentity())
             );
         }
 
@@ -197,7 +205,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 StoryPoints = task.StoryPoints,
                 Description = task.Description,
                 ParentTask = task.ParentTask.ToPersistenceIdentity(),
-                Steps = task.Steps
+                Steps = task.Steps,
+                Documents = task.Documents.Select(x => x.ToPersistenceIdentity())
             };
         }
 
@@ -218,6 +227,30 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
                 Id = comment.Id.ToPersistenceIdentity(),
                 AuthorId = comment.AuthorId.ToPersistenceIdentity(),
                 Content = comment.Content,
+            };
+        }
+
+        public static Document ToDomainEntity(this MDocument document)
+        {
+            return new Document(
+                id: document.Id.ToDomainIdentity(),
+                kind: document.Kind,
+                name: document.Name,
+                projectId: document.ProjectId.ToDomainIdentity(),
+                links: document.Links,
+                content: document.Content);
+        }
+
+        public static MDocument ToPersistenceEntity(this Document document)
+        {
+            return new MDocument
+            {
+                Id = document.Id.ToPersistenceIdentity(),
+                Name = document.Name,
+                ProjectId = document.Project.ToPersistenceIdentity(),
+                Content = document.Content,
+                Kind = document.Kind,
+                Links = document.Links,
             };
         }
     }

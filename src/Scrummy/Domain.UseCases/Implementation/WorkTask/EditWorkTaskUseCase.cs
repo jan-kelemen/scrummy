@@ -66,6 +66,7 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             entity.ParentTask = request.ParentTask;
             entity.ChildTasks = request.ChildTasks;
             entity.Steps = request.Steps;
+            entity.Documents = request.Documents;
         }
     }
 }

@@ -11,6 +11,7 @@
 }
 
 <input type="hidden" id="childOptions" data-value="@Html.Raw(string.Join("", Model.ChildTasks.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
+<input type="hidden" id="documentOptions" data-value="@Html.Raw(string.Join("", Model.Documents.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
 
 <h2>Create @TypeToUserType(Model.Type) - @Model.Project.Text</h2><hr />
 <div class="row">
@@ -94,6 +95,27 @@
                     @Html.ValidationMessage("Link", htmlAttributes: new { @class = "text-danger" })
                 </div>
             }
+            <h5><b>Documents</b></h5>
+            <div class="form-group">
+                <table class="table" id="documentTable">
+                    <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th class="actionColumn"><button class="btn btn-default" name="add"><span class="glyphicon glyphicon-plus"></span></button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.SelectedDocumentIds.Count; ++i)
+                        {
+                            <tr>
+                                <td><select asp-for="SelectedDocumentIds[@i]" name="SelectedDocumentIds[]" id="@ToId("doc", i)" asp-items="Model.Documents" class="form-control"></select></td>
+                                <td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @Html.ValidationMessage("Documents", htmlAttributes: new { @class = "text-danger" })
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -105,6 +127,10 @@
     @for (var i = 0; i < Model.ChildTaskIds.Count; ++i)
     {
         @:document.getElementById("@ToId("cti", i)").value = "@Model.ChildTaskIds[i]";
+    }
+    @for (var i = 0; i < Model.SelectedDocumentIds.Count(); ++i)
+    {
+        @: document.getElementById("@ToId("doc", i)").value = "@Model.Documents[i]";
     }
 </script>
 

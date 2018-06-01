@@ -44,7 +44,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
         }
 
         private Core.Entities.Sprint ToDomainEntity(CreateSprintRequest request) => 
-            new Core.Entities.Sprint(_sprintRepository.GenerateNewIdentity(), request.ProjectId, request.Name, request.TimeSpan, request.Goal, SprintStatus.Planned);
+            new Core.Entities.Sprint(_sprintRepository.GenerateNewIdentity(), request.ProjectId, request.Name, request.TimeSpan, request.Goal, SprintStatus.Planned, request.Documents);
 
         private SprintBacklog ToDomainEntity(Identity sprintId, IEnumerable<Identity> stories) => 
             new SprintBacklog(sprintId, stories, new Identity[0], new SprintBacklog.WorkTaskWithStatus[0]);

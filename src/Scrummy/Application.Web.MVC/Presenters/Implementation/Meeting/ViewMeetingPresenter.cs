@@ -54,7 +54,18 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
                     };
                 }),
                 CanDelete = response.CanDelete,
+                Documents = response.Documents.Select(x =>
+                {
+                    var document = RepositoryProvider.Document.Read(x);
+
+                    return new NavigationViewModel
+                    {
+                        Id = document.Id.ToString(),
+                        Text = document.Name,
+                    };
+                })
             };
         }
     }
 }
+

@@ -21,5 +21,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
         public string Log { get; set; }
 
         public IEnumerable<ObjectId> InvolvedPersons { get; set; }
+
+        public IEnumerable<ObjectId> Documents { get; set; }
     }
 }

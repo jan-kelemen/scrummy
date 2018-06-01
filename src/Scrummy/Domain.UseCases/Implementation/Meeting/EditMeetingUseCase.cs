@@ -33,6 +33,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
             entity.Time = request.Time;
             entity.Duration = request.Duration;
             entity.Log = request.Log;
+            entity.Documents = request.Documents;
 
             _meetingRepository.Update(entity);
 

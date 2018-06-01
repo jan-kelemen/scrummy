@@ -15,5 +15,7 @@ namespace Scrummy.Domain.Repositories
         ISprintRepository Sprint { get; }
 
         IWorkTaskRepository WorkTask { get; }
+
+        IDocumentRepository Document { get; }
     }
 }

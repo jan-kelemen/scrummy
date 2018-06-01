@@ -74,6 +74,29 @@
                     }
                 </tbody>
             </table>
+            <h5><b>Documents</b></h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th class="actionColumn" colspan="2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model.Documents)
+                    {
+                        <tr>
+                            <td>@p.Text</td>
+                            <td>
+                                <a asp-area="" class="btn btn-default" asp-action="Edit" asp-controller="Document" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-edit"></span></a>
+                            </td>
+                            <td>
+                                <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Document" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
             <h5><b>Log</b></h5>
             <textarea class="form-control" readonly>@Model.Log</textarea>
         </div>

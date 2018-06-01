@@ -36,6 +36,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             entity.BacklogHistory = new MSprint.BacklogHistoryRecord[0];
             entity.PlannedTasks = new ObjectId[0];
             entity.CompletedTasks = new ObjectId[0];
+            entity.Documents = new ObjectId[0];
             _sprintCollection.InsertOne(entity);
             return sprint.Id;
         }
@@ -59,7 +60,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 .Set(x => x.EndDate, sprint.TimeSpan.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))
                 .Set(x => x.Name, sprint.Name)
                 .Set(x => x.Goal, sprint.Goal)
-                .Set(x => x.Status, sprint.Status);
+                .Set(x => x.Status, sprint.Status)
+                .Set(x => x.Documents, sprint.Documents.Select(x => x.ToPersistenceIdentity()));
 
             var result = _sprintCollection
                 .UpdateOne(x => x.Id == sprint.Id.ToPersistenceIdentity(), updateDefinition);

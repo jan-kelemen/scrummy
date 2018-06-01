@@ -49,6 +49,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
 
         public IEnumerable<string> Steps { get; set; }
 
+        public IEnumerable<Identity> Documents { get; set; }
+
         public bool CanEdit { get; set; }
 
         public bool CanEditParent { get; set; }

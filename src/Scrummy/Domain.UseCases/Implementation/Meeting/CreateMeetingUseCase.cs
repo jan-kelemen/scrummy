@@ -53,7 +53,8 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
                 request.OrganizedBy, 
                 request.Description, 
                 request.Log,
-                request.InvolvedPersons);
+                request.InvolvedPersons,
+                request.Documents);
         }
     }
 }

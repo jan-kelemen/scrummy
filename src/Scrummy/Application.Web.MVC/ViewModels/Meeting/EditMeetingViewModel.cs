@@ -31,5 +31,9 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Meeting
         public List<string> SelectedPersonIds { get; set; } = new List<string>();
 
         public SelectListItem[] Persons { get; set; } = new SelectListItem[0];
+
+        public List<string> SelectedDocumentIds { get; set; } = new List<string>();
+
+        public SelectListItem[] Documents { get; set; } = new SelectListItem[0];
     }
 }

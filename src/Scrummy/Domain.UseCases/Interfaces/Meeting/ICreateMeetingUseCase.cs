@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Validators;
 using Scrummy.Domain.UseCases.Boundary.Requests;
@@ -30,6 +29,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
         public string Log { get; set; }
 
         public IEnumerable<Identity> InvolvedPersons { get; set; }
+
+        public IEnumerable<Identity> Documents { get; set; }
 
         protected override void ValidateCore()
         {

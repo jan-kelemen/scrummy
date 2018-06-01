@@ -14,11 +14,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB
             _database = database;
 
             Person = new PersonRepository(_database.PersonCollection);
-            Project = new ProjectRepository(_database.ProjectCollection, _database.MeetingCollection, _database.SprintCollection, _database.WorkTaskCollection);
+            Project = new ProjectRepository(_database.ProjectCollection, _database.MeetingCollection, _database.SprintCollection, _database.WorkTaskCollection, _database.DocumentCollection);
             Team = new TeamRepository(_database.TeamCollection);
             Meeting = new MeetingRepository(_database.MeetingCollection);
             Sprint = new SprintRepository(_database.SprintCollection, _database.ProjectCollection);
             WorkTask = new WorkTaskRepository(_database.WorkTaskCollection);
+            Document = new DocumentRepository(_database.DocumentCollection, _database.SprintCollection, _database.MeetingCollection, _database.WorkTaskCollection);
         }
 
         public IPersonRepository Person { get; }
@@ -32,5 +33,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
         public ISprintRepository Sprint { get; }
 
         public IWorkTaskRepository WorkTask { get; }
+
+        public IDocumentRepository Document { get; }
     }
 }

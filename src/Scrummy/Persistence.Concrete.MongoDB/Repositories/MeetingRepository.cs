@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -29,6 +30,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             }
 
             var entity = meeting.ToPersistenceEntity();
+            entity.Documents = new ObjectId[0];
             _meetingCollection.InsertOne(entity);
             return meeting.Id;
         }

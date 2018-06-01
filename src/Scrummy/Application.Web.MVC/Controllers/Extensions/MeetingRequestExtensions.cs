@@ -21,6 +21,7 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                 Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 Duration = DateTime.ParseExact(vm.Duration, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay,
                 Log = vm.Log,
+                Documents = vm.SelectedDocumentIds.Select(Identity.FromString),
             };
         }
 
@@ -35,6 +36,7 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                 Time = DateTime.ParseExact(vm.Time, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 Duration = DateTime.ParseExact(vm.Duration, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay,
                 Log = vm.Log,
+                Documents = vm.SelectedDocumentIds.Select(Identity.FromString),
             };
         }
     }

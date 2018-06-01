@@ -49,6 +49,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 
         public IEnumerable<Story> Stories { get; set; }
 
+        public IEnumerable<Identity> Documents { get; set; }
+
         public bool CanDelete { get; set; }
     }
 

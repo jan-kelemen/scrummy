@@ -1,4 +1,5 @@
 ﻿using Scrummy.Domain.Core.Entities;
+using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Boundary.Responses;
@@ -38,7 +39,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
         private Core.Entities.Project ToDomainEntity(CreateProjectRequest request, Core.Entities.Team team)
         {
             var dod = new DefinitionOfDone(request.DefinitionOfDone);
-            return new Core.Entities.Project(_projectRepository.GenerateNewIdentity(), request.Name, request.Description, dod, team.Id);
+            return new Core.Entities.Project(_projectRepository.GenerateNewIdentity(), request.Name, request.Description, dod, team.Id, new Identity[0]);
         }
     }
 }

@@ -58,6 +58,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
                 ChildTasks = ToSelectListWithBlankEntry(possibleChildren),
                 OriginalChildTaskIds = task.ChildTasks.Select(x => x.ToString()).ToList(),
                 Steps = task.Steps.ToList(),
+                Documents = Documents(task.ProjectId),
+                SelectedDocumentIds = task.Documents.Select(x => x.ToString()).ToList(),
             };
         }
 
@@ -79,6 +81,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
 
             vm.ParentTasks = ToSelectListWithBlankEntry(possibleParents);
             vm.ChildTasks = ToSelectListWithBlankEntry(possibleChildren);
+            vm.Documents = Documents(project.Id);
 
             return vm;
         }
@@ -151,6 +154,18 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
                 Value = task.Id.ToString(),
                 Text = task.Name,
             };
+        }
+
+        private SelectListItem[] Documents(Identity projectId)
+        {
+            var common = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Common);
+            var sprint = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.WorkTask);
+
+            return sprint.Concat(common).Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name,
+            }).ToArray();
         }
     }
 }

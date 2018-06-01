@@ -6,7 +6,7 @@
 }
 
 <input type="hidden" id="personOptions" data-value="@Html.Raw(string.Join("", Model.Persons.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
-
+<input type="hidden" id="documentOptions" data-value="@Html.Raw(string.Join("", Model.Documents.Select(x => Html.Encode($"<option value=\"{x.Value}\">{x.Text}</option>"))))" />
 
 <div class="row">
     <div class="col-xs-2">
@@ -14,7 +14,7 @@
         <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Id">Cancel</a>
     </div>
     <div class="col-xs-10">
-        <h2>Edit team</h2><hr />
+        <h2>Edit meeting - @Model.Name</h2><hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(x => x.OrganizedBy.Id)
@@ -63,6 +63,27 @@
                 </table>
                 @Html.ValidationMessage("InvolvedPersons", htmlAttributes: new { @class = "text-danger" })
             </div>
+            <h5><b>Documents</b></h5>
+            <div class="form-group">
+                <table class="table" id="documentTable">
+                    <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th class="actionColumn"><button class="btn btn-default" name="add"><span class="glyphicon glyphicon-plus"></span></button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.SelectedDocumentIds.Count; ++i)
+                        {
+                            <tr>
+                                <td><select asp-for="SelectedDocumentIds[@i]" name="SelectedDocumentIds[]" id="@ToId("doc", i)" asp-items="Model.Documents" class="form-control"></select></td>
+                                <td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @Html.ValidationMessage("Documents", htmlAttributes: new { @class = "text-danger" })
+            </div>
             <div class="form-group">
                 <label asp-for="Log" class="control-label"></label>
                 <textarea asp-for="Log" class="form-control"></textarea>
@@ -79,6 +100,10 @@
     @for (var i = 0; i < Model.SelectedPersonIds.Count; ++i)
     {
         @:document.getElementById("@ToId("ipi", i)").value = "@Model.SelectedPersonIds[i]";
+    }
+    @for (var i = 0; i < Model.SelectedDocumentIds.Count(); ++i)
+    {
+        @: document.getElementById("@ToId("doc", i)").value = "@Model.Documents[i]";
     }
 </script>
 

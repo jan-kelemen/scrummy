@@ -44,5 +44,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.WorkTask
         public bool CanEditParent { get; set; }
 
         public bool CanDelete => CanEdit && CanEditParent;
+
+        public IEnumerable<NavigationViewModel> Documents { get; set; } = new NavigationViewModel[0];
     }
 }

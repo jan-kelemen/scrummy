@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Scrummy.Domain.Core.Entities;
-using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Boundary.Responses;
@@ -53,6 +51,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             sprint.Name = request.Name;
             sprint.Goal = request.Goal;
             sprint.TimeSpan = request.TimeSpan;
+            sprint.Documents = request.Documents;
         }
     }
 }

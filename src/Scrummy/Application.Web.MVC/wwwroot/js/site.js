@@ -158,4 +158,17 @@ $(function () {
         var row = $($element).parents("tr:first");
         row.insertAfter(row.next());
     });
+
+    $("#documentTable").delegate("button[name='add']", "click", function (e) {
+        var childOptionList = $("#documentOptions").data("value");
+
+        e.preventDefault();
+        var row =
+            '<tr>' +
+                '<td><select class="form-control" name="SelectedDocumentIds[]">' + childOptionList + '</select></td></td>' +
+                '<td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>' +
+            '</tr>';
+
+        $('#documentTable tr:last').after(row);
+    });
 });

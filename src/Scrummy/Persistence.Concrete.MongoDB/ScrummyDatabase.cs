@@ -19,6 +19,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB
                 { typeof(Meeting), "Meetings" },
                 { typeof(Sprint), "Sprints" },
                 { typeof(WorkTask), "WorkTasks" },
+                { typeof(Document), "Documents" },
             };
         }
 
@@ -44,6 +45,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB
         public IMongoCollection<Sprint> SprintCollection => GetCollection<Sprint>();
 
         public IMongoCollection<WorkTask> WorkTaskCollection => GetCollection<WorkTask>();
+
+        public IMongoCollection<Document> DocumentCollection => GetCollection<Document>();
 
         private IMongoCollection<T> GetCollection<T>() => _database.GetCollection<T>(CollectionNameMap[typeof(T)]);
     }

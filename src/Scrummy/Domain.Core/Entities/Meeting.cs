@@ -38,6 +38,8 @@ namespace Scrummy.Domain.Core.Entities
 
         private List<Identity> _involvedPersons;
 
+        private List<Identity> _documents;
+
         public Meeting(
             Identity id,
             Identity projectId,
@@ -47,7 +49,8 @@ namespace Scrummy.Domain.Core.Entities
             Identity organizedBy,
             string description,
             string log,
-            IEnumerable<Identity> involvedPersons) : base(id)
+            IEnumerable<Identity> involvedPersons,
+            IEnumerable<Identity> documents) : base(id)
         {
             ProjectId = projectId;
             Name = name;
@@ -57,6 +60,7 @@ namespace Scrummy.Domain.Core.Entities
             InvolvedPersons = involvedPersons;
             Duration = duration;
             Log = log;
+            Documents = documents;
         }
 
         public Identity ProjectId
@@ -89,6 +93,12 @@ namespace Scrummy.Domain.Core.Entities
         {
             get => _involvedPersons;
             set => _involvedPersons = CheckInvolvedPersons(value);
+        }
+
+        public IEnumerable<Identity> Documents
+        {
+            get => _documents;
+            set => _documents = new List<Identity>(value);
         }
 
         private List<Identity> CheckInvolvedPersons(IEnumerable<Identity> value)

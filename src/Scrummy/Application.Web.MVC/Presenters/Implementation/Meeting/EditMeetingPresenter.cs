@@ -7,6 +7,7 @@ using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Meeting;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
@@ -47,18 +48,33 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
                     Text = person.DisplayName,
                 },
                 Persons = Persons(),
+                SelectedDocumentIds = meeting.Documents.Select(x => x.Id.ToString()).ToList(),
+                Documents = Documents(project.Id),
             };
         }
 
         public EditMeetingViewModel Present(EditMeetingViewModel vm)
         {
             vm.Persons = Persons();
+            vm.Documents = Documents(Identity.FromString(vm.Project.Id));
             return vm;
         }
 
         private SelectListItem[] Persons()
         {
             return RepositoryProvider.Person.ListAll().Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name,
+            }).ToArray();
+        }
+
+        private SelectListItem[] Documents(Identity projectId)
+        {
+            var common = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Common);
+            var meeting = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Meeting);
+
+            return meeting.Concat(common).Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name,

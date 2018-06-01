@@ -59,6 +59,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
                 TimeSpan = sprint.TimeSpan,
                 Stories = responseStories,
                 CanDelete = sprint.Status == SprintStatus.Planned,
+                Documents = sprint.Documents,
             };
         }
     }

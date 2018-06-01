@@ -45,6 +45,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
                 EndDate = sprint.TimeSpan.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Stories = Stories(project.Id, backlog.Stories),
                 SelectedStories = backlog.Stories.Select(x => x.ToString()).ToArray(),
+                Documents = Documents(project.Id),
+                SelectedDocumentIds = sprint.Documents.Select(x => x. ToString()).ToArray(),
             };
         }
 
@@ -54,7 +56,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
             var sprint = RepositoryProvider.Sprint.Read(id);
             var backlog = RepositoryProvider.Sprint.ReadSprintBacklog(id);
             vm.Stories = Stories(sprint.ProjectId, backlog.Stories);
-
+            vm.Documents = Documents(sprint.ProjectId);
             return vm;
         }
 
@@ -75,6 +77,18 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
                     };
                 });
             return readyStories.ToArray();
+        }
+
+        private SelectListItem[] Documents(Identity projectId)
+        {
+            var common = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Common);
+            var sprint = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Sprint);
+
+            return sprint.Concat(common).Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name,
+            }).ToArray();
         }
     }
 }

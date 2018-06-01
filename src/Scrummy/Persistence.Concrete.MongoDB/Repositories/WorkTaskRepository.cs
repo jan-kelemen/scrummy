@@ -29,6 +29,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var entity = workTask.ToPersistenceEntity();
             entity.Comments = new Comment[0];
+            entity.Documents = new ObjectId[0];
             _workTaskCollection.InsertOne(entity);
 
             var childTasks = workTask.ChildTasks.Select(x => x.ToPersistenceIdentity());
@@ -67,7 +68,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 .Set(w => w.StoryPoints, persistenceEntity.StoryPoints)
                 .Set(w => w.Description, persistenceEntity.Description)
                 .Set(w => w.ParentTask, persistenceEntity.ParentTask)
-                .Set(w => w.Steps, persistenceEntity.Steps);
+                .Set(w => w.Steps, persistenceEntity.Steps)
+                .Set(x => x.Documents, persistenceEntity.Documents);
 
             var updateEntityResult = _workTaskCollection.UpdateOne(x => x.Id == persistenceEntity.Id, updateDefinition);
 

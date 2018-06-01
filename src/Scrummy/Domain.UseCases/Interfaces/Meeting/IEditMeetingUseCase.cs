@@ -28,6 +28,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
 
         public IEnumerable<Identity> InvolvedPersons { get; set; }
 
+        public IEnumerable<Identity> Documents { get; set; }
+
         protected override void ValidateCore()
         {
             if (Id.IsBlankIdentity())

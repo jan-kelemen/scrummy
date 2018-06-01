@@ -4,6 +4,7 @@ using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
@@ -13,6 +14,7 @@ using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Pro
 using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Meeting;
 using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
 using MWorkTask = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.WorkTask;
+using MDocument = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Document;
 
 using Project = Scrummy.Domain.Core.Entities.Project;
 
@@ -24,13 +26,15 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
         private readonly IMongoCollection<MMeeting> _meetingCollection;
         private readonly IMongoCollection<MSprint> _sprintCollection;
         private readonly IMongoCollection<MWorkTask> _workTaskCollection;
+        private readonly IMongoCollection<MDocument> _documentCollection;
 
-        public ProjectRepository(IMongoCollection<MProject> projectCollection, IMongoCollection<MMeeting> meetingCollection, IMongoCollection<MSprint> sprintCollection, IMongoCollection<MWorkTask> workTaskCollection)
+        public ProjectRepository(IMongoCollection<MProject> projectCollection, IMongoCollection<MMeeting> meetingCollection, IMongoCollection<MSprint> sprintCollection, IMongoCollection<MWorkTask> workTaskCollection, IMongoCollection<MDocument> documentCollection)
         {
             _projectCollection = projectCollection;
             _meetingCollection = meetingCollection;
             _sprintCollection = sprintCollection;
             _workTaskCollection = workTaskCollection;
+            _documentCollection = documentCollection;
         }
 
         public override Identity Create(Project project)
@@ -54,7 +58,12 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var entity = _projectCollection.Find(x => x.Id == id.ToPersistenceIdentity()).FirstOrDefault();
             if (entity == null) { throw CreateEntityNotFoundException(id); }
 
-            return entity.ToDomainEntity();
+            var documents = _documentCollection
+                .Find(x => x.ProjectId == entity.Id && x.Kind == DocumentKind.Common || x.Kind == DocumentKind.Project)
+                .ToEnumerable()
+                .Select(x => x.Id);
+
+            return entity.ToDomainEntity(documents);
         }
 
         public override void Update(Project project)

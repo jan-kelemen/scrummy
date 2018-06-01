@@ -30,6 +30,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
                 Time = entity.Time,
                 Duration = entity.Duration,
                 Log = entity.Log,
+                Documents = entity.Documents,
             };
         }
     }

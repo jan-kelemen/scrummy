@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Core.Validators;
@@ -27,8 +28,8 @@ namespace Scrummy.Domain.Core.Entities
         }
 
         private Identity _projectId;
-
         private string _name;
+        private List<Identity> _documents;
 
         public Sprint(
             Identity id,
@@ -36,13 +37,15 @@ namespace Scrummy.Domain.Core.Entities
             string name, 
             Tuple<DateTime, DateTime> timeSpan, 
             string goal, 
-            SprintStatus status) : base(id)
+            SprintStatus status,
+            IEnumerable<Identity> documents) : base(id)
         {
             ProjectId = projectId;
             Name = name;
             TimeSpan = timeSpan;
             Goal = goal;
             Status = status;
+            Documents = documents;
         }
 
         public Identity ProjectId
@@ -62,6 +65,12 @@ namespace Scrummy.Domain.Core.Entities
         public string Goal { get; set; }
 
         public SprintStatus Status { get; set; }
+
+        public IEnumerable<Identity> Documents
+        {
+            get => _documents;
+            set => _documents = new List<Identity>(value);
+        }
 
         private string CheckName(string name)
         {

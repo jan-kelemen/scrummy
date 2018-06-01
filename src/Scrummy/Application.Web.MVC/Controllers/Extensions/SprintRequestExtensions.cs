@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using Microsoft.AspNetCore.Identity;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -22,6 +21,7 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                     DateTime.ParseExact(vm.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture),
                     DateTime.ParseExact(vm.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture)),
                 Stories = vm.SelectedStories.Select(Identity.FromString),
+                Documents = vm.SelectedDocumentIds.Select(Identity.FromString),
             };
         }
 
@@ -36,6 +36,7 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                     DateTime.ParseExact(vm.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture),
                     DateTime.ParseExact(vm.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture)),
                 Stories = vm.SelectedStories.Select(Identity.FromString),
+                Documents = vm.SelectedDocumentIds.Select(Identity.FromString),
             };
         }
         public static ChangeTaskStatusRequest ToRequest(this string sprintId, string taskId, string status, string userId)

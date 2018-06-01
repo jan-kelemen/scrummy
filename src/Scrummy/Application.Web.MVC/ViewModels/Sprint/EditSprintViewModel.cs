@@ -33,5 +33,9 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Sprint
         public string[] SelectedStories { get; set; } = new string[0];
 
         public SelectListItem[] Stories { get; set; } = new SelectListItem[0];
+
+        public string[] SelectedDocumentIds { get; set; } = new string[0];
+
+        public SelectListItem[] Documents { get; set; } = new SelectListItem[0];
     }
 }

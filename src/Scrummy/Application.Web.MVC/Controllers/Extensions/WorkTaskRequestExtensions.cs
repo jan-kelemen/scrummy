@@ -22,7 +22,8 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                 Description = vm.Description,
                 ChildTasks = vm.ChildTaskIds.Select(Identity.FromString),
                 StoryPoints = vm.StoryPoints,
-                Steps = vm.Steps
+                Steps = vm.Steps,
+                Documents = vm.SelectedDocumentIds.Select(Identity.FromString),
             };
         }
 
@@ -36,7 +37,8 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
                 ChildTasks = vm.ChildTaskIds.Select(Identity.FromString),
                 StoryPoints = vm.StoryPoints,
                 Id = Identity.FromString(vm.Id),
-                Steps = vm.Steps
+                Steps = vm.Steps,
+                Documents = vm.SelectedDocumentIds.Select(Identity.FromString),
             };
         }
 

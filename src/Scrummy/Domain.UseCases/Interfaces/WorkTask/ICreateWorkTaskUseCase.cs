@@ -32,6 +32,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
 
         public IEnumerable<string> Steps { get; set; }
 
+        public IEnumerable<Identity> Documents { get; set; }
+
         protected override void ValidateCore()
         {
             if(ProjectId.IsBlankIdentity())

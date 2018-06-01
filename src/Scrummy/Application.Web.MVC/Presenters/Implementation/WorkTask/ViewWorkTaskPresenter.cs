@@ -55,6 +55,16 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
                 Steps = response.Steps.ToList(),
                 CanEdit = response.CanEdit,
                 CanEditParent = response.CanEditParent,
+                Documents = response.Documents.Select(x =>
+                {
+                    var document = RepositoryProvider.Document.Read(x);
+
+                    return new NavigationViewModel
+                    {
+                        Id = document.Id.ToString(),
+                        Text = document.Name,
+                    };
+                }),
             };
         }
 

@@ -116,6 +116,7 @@ namespace Scrummy.Domain.Core.Entities
         private List<Identity> _childTasks;
         private readonly List<Identity> _comments;
         private List<string> _steps;
+        private List<Identity> _documents;
 
         public WorkTask(
             Identity id, 
@@ -127,7 +128,8 @@ namespace Scrummy.Domain.Core.Entities
             Identity parentTask,
             IEnumerable<Identity> childTasks,
             IEnumerable<Identity> comments,
-            IEnumerable<string> steps) : base(id)
+            IEnumerable<string> steps,
+            IEnumerable<Identity> documents) : base(id)
         {
             ProjectId = projectId;
             Type = type;
@@ -135,9 +137,10 @@ namespace Scrummy.Domain.Core.Entities
             StoryPoints = storyPoints;
             Description = description;
             ParentTask = parentTask;
-            _childTasks = new List<Identity>(childTasks);
+            ChildTasks = childTasks;
             _comments = new List<Identity>(comments);
-            _steps = new List<string>(steps);
+            Steps = steps;
+            Documents = documents;
         }
 
         public Identity ProjectId { get; }
@@ -172,6 +175,12 @@ namespace Scrummy.Domain.Core.Entities
         {
             get => _steps;
             set => _steps = new List<string>(value);
+        }
+
+        public IEnumerable<Identity> Documents
+        {
+            get => _documents;
+            set => _documents = new List<Identity>(value);
         }
 
         public void AddChildTask(WorkTask other)

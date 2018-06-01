@@ -37,6 +37,7 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
                 Comments = entity.Comments,
                 CanEdit = CanWorkTaskBeEdited(entity),
                 CanEditParent = entity.ParentTask.IsBlankIdentity() || CanWorkTaskBeEdited(_workTaskRepository.Read(entity.ParentTask)),
+                Documents = entity.Documents,
             };
         }
 
