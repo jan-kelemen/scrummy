@@ -14,6 +14,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
             MinimumLength = ProjectValidation.NameMinLength)]
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public List<string> DefinitionOfDone { get; set; } = new List<string>();
 
         public SelectListItem[] Teams { get; set; } = new SelectListItem[0];

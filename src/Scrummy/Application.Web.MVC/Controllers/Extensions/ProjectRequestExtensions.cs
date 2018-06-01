@@ -14,6 +14,7 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
             return new CreateProjectRequest(userId)
             {
                 Name = vm.Name,
+                Description = vm.Description,
                 DefinitionOfDone = vm.DefinitionOfDone,
                 TeamId = Identity.FromString(vm.SelectedTeamId),
             };
@@ -23,6 +24,7 @@ namespace Scrummy.Application.Web.MVC.Controllers.Extensions
             return new EditProjectRequest(userId)
             {
                 Id = Identity.FromString(vm.Id),
+                Description = vm.Description,
                 DefinitionOfDone = vm.DefinitionOfDone,
                 Name = vm.Name,
                 TeamId = Identity.FromString(vm.SelectedTeamId),

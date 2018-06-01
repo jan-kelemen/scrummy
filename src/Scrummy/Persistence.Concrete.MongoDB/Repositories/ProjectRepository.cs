@@ -63,6 +63,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var updateDefinition = Builders<MProject>.Update
                 .Set(p => p.Name, project.Name)
+                .Set(p => p.Description, project.Description)
                 .Set(p => p.DefinitionOfDoneConditions, project.DefinitionOfDone);
 
             var entity = _projectCollection.Find(x => x.Id == project.Id.ToPersistenceIdentity()).FirstOrDefault();

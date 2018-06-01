@@ -29,6 +29,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public IEnumerable<string> DefinitionOfDoneConditions { get; set; }
 
         public TeamHistoryRecord CurrentTeam { get; set; }

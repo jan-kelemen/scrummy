@@ -11,6 +11,8 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         [Display(Name = "Team")]
         public NavigationViewModel Team { get; set; }
 

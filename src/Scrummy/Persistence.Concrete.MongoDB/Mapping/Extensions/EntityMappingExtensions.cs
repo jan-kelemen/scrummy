@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using MongoDB.Bson;
 using Scrummy.Domain.Core.Entities;
-using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Person;
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
@@ -57,6 +56,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
             return new Project(
                 id: project.Id.ToDomainIdentity(),
                 name: project.Name,
+                description: project.Description,
                 definitionOfDone: new DefinitionOfDone(project.DefinitionOfDoneConditions),
                 teamId: project.CurrentTeam.TeamId.ToDomainIdentity()
             );
@@ -68,6 +68,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
             {
                 Id = project.Id.ToPersistenceIdentity(),
                 Name = project.Name,
+                Description = project.Description,
                 DefinitionOfDoneConditions = project.DefinitionOfDone,
                 CurrentTeam = new TeamHistoryRecord
                 {

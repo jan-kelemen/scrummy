@@ -44,12 +44,14 @@ namespace Scrummy.Domain.Core.Entities
 
         public Project(
             Identity id, 
-            string name, 
+            string name,
+            string description,
             DefinitionOfDone definitionOfDone, 
             Identity teamId) : base(id)
         {
             Name = name;
             DefinitionOfDone = definitionOfDone;
+            Description = description;
             TeamId = teamId;
         }
 
@@ -58,6 +60,8 @@ namespace Scrummy.Domain.Core.Entities
             get => _name;
             set => _name = CheckName(value);
         }
+
+        public string Description { get; set; }
 
         public DefinitionOfDone DefinitionOfDone
         {

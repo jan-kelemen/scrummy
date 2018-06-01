@@ -34,6 +34,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                     Id = team.Id.ToString(),
                     Text = team.Name,
                 },
+                Description = response.Description,
                 DefinitionOfDone = response.DefinitionOfDone,
                 Sprint = response.Sprint != null ? _viewSprintPresenter.Present(response.Sprint) : null,
                 CanDelete = response.CanDelete,

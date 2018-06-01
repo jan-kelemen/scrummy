@@ -30,6 +30,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                 Id = id,
                 DefinitionOfDone = new List<string>(project.DefinitionOfDone),
                 Name = project.Name,
+                Description = project.Description,
                 SelectedTeamId = project.TeamId.ToString(),
                 Teams = Teams()
             };

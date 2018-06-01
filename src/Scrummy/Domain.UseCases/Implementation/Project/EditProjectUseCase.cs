@@ -31,6 +31,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
 
             entity.Name = request.Name;
             entity.DefinitionOfDone = new DefinitionOfDone(request.DefinitionOfDone);
+            entity.Description = request.Description;
             entity.TeamId = team.Id;
 
             _projectRepository.Update(entity);

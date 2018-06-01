@@ -16,6 +16,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public IEnumerable<string> DefinitionOfDone { get; set; }
 
         public Identity TeamId { get; set; }

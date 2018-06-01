@@ -29,6 +29,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
                 Id = request.Id,
                 Name = entity.Name,
                 DefinitionOfDone = entity.DefinitionOfDone.Conditions,
+                Description = entity.Description,
                 TeamId = entity.TeamId,
             };
             var sprint = _sprintRepository.ReadCurrentSprint(request.Id);
