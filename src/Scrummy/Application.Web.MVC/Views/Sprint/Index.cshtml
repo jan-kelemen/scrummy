@@ -45,13 +45,9 @@
                 <dd>
                     @Html.DisplayFor(model => model.EndDate)
                 </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Goal)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Goal)
-                </dd>
             </dl>
+            <h5><b>Goal</b></h5>
+            <textarea class="form-control" readonly>@Model.Goal</textarea>
             <h5><b>Stories</b></h5>
             <table class="table">
                 <thead>

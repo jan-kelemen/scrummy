@@ -51,19 +51,9 @@
                 <dd>
                     <a asp-action="Index" asp-controller="Person" asp-route-id="@Model.OrganizedBy.Id">@Model.OrganizedBy.Text</a>
                 </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Log)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Log)
-                </dd>
             </dl>
+            <h5><b>Description</b></h5>
+            <textarea class="form-control" readonly>@Model.Description</textarea>
             <h5><b>Persons</b></h5>
             <table class="table" id="personTable">
                 <thead>
@@ -84,6 +74,8 @@
                     }
                 </tbody>
             </table>
+            <h5><b>Log</b></h5>
+            <textarea class="form-control" readonly>@Model.Log</textarea>
         </div>
     </div>
 </div>

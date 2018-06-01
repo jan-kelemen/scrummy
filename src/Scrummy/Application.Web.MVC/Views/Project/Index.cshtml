@@ -37,12 +37,6 @@
                     @Html.DisplayFor(model => model.Name)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-                <dt>
                     @Html.DisplayNameFor(model => model.Team)
                 </dt>
                 <dd>
@@ -58,6 +52,8 @@
                     </dd>
                 }
             </dl>
+            <h5><b>Description</b></h5>
+            <textarea class="form-control" readonly>@Model.Description</textarea>
             <h5><b>Definition of Done</b></h5>
             <ul>
                 @foreach (var condition in Model.DefinitionOfDone)
