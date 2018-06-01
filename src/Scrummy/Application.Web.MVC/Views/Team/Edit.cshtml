@@ -37,7 +37,7 @@
                         <tr id="tableHeader">
                             <th>Member</th>
                             <th>Role</th>
-                            <th class="actionColumn"><button class="btn btn-default tableButton" name="add">Add</button></th>
+                            <th class="actionColumn"><button class="btn btn-default" name="add"><span class="glyphicon glyphicon-plus"></span></button></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,7 +46,7 @@
                             <tr>
                                 <td><select asp-for="SelectedMemberIds[@i]" name="SelectedMemberIds[]" id="@ToId("smi", i)" asp-items="Model.Persons" class="form-control"></select></td>
                                 <td><select asp-for="SelectedRoles[@i]" name="SelectedRoles[]" id="@ToId("sr", i)" asp-items="Model.Roles" class="form-control"></select></td>
-                                <td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>
+                                <td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>
                             </tr>
                         }
                     </tbody>

@@ -3,11 +3,6 @@
     padding-bottom: 20px;
 }
 
-input, select {
-    max-width: 70%
-}
-
-
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -44,11 +39,8 @@ input, select {
     margin-bottom: 10px;
 }
 
-.tableButton {
-    width: 100%;
-    min-width: 120px
-}
-
 .actionColumn {
-    width: 15%;
+    width: 1%;
+    text-align: right;
+    white-space: nowrap;
 }

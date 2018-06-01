@@ -9,9 +9,9 @@ $(function () {
         var row =
             '<tr>' +
                 '<td><input name="DefinitionOfDone[]" class="form-control"></td>' +
-                '<td><button class="btn btn-default tableButton" name="up">Up</button></td>' +
-                '<td><button class="btn btn-default tableButton" name="down">Down</button></td>' +
-                '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
+                '<td><button class="btn btn-default" name="up"><span class="glyphicon glyphicon-arrow-up"></span></button></td>' +
+                '<td><button class="btn btn-default" name="down"><span class="glyphicon glyphicon-arrow-down"></span></button></td>' +
+                '<td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>' +
             '</tr>';
 
         $('#dodTable tr:last').after(row);
@@ -43,7 +43,7 @@ $(function () {
             '<tr>' +
                 '<td><select class="form-control" name="SelectedMemberIds[]">' + personOptionList + '</select></td></td>' +
                 '<td><select class="form-control" name="SelectedRoles[]">' + roleOptionList + '</select></td></td>' +
-                '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
+                '<td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>' +
             '</tr>';
 
         $('#memberTable tr:last').after(row);
@@ -56,7 +56,7 @@ $(function () {
         var row =
             '<tr>' +
                 '<td><select class="form-control" name="SelectedPersonIds[]">' + personOptionList + '</select></td></td>' +
-                '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
+                '<td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>' +
             '</tr>';
 
         $('#personTable tr:last').after(row);
@@ -69,7 +69,7 @@ $(function () {
         var row =
             '<tr>' +
                 '<td><select class="form-control" name="ChildTaskIds[]">' + childOptionList + '</select></td></td>' +
-                '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
+                '<td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>' +
             '</tr>';
 
         $('#linkedTaskTable tr:last').after(row);
@@ -98,9 +98,9 @@ $(function () {
         var row =
             '<tr>' +
                 '<td><select class="form-control" name="SelectedStories[]">' + childOptionList + '</select></td></td>' +
-                '<td><button class="btn btn-default tableButton" name="up">Up</button></td>' +
-                '<td><button class="btn btn-default tableButton" name="down">Down</button></td>' +
-                '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
+                '<td><button class="btn btn-default" name="up"><span class="glyphicon glyphicon-arrow-up"></span></button></td>' +
+                '<td><button class="btn btn-default" name="down"><span class="glyphicon glyphicon-arrow-down"></span></button></td>' +
+                '<td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>' +
             '</tr>';
 
         $('#storiesTable tr:last').after(row);
@@ -135,9 +135,9 @@ $(function () {
         var row =
             '<tr>' +
                 '<td><input name="Steps[]" class="form-control"></td>' +
-                '<td><button class="btn btn-default tableButton" name="up">Up</button></td>' +
-                '<td><button class="btn btn-default tableButton" name="down">Down</button></td>' +
-                '<td><button class="btn btn-default tableButton" name="del" onclick="remove_row(this)">Delete</button></td>' +
+                '<td><button class="btn btn-default" name="up"><span class="glyphicon glyphicon-arrow-up"></span></button></td>' +
+                '<td><button class="btn btn-default" name="down"><span class="glyphicon glyphicon-arrow-down"></span></button></td>' +
+                '<td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>' +
             '</tr>';
 
         $('#stepTable tr:last').after(row);

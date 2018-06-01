@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>Team</th>
-            <th class="actionColumn"></th>
+            <th class="actionColumn" colspan="2"></th>
         </tr>
     </thead>
     <tbody>
@@ -21,7 +21,10 @@
                     @team.Text
                 </td>
                 <td>
-                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@team.Id">View</a>
+                    <a asp-action="Edit" class="btn btn-default" asp-route-id="@team.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                </td>
+                <td>
+                    <a asp-area="" class="btn btn-default" asp-action="Index" asp-route-id="@team.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
                 </td>
             </tr>
         }

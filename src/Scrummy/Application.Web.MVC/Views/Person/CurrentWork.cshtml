@@ -11,7 +11,7 @@
         <thead>
             <tr>
                 <th>Project</th>
-                <th class="actionColumn"></th>
+                <th class="actionColumn" colspan="4"></th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,16 @@
                         @project.Text
                     </td>
                     <td>
-                        <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Project" asp-route-id="@project.Id">View</a>
+                        <a asp-action="Backlog" class="btn btn-default" asp-controller="Project" asp-route-id="@project.Id" asp-route-flavor="Backlog"><span class="glyphicon glyphicon-list"></span></a>
+                    </td>
+                    <td>
+                        <a asp-action="Sprints" class="btn btn-default" asp-controller="Project" asp-route-id="@project.Id" asp-route-status="Planned"><span class="glyphicon glyphicon-calendar"></span></a>
+                    </td>
+                    <td>
+                        <a asp-action="Meetings" class="btn btn-default" asp-controller="Project"  asp-route-id="@project.Id"><span class="glyphicon glyphicon-hourglass"></span></a>
+                    </td>
+                    <td>
+                        <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Project" asp-route-id="@project.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
                     </td>
                 </tr>
             }
@@ -34,7 +43,7 @@
                 <th>Meeting</th>
                 <th>Time</th>
                 <th>Duration</th>
-                <th class="actionColumn"></th>
+                <th class="actionColumn" colspan="2"></th>
             </tr>
         </thead>
         <tbody>
@@ -51,7 +60,10 @@
                         @meeting.Duration
                     </td>
                     <td>
-                        <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Meeting" asp-route-id="@meeting.Id">View</a>
+                        <a asp-action="Edit" class="btn btn-default" asp-controller="Meeting" asp-route-id="@meeting.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                    </td>
+                    <td>
+                        <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Meeting" asp-route-id="@meeting.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
                     </td>
                 </tr>
             }

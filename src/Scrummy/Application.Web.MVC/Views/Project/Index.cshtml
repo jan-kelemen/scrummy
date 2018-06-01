@@ -87,22 +87,22 @@
                                         @if (t.Item1 != null)
                                         {
                                             <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item1.Id">@t.Item1.Text</a>
-                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item1.Id" asp-route-status="InProgress">&gt</a>
+                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item1.Id" asp-route-status="InProgress"><span class="glyphicon glyphicon-arrow-right"></span></a>
                                         }
                                     </td>
                                     <td>
                                         @if (t.Item2 != null)
                                         {
                                             <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item2.Id">@t.Item2.Text</a>
-                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="ToDo">&lt</a>
-                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="Done">&gt</a>
+                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="ToDo"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="Done"><span class="glyphicon glyphicon-arrow-right"></span></a>
                                         }
                                     </td>
                                     <td>
                                         @if (t.Item3 != null)
                                         {
                                             <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item3.Id">@t.Item3.Text</a>
-                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item3.Id" asp-route-status="InProgress">&lt</a>
+                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item3.Id" asp-route-status="InProgress"><span class="glyphicon glyphicon-arrow-left"></span></a>
                                         }
                                     </td>
                                 </tr>

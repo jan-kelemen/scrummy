@@ -142,7 +142,7 @@
                             <tr>
                                 <td>@p.Text</td>
                                 <td>
-                                    <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-route-id="@p.Id">View</a>
+                                    <a asp-area="" class="btn btn-default" asp-action="Index" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
                                 </td>
                             </tr>
                         }
@@ -152,47 +152,47 @@
             <h5><b>Comments</b></h5>
             <table class="table">
                 <thead>
-                <tr>
-                    <th>Author</th>
-                    <th></th>
-                    <th class="actionColumn" colspan="2"></th>
-                </tr>
+                    <tr>
+                        <th>Author</th>
+                        <th></th>
+                        <th class="actionColumn" colspan="2"></th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (var c in Model.Comments)
-                {
-                    <tr>
-                        <td>
-                            <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
-                        </td>
-                        <td></td>
-                        @if (id == c.Author.Id)
-                        {
+                    @foreach (var c in Model.Comments)
+                    {
+                        <tr>
                             <td>
-                                <a class="btn btn-default tableButton" asp-action="EditComment" asp-route-id="@Model.Id" asp-route-cid="@c.Id">Edit</a>
+                                <a asp-action="Index" asp-controller="Person" asp-route-id="@c.Author.Id">@c.Author.Text</a>
                             </td>
-                            <td>
-                                <a class="btn btn-danger tableButton" asp-action="DeleteComment" asp-route-id="@Model.Id" asp-route-cid="@c.Id">Delete</a>
+                            <td></td>
+                            @if (id == c.Author.Id)
+                            {
+                                <td>
+                                    <a class="btn btn-default" asp-action="EditComment" asp-route-id="@Model.Id" asp-route-cid="@c.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-default" asp-action="DeleteComment" asp-route-id="@Model.Id" asp-route-cid="@c.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td colspan="2"></td>
+                            }
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <textarea class="form-control" readonly>@c.Content</textarea>
                             </td>
-                        }
-                        else
-                        {
-                            <td colspan="2"></td>
-                        }
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <textarea class="form-control" readonly>@c.Content</textarea>
-                        </td>
-                    </tr>
-                }
+                        </tr>
+                    }
                 </tbody>
             </table>
             <h3>Add comment</h3><hr />
             <form asp-action="AddComment">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" name="WorkTask.Id" value="@Model.Id"/>
-                <input type="hidden" name="WorkTask.Name" value="@Model.Name"/>
+                <input type="hidden" name="WorkTask.Id" value="@Model.Id" />
+                <input type="hidden" name="WorkTask.Name" value="@Model.Name" />
                 <div class="form-group">
                     <textarea class="form-control" name="Content"></textarea>
                 </div>

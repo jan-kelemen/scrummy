@@ -10,11 +10,11 @@
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="Sprint" asp-route-id="@Model.Project.Id">Create</a>
         @if (Model.Type == "Planned")
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Done">List completed</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Done">View completed</a>
         }
         else
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Planned">List planned</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Planned">View planned</a>
         }
 
     </div>
@@ -29,9 +29,12 @@
                         <th>End Date</th>
                         @if (Model.StartSprintAllowed)
                         {
+                            <th class="actionColumn" colspan ="2"></th>
+                        }
+                        else
+                        {
                             <th class="actionColumn"></th>
                         }
-                        <th class="actionColumn"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,11 +53,11 @@
                             @if (Model.StartSprintAllowed)
                             {
                                 <td>
-                                    <a asp-area="" class="btn btn-default tableButton" asp-action="Start" asp-controller="Sprint" asp-route-id="@sprint.Id">Start sprint</a>
+                                    <a asp-area="" class="btn btn-default" asp-action="Start" asp-controller="Sprint" asp-route-id="@sprint.Id"><span class="glyphicon glyphicon-play"></span></a>
                                 </td>
                             }
                             <td>
-                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Sprint" asp-route-id="@sprint.Id">View</a>
+                                <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Sprint" asp-route-id="@sprint.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
                             </td>
                         </tr>
                     }

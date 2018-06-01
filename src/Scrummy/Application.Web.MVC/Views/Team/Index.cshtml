@@ -52,7 +52,7 @@
                             <td>@m.Text</td>
                             <td>@m.Role</td>
                             <td>
-                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Person" asp-route-id="@m.Id">View</a>
+                                <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Person" asp-route-id="@m.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
                             </td>
                         </tr>
                     }
@@ -64,7 +64,7 @@
                 <thead>
                     <tr>
                         <th>Project</th>
-                        <th class="actionColumn"></th>
+                        <th class="actionColumn" colspan="4"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,7 +73,16 @@
                         <tr>
                             <td>@p.Text</td>
                             <td>
-                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Project" asp-route-id="@p.Id">View</a>
+                                <a asp-action="Backlog" class="btn btn-default" asp-controller="Project" asp-route-id="@p.Id" asp-route-flavor="Backlog"><span class="glyphicon glyphicon-list"></span></a>
+                            </td>
+                            <td>
+                                <a asp-action="Sprints" class="btn btn-default" asp-controller="Project" asp-route-id="@p.Id" asp-route-status="Planned"><span class="glyphicon glyphicon-calendar"></span></a>
+                            </td>
+                            <td>
+                                <a asp-action="Meetings" class="btn btn-default" asp-controller="Project"  asp-route-id="@p.Id"><span class="glyphicon glyphicon-hourglass"></span></a>
+                            </td>
+                            <td>
+                                <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Project" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
                             </td>
                         </tr>
                     }

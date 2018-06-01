@@ -7,11 +7,11 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Sprint
     {
         public NavigationViewModel Sprint { get; set; }
 
-        public string[] Ids { get; set; }
+        public string[] Ids { get; set; } = new string[0];
 
-        public string[] Names { get; set; }
+        public string[] Names { get; set; } = new string[0];
 
-        public string[] Decisions { get; set; }
+        public string[] Decisions { get; set; } = new string[0];
 
         public SelectListItem[] Statuses { get; set; } = new SelectListItem[0];
     }

@@ -51,8 +51,8 @@
                                 <td>
                                     <select asp-for="@Model.Status[i]" name="Status[]" id="@Model.Ids[i]" asp-items="Model.Statuses" class="form-control"></select>
                                 </td>
-                                <td><button class="btn btn-default tableButton" name="up">Up</button></td>
-                                <td><button class="btn btn-default tableButton" name="down">Down</button></td>
+                                <td><button class="btn btn-default" name="up"><span class="glyphicon glyphicon-arrow-up"></span></button></td>
+                                <td><button class="btn btn-default" name="down"><span class="glyphicon glyphicon-arrow-down"></span></button></td>
                             </tr>
                         }
                     </tbody>

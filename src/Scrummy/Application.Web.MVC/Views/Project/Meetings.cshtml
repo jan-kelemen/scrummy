@@ -8,7 +8,7 @@
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="Meeting" asp-route-id="@Model.Project.Id">Schedule meeting</a>
-        <a asp-area="" class="btn btn-default actionButton" asp-action="List" asp-controller="Meeting" asp-route-id="@Model.Project.Id">List all</a>
+        <a asp-area="" class="btn btn-default actionButton" asp-action="List" asp-controller="Meeting" asp-route-id="@Model.Project.Id">View all</a>
     </div>
     <div class="col-xs-10">
         <h2>Upcoming meetings - @Model.Project.Text</h2> <hr />
@@ -18,7 +18,7 @@
                     <tr>
                         <th>Meeting</th>
                         <th>Time</th>
-                        <th class="actionColumn"></th>
+                        <th class="actionColumn" colspan="2"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,7 +32,10 @@
                                 @meeting.Time
                             </td>
                             <td>
-                                <a asp-area="" class="btn btn-default tableButton" asp-action="Index" asp-controller="Meeting" asp-route-id="@meeting.Id">View</a>
+                                <a asp-action="Edit" class="btn btn-default" asp-controller="Meeting" asp-route-id="@meeting.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                            </td>
+                            <td>
+                                <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Meeting" asp-route-id="@meeting.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
                             </td>
                         </tr>
                     }
