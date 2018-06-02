@@ -150,7 +150,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
         public IActionResult AddComment(AddCommentViewModel vm)
         {
             if (!ModelState.IsValid)
-                return View(vm);
+                return RedirectToAction(nameof(Index), new { id = vm.WorkTask.Id });
 
             var presenter = _presenterFactory.Create(MessageHandler, ErrorHandler);
             var request = vm.ToRequest(CurrentUserId);
@@ -163,12 +163,12 @@ namespace Scrummy.Application.Web.MVC.Controllers
             catch (InvalidRequestException ire)
             {
                 presenter.PresentErrors(ire.Message, ire.Errors);
-                return View(vm);
+                return RedirectToAction(nameof(Index), new {id = vm.WorkTask.Id});
             }
             catch (Exception e)
             {
                 presenter.PresentMessage(MessageType.Error, e.Message);
-                return View(vm);
+                return RedirectToAction(nameof(Index), new { id = vm.WorkTask.Id });
             }
         }
 
