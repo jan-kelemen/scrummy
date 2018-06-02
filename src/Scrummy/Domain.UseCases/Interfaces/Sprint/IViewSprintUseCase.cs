@@ -52,6 +52,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         public IEnumerable<Identity> Documents { get; set; }
 
         public bool CanDelete { get; set; }
+
+        public bool IsReportAvailable { get; set; }
     }
 
     public interface IViewSprintUseCase

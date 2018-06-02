@@ -84,6 +84,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
                         Text = document.Name,
                     };
                 }),
+                IsReportAvailable = response.IsReportAvailable,
             };
         }
     }

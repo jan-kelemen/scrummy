@@ -21,6 +21,10 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
 
         public ViewSprintViewModel Sprint { get; set; }
 
+        public SprintReportViewModel Report { get; set; }
+
         public bool CanDelete { get; set; }
+
+
     }
 }

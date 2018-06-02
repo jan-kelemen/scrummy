@@ -12,6 +12,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
     internal class ViewProjectPresenter : Presenter, IViewProjectPresenter
     {
         private readonly ViewSprintPresenter _viewSprintPresenter;
+        private readonly SprintReportPresenter _sprintReportPresenter;
 
         public ViewProjectPresenter(
             Action<MessageType, string> messageHandler,
@@ -20,6 +21,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
             : base(messageHandler, errorHandler, repositoryProvider)
         {
             _viewSprintPresenter = new ViewSprintPresenter(MessageHandler, ErrorHandler, RepositoryProvider);
+            _sprintReportPresenter = new SprintReportPresenter(MessageHandler, ErrorHandler, RepositoryProvider);
         }
 
         public ViewProjectViewModel Present(ViewProjectResponse response)
@@ -37,6 +39,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                 Description = response.Description,
                 DefinitionOfDone = response.DefinitionOfDone,
                 Sprint = response.Sprint != null ? _viewSprintPresenter.Present(response.Sprint) : null,
+                Report = response.Report != null ? _sprintReportPresenter.Present(response.Report) : null,
                 CanDelete = response.CanDelete,
             };
         }

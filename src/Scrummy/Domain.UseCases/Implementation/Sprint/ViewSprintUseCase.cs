@@ -60,6 +60,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
                 Stories = responseStories,
                 CanDelete = sprint.Status == SprintStatus.Planned,
                 Documents = sprint.Documents,
+                IsReportAvailable = sprint.Status != SprintStatus.Planned,
             };
         }
     }

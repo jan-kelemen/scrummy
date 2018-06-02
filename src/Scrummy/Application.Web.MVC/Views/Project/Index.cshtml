@@ -43,15 +43,6 @@
                 <dd>
                     <a asp-area="" asp-controller="Team" asp-action="Index" asp-route-id="@Model.Team.Id">@Model.Team.Text</a>
                 </dd>
-                @if (Model.Sprint != null)
-                {
-                    <dt>
-                        @Html.DisplayNameFor(m => m.Sprint)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(m => m.Sprint.Name)
-                    </dd>
-                }
             </dl>
             <h5><b>Description</b></h5>
             <textarea class="form-control" readonly>@Model.Description</textarea>
@@ -65,55 +56,111 @@
             @if (Model.Sprint != null)
             {
                 <h3>Sprint</h3>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Name
+                    </dt>
+                    <dd>
+                        <a asp-area="" asp-controller="Sprint" asp-action="Index" asp-route-id="@Model.Sprint.Id">@Model.Sprint.Name</a>
+                    </dd>
+                </dl>
                 <table class="table">
                     <thead>
-                        <tr id="tableHeader">
-                            <th>Story</th>
-                            <th>To Do</th>
-                            <th>In Progress</th>
-                            <th>Done</th>
-                        </tr>
+                    <tr id="tableHeader">
+                        <th>Story</th>
+                        <th>To Do</th>
+                        <th>In Progress</th>
+                        <th>Done</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var p in Model.Sprint.Stories)
+                    @foreach (var p in Model.Sprint.Stories)
+                    {
+                        <tr>
+                            <td colspan="4">
+                                <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id">@p.Text (@p.StoryPoints)</a>
+                            </td>
+                        </tr>
+                        foreach (var t in p.Transform())
                         {
                             <tr>
-                                <td colspan="4">
-                                    <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id">@p.Text (@p.StoryPoints)</a>
+                                <td></td>
+                                <td>
+                                    @if (t.Item1 != null)
+                                    {
+                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item1.Id">@t.Item1.Text</a>
+                                        <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item1.Id" asp-route-status="InProgress"><span class="glyphicon glyphicon-arrow-right"></span></a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (t.Item2 != null)
+                                    {
+                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item2.Id">@t.Item2.Text</a>
+                                        <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="ToDo"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                                        <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="Done"><span class="glyphicon glyphicon-arrow-right"></span></a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (t.Item3 != null)
+                                    {
+                                        <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item3.Id">@t.Item3.Text</a>
+                                        <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item3.Id" asp-route-status="InProgress"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                                    }
                                 </td>
                             </tr>
-                            foreach (var t in p.Transform())
-                            {
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        @if (t.Item1 != null)
-                                        {
-                                            <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item1.Id">@t.Item1.Text</a>
-                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item1.Id" asp-route-status="InProgress"><span class="glyphicon glyphicon-arrow-right"></span></a>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (t.Item2 != null)
-                                        {
-                                            <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item2.Id">@t.Item2.Text</a>
-                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="ToDo"><span class="glyphicon glyphicon-arrow-left"></span></a>
-                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item2.Id" asp-route-status="Done"><span class="glyphicon glyphicon-arrow-right"></span></a>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (t.Item3 != null)
-                                        {
-                                            <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@t.Item3.Id">@t.Item3.Text</a>
-                                            <a asp-action="ChangeTaskStatus" asp-controller="Sprint" class="btn btn-default" asp-route-id="@Model.Sprint.Id" asp-route-taskId="@t.Item3.Id" asp-route-status="InProgress"><span class="glyphicon glyphicon-arrow-left"></span></a>
-                                        }
-                                    </td>
-                                </tr>
-                            }
                         }
+                    }
                     </tbody>
                 </table>
+
+                <h5><b>Burndown chart</b></h5>
+                <canvas id="burndown"></canvas>
             }
         </div>
     </div>
 </div>
+
+@if (Model.Report != null)
+{
+    <script>
+        var ctx = document.getElementById("burndown");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Report.Records.Select(x => x.Date).ToArray())),
+                datasets: [{
+                        label: 'ToDo Tasks',
+                        data: @Html.Raw(Json.Serialize(Model.Report.Records.Select(x => x.ToDoTasks))),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                        ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total',
+                        data: @Html.Raw(Json.Serialize(Model.Report.Records.Select(x => x.DoneTasks + x.ToDoTasks + x.InProgressTasks))),
+                        borderColor: ['rgba(0, 0, 0, 1)'],
+                        backgroundColor: ['rgba(0, 0, 0, 0)'],
+                        borderWidth: 2
+                    }],
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                }
+            },
+        });
+    </script>
+}

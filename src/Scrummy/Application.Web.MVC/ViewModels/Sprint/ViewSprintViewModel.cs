@@ -52,5 +52,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Sprint
         public bool CanDelete { get; set; }
 
         public IEnumerable<NavigationViewModel> Documents { get; set; } = new NavigationViewModel[0];
+
+        public bool IsReportAvailable { get; set; }
     }
 }

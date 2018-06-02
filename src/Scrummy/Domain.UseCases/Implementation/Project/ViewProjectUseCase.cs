@@ -11,12 +11,14 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
         private readonly IProjectRepository _projectRepository;
         private readonly ISprintRepository _sprintRepository;
         private readonly IViewSprintUseCase _viewSprintUseCase;
+        private readonly ISprintReportUseCase _sprintReportUseCase;
 
         public ViewProjectUseCase(IProjectRepository projectRepository, ISprintRepository sprintRepository, IWorkTaskRepository workTaskRepository)
         {
             _projectRepository = projectRepository;
             _sprintRepository = sprintRepository;
             _viewSprintUseCase = new ViewSprintUseCase(sprintRepository, workTaskRepository);
+            _sprintReportUseCase = new SprintReportUseCase(sprintRepository, workTaskRepository);
         }
 
         public ViewProjectResponse Execute(ViewProjectRequest request)
@@ -36,6 +38,10 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
             if (sprint != null)
             {
                 response.Sprint = _viewSprintUseCase.Execute(new ViewSprintRequest(request.UserId)
+                {
+                    Id = sprint.Id,
+                });
+                response.Report = _sprintReportUseCase.Execute(new SprintReportRequest(request.UserId)
                 {
                     Id = sprint.Id,
                 });

@@ -41,6 +41,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
 
         public ViewSprintResponse Sprint { get; set; }
 
+        public SprintReportResponse Report { get; set; }
+
         public bool CanDelete { get; set; } = true;
     }
 
