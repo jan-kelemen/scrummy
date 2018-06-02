@@ -1,4 +1,5 @@
-﻿using Scrummy.Domain.UseCases.Interfaces.Meeting;
+﻿using Scrummy.Domain.UseCases.Interfaces.Document;
+using Scrummy.Domain.UseCases.Interfaces.Meeting;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
@@ -20,5 +21,7 @@ namespace Scrummy.Domain.UseCases
         IWorkTaskUseCaseFactory WorkTask { get; }
 
         ISprintUseCaseFactory Sprint { get; }
+
+        IDocumentUseCaseFactory Document { get; }
     }
 }

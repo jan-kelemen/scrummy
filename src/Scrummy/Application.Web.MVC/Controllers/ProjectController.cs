@@ -253,5 +253,12 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return RedirectToAction(nameof(Index), "Home");
             }
         }
+
+        [HttpGet]
+        public IActionResult Documents(string id, string flavor)
+        {
+            var presenter = _presenterFactory.ViewDocuments(MessageHandler, ErrorHandler);
+            return View(presenter.Present(id, flavor));
+        }
     }
 }

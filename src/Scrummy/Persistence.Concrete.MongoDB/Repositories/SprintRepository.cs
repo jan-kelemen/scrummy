@@ -36,7 +36,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             entity.BacklogHistory = new MSprint.BacklogHistoryRecord[0];
             entity.PlannedTasks = new ObjectId[0];
             entity.CompletedTasks = new ObjectId[0];
-            entity.Documents = new ObjectId[0];
             _sprintCollection.InsertOne(entity);
             return sprint.Id;
         }

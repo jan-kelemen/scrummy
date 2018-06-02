@@ -1,0 +1,69 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Project.ViewDocumentsViewModel
+
+@{
+    ViewData["Title"] = "Documents";
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="Document" asp-route-id="@Model.Project.Id">Create</a>
+        @if (Model.Flavor != "All")
+        {
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="All">All documents</a>
+        }
+        @if (Model.Flavor != "Common")
+        {
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Common">Common documents</a>
+        }
+        @if (Model.Flavor != "Project")
+        {
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Project">Project documents</a>
+        }
+        @if (Model.Flavor != "Work task")
+        {
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="WorkTask">Work task documents</a>
+        }
+        @if (Model.Flavor != "Meeting")
+        {
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Meeting">Meeting documents</a>
+        }
+        @if (Model.Flavor != "Sprint")
+        {
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Sprint">Sprint documents</a>
+        }
+    </div>
+    <div class="col-xs-10">
+        <h2>@Model.Flavor documents - @Model.Project.Text</h2> <hr />
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Document</th>
+                    <th>Type</th>
+                    <th class="actionColumn" colspan="2"></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var document in Model.Documents)
+                {
+                    <tr>
+                        <td>
+                            @document.Text
+                        </td>
+                        <td>
+                            @document.Type
+                        </td>
+                        <td>
+                            <a asp-action="Edit" class="btn btn-default" asp-controller="Document" asp-route-id="@document.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                        </td>
+                        <td>
+                            <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Document" asp-route-id="@document.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

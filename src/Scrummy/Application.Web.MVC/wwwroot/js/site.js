@@ -171,4 +171,15 @@ $(function () {
 
         $('#documentTable tr:last').after(row);
     });
+
+    $("#linkTable").delegate("button[name='add']", "click", function (e) {
+        e.preventDefault();
+        var row =
+            '<tr>' +
+                '<td><input name="Links[]" class="form-control"></td>' +
+                '<td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>' +
+            '</tr>';
+
+        $('#linkTable tr:last').after(row);
+    });
 });

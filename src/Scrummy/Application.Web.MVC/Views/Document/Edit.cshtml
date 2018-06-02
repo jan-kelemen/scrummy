@@ -1,0 +1,60 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Document.EditDocumentViewModel
+
+@{
+    ViewData["Title"] = "Edit document";
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Id">Cancel</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Edit document - @Model.Name</h2><hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.Project.Id)
+            @Html.HiddenFor(x => x.Project.Text)
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <h5><b>Links</b></h5>
+            <div class="form-group">
+                <table class="table" id="linkTable">
+                    <thead>
+                        <tr id="tableHeader">
+                            <th class="actionButton">Link</th>
+                            <th class="actionColumn" colspan="3"><button class="btn btn-default" name="add"><span class="glyphicon glyphicon-plus"></span></button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var link in Model.Links)
+                        {
+                            <tr>
+                                <td><input name="Links[]" class="form-control" value="@link" /></td>
+                                <td><button class="btn btn-default" name="del" onclick="remove_row(this)"><span class="glyphicon glyphicon-remove"></span></button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <input type="submit" value="Create" class="btn btn-default" />
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.getElementById("DocumentType").value = "@Model.DocumentType";
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

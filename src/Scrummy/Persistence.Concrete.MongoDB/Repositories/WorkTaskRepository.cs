@@ -29,7 +29,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var entity = workTask.ToPersistenceEntity();
             entity.Comments = new Comment[0];
-            entity.Documents = new ObjectId[0];
             _workTaskCollection.InsertOne(entity);
 
             var childTasks = workTask.ChildTasks.Select(x => x.ToPersistenceIdentity());

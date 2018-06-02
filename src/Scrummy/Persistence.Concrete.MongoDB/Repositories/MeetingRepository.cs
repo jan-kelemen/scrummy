@@ -30,7 +30,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             }
 
             var entity = meeting.ToPersistenceEntity();
-            entity.Documents = new ObjectId[0];
             _meetingCollection.InsertOne(entity);
             return meeting.Id;
         }

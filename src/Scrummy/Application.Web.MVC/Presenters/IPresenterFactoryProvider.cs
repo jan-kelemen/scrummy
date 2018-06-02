@@ -1,4 +1,5 @@
-﻿using Scrummy.Application.Web.MVC.Presenters.Meeting;
+﻿using Scrummy.Application.Web.MVC.Presenters.Document;
+using Scrummy.Application.Web.MVC.Presenters.Meeting;
 using Scrummy.Application.Web.MVC.Presenters.Person;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Presenters.Sprint;
@@ -15,5 +16,6 @@ namespace Scrummy.Application.Web.MVC.Presenters
         ISprintPresenterFactory Sprint { get; }
         ITeamPresenterFactory Team { get; }
         IWorkTaskPresenterFactory WorkTask { get; }
+        IDocumentPresenterFactory Document { get; }
     }
 }

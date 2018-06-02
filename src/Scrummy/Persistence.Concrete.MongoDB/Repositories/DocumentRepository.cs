@@ -84,6 +84,18 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 throw CreateEntityNotFoundException(id);
             }
 
+            var sprintUpdate = Builders<MSprint>.Update
+                .Pull(x => x.Documents, id.ToPersistenceIdentity());
+            _sprintCollection.UpdateMany(x => true, sprintUpdate);
+
+            var meetingUpdate = Builders<MMeeting>.Update
+                .Pull(x => x.Documents, id.ToPersistenceIdentity());
+            _meetingCollection.UpdateMany(x => true, meetingUpdate);
+
+            var workTaskUpdate = Builders<MWorkTask>.Update
+                .Pull(x => x.Documents, id.ToPersistenceIdentity());
+            _workTaskCollection.UpdateMany(x => true, workTaskUpdate);
+
             var result = _documentCollection.DeleteOne(x => x.Id == id.ToPersistenceIdentity());
 
             if (result.DeletedCount != 1)

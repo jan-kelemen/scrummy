@@ -14,5 +14,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Project
         IViewSprintsPresenter ViewSprints(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IViewProjectPresenter View(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
         IViewTeamHistoryPresenter TeamHistory(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
+        IViewDocumentsPresenter ViewDocuments(Action<MessageType, string> messageHandler, Action<string, string> errorHandler);
     }
 }

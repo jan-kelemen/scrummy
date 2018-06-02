@@ -1,0 +1,133 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Document.ViewDocumentViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<input type="hidden" id="deleteMessage" data-value="Are you sure you want to delete @Model.Name?" />
+<input type="hidden" id="deleteUrl" data-value="/Document/Delete/@Model.Id" />
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
+        <h3>Delete</h3> <hr />
+        <button type="button" class="btn btn-danger actionButton" id="deleteBtn">Delete</button>
+    </div>
+    <div class="col-xs-10">
+        <h2>Document - @Model.Name</h2> <hr />
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.DocumentType)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DocumentType)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(m => m.Project)
+                </dt>
+                <dd>
+                    <a asp-action="Index" asp-controller="Project" asp-route-id="@Model.Project.Id">@Model.Project.Text</a>
+                </dd>
+            </dl>
+            <h5><b>Content</b></h5>
+            <textarea class="form-control" readonly>@Model.Content</textarea>
+            <h5><b>Links</b></h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Link</th>
+                    <th class="actionColumn"></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var p in Model.Links)
+                {
+                    <tr>
+                        <td>@p</td>
+                        <td>
+                            <a href="@p"><span class="glyphicon glyphicon-option-horizontal"></span></a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            @if (Model.DocumentType == "Work task" || Model.DocumentType == "Common")
+            {
+                <h5><b>Linked tasks</b></h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th class="actionColumn"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var p in Model.Tasks)
+                    {
+                        <tr>
+                            <td>@p.Text</td>
+                            <td>
+                                <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            @if (Model.DocumentType == "Meeting" || Model.DocumentType == "Common")
+            {
+                <h5><b>Linked meetings</b></h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Meeting</th>
+                        <th class="actionColumn"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var p in Model.Meetings)
+                    {
+                        <tr>
+                            <td>@p.Text</td>
+                            <td>
+                                <a asp-action="Index" asp-controller="Meeting" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            @if (Model.DocumentType == "Sprint" || Model.DocumentType == "Common")
+            {
+                <h5><b>Linked sprints</b></h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Sprint</th>
+                        <th class="actionColumn"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var p in Model.Sprints)
+                    {
+                        <tr>
+                            <td>@p.Text</td>
+                            <td>
+                                <a asp-action="Index" asp-controller="WorkTask" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

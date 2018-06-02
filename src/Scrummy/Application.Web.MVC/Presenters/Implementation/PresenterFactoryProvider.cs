@@ -1,4 +1,6 @@
-﻿using Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting;
+﻿using Scrummy.Application.Web.MVC.Presenters.Document;
+using Scrummy.Application.Web.MVC.Presenters.Implementation.Document;
+using Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting;
 using Scrummy.Application.Web.MVC.Presenters.Implementation.Person;
 using Scrummy.Application.Web.MVC.Presenters.Implementation.Project;
 using Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint;
@@ -24,6 +26,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation
             Sprint = new SprintPresenterFactory(repositoryProvider);
             Team = new TeamPresenterFactory(repositoryProvider);
             WorkTask = new WorkTaskPresenterFactory(repositoryProvider);
+            Document = new DocumentPresenterFactory(repositoryProvider);
         }
 
         public IMeetingPresenterFactory Meeting { get; }
@@ -32,5 +35,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation
         public ISprintPresenterFactory Sprint { get; }
         public ITeamPresenterFactory Team { get; }
         public IWorkTaskPresenterFactory WorkTask { get; }
+        public IDocumentPresenterFactory Document { get; }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Scrummy.Domain.Repositories;
+using Scrummy.Domain.UseCases.Implementation.Document;
 using Scrummy.Domain.UseCases.Implementation.Meeting;
 using Scrummy.Domain.UseCases.Implementation.Person;
 using Scrummy.Domain.UseCases.Implementation.Project;
 using Scrummy.Domain.UseCases.Implementation.Sprint;
 using Scrummy.Domain.UseCases.Implementation.Team;
 using Scrummy.Domain.UseCases.Implementation.WorkTask;
+using Scrummy.Domain.UseCases.Interfaces.Document;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 using Scrummy.Domain.UseCases.Interfaces.Project;
@@ -24,6 +26,7 @@ namespace Scrummy.Domain.UseCases.Implementation
             Meeting = new MeetingUseCaseFactory(repositoryProvider);
             WorkTask = new WorkTaskUseCaseFactory(repositoryProvider);
             Sprint = new SprintUseCaseFactory(repositoryProvider);
+            Document = new DocumentUseCaseFactory(repositoryProvider);
         }
 
         public IPersonUseCaseFactory Person { get; }
@@ -32,5 +35,6 @@ namespace Scrummy.Domain.UseCases.Implementation
         public IMeetingUseCaseFactory Meeting { get; }
         public IWorkTaskUseCaseFactory WorkTask { get; }
         public ISprintUseCaseFactory Sprint { get; }
+        public IDocumentUseCaseFactory Document { get; }
     }
 }
