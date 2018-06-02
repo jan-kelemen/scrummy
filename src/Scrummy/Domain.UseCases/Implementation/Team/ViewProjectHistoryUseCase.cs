@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Interfaces.Team;
 
 namespace Scrummy.Domain.UseCases.Implementation.Team
@@ -16,7 +17,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
             _projectRepository = projectRepository;
         }
 
-        public ViewProjectHistoryResponse Execute(ViewProjectHistoryRequest request)
+        public ViewProjectHistoryResponse Execute(AuthorizedIdRequest request)
         {
             request.ThrowExceptionIfInvalid();
 

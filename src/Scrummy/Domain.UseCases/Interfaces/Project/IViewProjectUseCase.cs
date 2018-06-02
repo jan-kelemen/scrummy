@@ -6,23 +6,6 @@ using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Project
 {
-    public class ViewProjectRequest : AuthorizedRequest
-    {
-        public ViewProjectRequest(string userId) : base(userId)
-        {
-        }
-
-        public Identity Id { get; set; }
-
-        protected override void ValidateCore()
-        {
-            if (Id.IsBlankIdentity())
-            {
-                AddError("", "Idenitity is invalid.");
-            }
-        }
-    }
-
     public class ViewProjectResponse : BaseResponse
     {
         public ViewProjectResponse() : base(null)
@@ -48,6 +31,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
 
     public interface IViewProjectUseCase
     {
-        ViewProjectResponse Execute(ViewProjectRequest request);
+        ViewProjectResponse Execute(AuthorizedIdRequest request);
     }
 }

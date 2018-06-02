@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Team
 {
-    public class EditTeamRequest : AuthorizedRequest
+    public class EditTeamRequest : AuthorizedIdRequest
     {
         public EditTeamRequest(string userId) : base(userId)
         {
         }
-
-        public Identity Id { get; set; }
 
         public string Name { get; set; }
 
@@ -22,6 +19,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
 
         protected override void ValidateCore()
         {
+            base.ValidateCore();
             if (!Core.Entities.Team.Validation.ValidateName(Name))
                 AddError(Core.Entities.Team.Validation.NameErrorKey, Core.Entities.Team.Validation.NameIsInvalidMessage);
 

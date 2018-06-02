@@ -6,23 +6,6 @@ using System.Collections.Generic;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Meeting
 {
-    public class ViewMeetingRequest : AuthorizedRequest
-    {
-        public ViewMeetingRequest(string userId) : base(userId)
-        {
-        }
-
-        public Identity Id { get; set; }
-
-        protected override void ValidateCore()
-        {
-            if (Id.IsBlankIdentity())
-            {
-                AddError("", "Idenitity is invalid.");
-            }
-        }
-    }
-
     public class ViewMeetingResponse : BaseResponse
     {
         public ViewMeetingResponse() : base(null)
@@ -54,6 +37,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
 
     public interface IViewMeetingUseCase
     {
-        ViewMeetingResponse Execute(ViewMeetingRequest request);
+        ViewMeetingResponse Execute(AuthorizedIdRequest request);
     }
 }

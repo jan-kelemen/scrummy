@@ -1,5 +1,6 @@
 ﻿using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Implementation.Sprint;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
@@ -21,7 +22,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
             _sprintReportUseCase = new SprintReportUseCase(sprintRepository, workTaskRepository);
         }
 
-        public ViewProjectResponse Execute(ViewProjectRequest request)
+        public ViewProjectResponse Execute(AuthorizedIdRequest request)
         {
             request.ThrowExceptionIfInvalid();
 
@@ -37,11 +38,11 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
             var sprint = _sprintRepository.ReadCurrentSprint(request.Id);
             if (sprint != null)
             {
-                response.Sprint = _viewSprintUseCase.Execute(new ViewSprintRequest(request.UserId)
+                response.Sprint = _viewSprintUseCase.Execute(new AuthorizedIdRequest(request.UserId)
                 {
                     Id = sprint.Id,
                 });
-                response.Report = _sprintReportUseCase.Execute(new SprintReportRequest(request.UserId)
+                response.Report = _sprintReportUseCase.Execute(new AuthorizedIdRequest(request.UserId)
                 {
                     Id = sprint.Id,
                 });

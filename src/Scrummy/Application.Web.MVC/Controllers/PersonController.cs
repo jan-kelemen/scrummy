@@ -9,6 +9,7 @@ using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Person;
 
@@ -208,7 +209,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.TeamHistory;
-                var response = uc.Execute(new ViewTeamHistoryRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });

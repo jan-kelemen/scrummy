@@ -6,21 +6,6 @@ using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Document
 {
-    public class ViewDocumentRequest : AuthorizedRequest
-    {
-        public ViewDocumentRequest(string userId) : base(userId)
-        {
-        }
-
-        public Identity Id { get; set; }
-
-        protected override void ValidateCore()
-        {
-            if (Id.IsBlankIdentity())
-                AddError("", "Document identity is invalid.");
-        }
-    }
-
     public class ViewDocumentResponse : BaseResponse
     {
         public ViewDocumentResponse() : base(null)
@@ -48,6 +33,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Document
 
     public interface IViewDocumentUseCase
     {
-        ViewDocumentResponse Execute(ViewDocumentRequest request);
+        ViewDocumentResponse Execute(AuthorizedIdRequest request);
     }
 }

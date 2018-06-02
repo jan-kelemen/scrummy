@@ -2,6 +2,7 @@
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 
 namespace Scrummy.Domain.UseCases.Implementation.WorkTask
@@ -17,7 +18,7 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             _projectRepository = projectRepository;
         }
 
-        public ViewWorkTaskResponse Execute(ViewWorkTaskRequest request)
+        public ViewWorkTaskResponse Execute(AuthorizedIdRequest request)
         {
             request.ThrowExceptionIfInvalid();
 

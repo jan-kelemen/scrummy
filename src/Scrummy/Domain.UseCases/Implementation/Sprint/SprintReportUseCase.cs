@@ -2,6 +2,7 @@
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Domain.UseCases.Implementation.Sprint
@@ -17,7 +18,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             _workTaskRepository = workTaskRepository;
         }
 
-        public SprintReportResponse Execute(SprintReportRequest request)
+        public SprintReportResponse Execute(AuthorizedIdRequest request)
         {
             request.ThrowExceptionIfInvalid();
 

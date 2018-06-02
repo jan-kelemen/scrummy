@@ -8,6 +8,7 @@ using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Team;
 
@@ -130,7 +131,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.Delete;
-                var response = uc.Execute(new DeleteTeamRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });
@@ -156,7 +157,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.MemberHistory;
-                var response = uc.Execute(new ViewMemberHistoryRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });
@@ -181,7 +182,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.ProjectHistory;
-                var response = uc.Execute(new ViewProjectHistoryRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });

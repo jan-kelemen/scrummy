@@ -1,5 +1,6 @@
 ﻿using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
 namespace Scrummy.Domain.UseCases.Implementation.Meeting
@@ -13,7 +14,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Meeting
             _meetingRepository = meetingRepository;
         }
 
-        public ViewMeetingResponse Execute(ViewMeetingRequest request)
+        public ViewMeetingResponse Execute(AuthorizedIdRequest request)
         {
             request.ThrowExceptionIfInvalid();
 

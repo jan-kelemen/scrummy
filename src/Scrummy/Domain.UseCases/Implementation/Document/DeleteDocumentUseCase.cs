@@ -1,5 +1,6 @@
 ﻿using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 using Scrummy.Domain.UseCases.Interfaces.Document;
 
@@ -14,7 +15,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Document
             _documentRepository = documentRepository;
         }
 
-        public ConfirmationResponse Execute(DeleteDocumentRequest request)
+        public ConfirmationResponse Execute(AuthorizedIdRequest request)
         {
             request.ThrowExceptionIfInvalid();
 

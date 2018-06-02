@@ -1,5 +1,4 @@
-﻿using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.UseCases.Boundary.Requests;
+﻿using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 using PersonValidation = Scrummy.Domain.Core.Entities.Person.Validation;
 

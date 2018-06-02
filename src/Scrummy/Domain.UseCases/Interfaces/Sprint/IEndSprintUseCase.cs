@@ -6,7 +6,7 @@ using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 {
-    public class EndSprintRequest : AuthorizedRequest
+    public class EndSprintRequest : AuthorizedIdRequest
     {
         public enum StoryDecision
         {
@@ -23,8 +23,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
         public EndSprintRequest(string userId) : base(userId)
         {
         }
-
-        public Identity Id { get; set; }
 
         public DateTime CurrentTime { get; set; } = DateTime.Now;
 

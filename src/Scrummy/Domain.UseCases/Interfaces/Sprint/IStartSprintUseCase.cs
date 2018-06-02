@@ -1,17 +1,14 @@
 ﻿using System;
-using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 {
-    public class StartSprintRequest : AuthorizedRequest
+    public class StartSprintRequest : AuthorizedIdRequest
     {
         public StartSprintRequest(string userId) : base(userId)
         {
         }
-
-        public Identity Id { get; set; }
 
         public DateTime CurrentTime { get; set; } = DateTime.Now;
 

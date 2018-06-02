@@ -6,13 +6,11 @@ using WorkTaskValidation = Scrummy.Domain.Core.Entities.WorkTask.Validation;
 
 namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
 {
-    public class EditWorkTaskRequest : AuthorizedRequest
+    public class EditWorkTaskRequest : AuthorizedIdRequest
     {
         public EditWorkTaskRequest(string userId) : base(userId)
         {
         }
-
-        public Identity Id { get; set; }
 
         public string Name { get; set; }
 
@@ -30,6 +28,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
 
         protected override void ValidateCore()
         {
+            base.ValidateCore();
             if (!WorkTaskValidation.ValidateName(Name))
                 AddError(WorkTaskValidation.NameErrorKey, WorkTaskValidation.NameIsInvalidMessage);
 

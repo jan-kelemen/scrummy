@@ -10,21 +10,6 @@ using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Team
 {
-    public class ViewMemberHistoryRequest : AuthorizedRequest
-    {
-        public ViewMemberHistoryRequest(string userId) : base(userId)
-        {
-        }
-
-        public Identity Id { get; set; }
-
-        protected override void ValidateCore()
-        {
-            if (Id.IsBlankIdentity())
-                AddError("", "Idenitity is invalid.");
-        }
-    }
-
     public class ViewMemberHistoryResponse : BaseResponse
     {
         public class Member
@@ -64,6 +49,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
 
     public interface IViewMemberHistoryUseCase
     {
-        ViewMemberHistoryResponse Execute(ViewMemberHistoryRequest request);
+        ViewMemberHistoryResponse Execute(AuthorizedIdRequest request);
     }
 }

@@ -7,21 +7,6 @@ using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Team
 {
-    public class ViewProjectHistoryRequest : AuthorizedRequest
-    {
-        public ViewProjectHistoryRequest(string userId) : base(userId)
-        {
-        }
-
-        public Identity Id { get; set; }
-
-        protected override void ValidateCore()
-        {
-            if (Id.IsBlankIdentity())
-                AddError("", "Idenitity is invalid.");
-        }
-    }
-
     public class ViewProjectHistoryResponse : BaseResponse
     {
         public class Project
@@ -45,6 +30,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Team
 
     public interface IViewProjectHistoryUseCase
     {
-        ViewProjectHistoryResponse Execute(ViewProjectHistoryRequest request);
+        ViewProjectHistoryResponse Execute(AuthorizedIdRequest request);
     }
 }

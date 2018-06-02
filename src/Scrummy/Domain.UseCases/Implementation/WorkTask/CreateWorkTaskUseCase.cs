@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Scrummy.Domain.Core.Entities;
+﻿using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;

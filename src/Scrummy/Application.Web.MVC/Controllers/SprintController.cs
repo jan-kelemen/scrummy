@@ -8,6 +8,7 @@ using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
@@ -33,7 +34,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.View;
-                var response = uc.Execute(new ViewSprintRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });
@@ -205,7 +206,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.Delete;
-                var response = uc.Execute(new DeleteSprintRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });
@@ -231,7 +232,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.Report;
-                var response = uc.Execute(new SprintReportRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });

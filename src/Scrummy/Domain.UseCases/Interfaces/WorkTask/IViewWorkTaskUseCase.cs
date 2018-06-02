@@ -6,23 +6,6 @@ using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
 {
-    public class ViewWorkTaskRequest : AuthorizedRequest
-    {
-        public ViewWorkTaskRequest(string userId) : base(userId)
-        {
-        }
-
-        public Identity Id { get; set; }
-
-        protected override void ValidateCore()
-        {
-            if (Id.IsBlankIdentity())
-            {
-                AddError("", "Idenitity is invalid.");
-            }
-        }
-    }
-
     public class ViewWorkTaskResponse : BaseResponse
     {
         public ViewWorkTaskResponse() : base(null)
@@ -58,6 +41,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.WorkTask
 
     public interface IViewWorkTaskUseCase
     {
-        ViewWorkTaskResponse Execute(ViewWorkTaskRequest request);
+        ViewWorkTaskResponse Execute(AuthorizedIdRequest request);
     }
 }

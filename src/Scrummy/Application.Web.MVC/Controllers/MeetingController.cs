@@ -10,6 +10,7 @@ using System;
 using Scrummy.Application.Web.MVC.Extensions.Requests;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Meeting;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 
 namespace Scrummy.Application.Web.MVC.Controllers
 {
@@ -32,7 +33,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.View;
-                var response = uc.Execute(new ViewMeetingRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });
@@ -132,7 +133,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
             try
             {
                 var uc = _useCaseFactory.Delete;
-                var response = uc.Execute(new DeleteMeetingRequest(CurrentUserId)
+                var response = uc.Execute(new AuthorizedIdRequest(CurrentUserId)
                 {
                     Id = Identity.FromString(id),
                 });

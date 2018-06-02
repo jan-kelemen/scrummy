@@ -8,13 +8,11 @@ using MeetingValidation = Scrummy.Domain.Core.Entities.Meeting.Validation;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Meeting
 {
-    public class EditMeetingRequest : AuthorizedRequest
+    public class EditMeetingRequest : AuthorizedIdRequest
     {
         public EditMeetingRequest(string userId) : base(userId)
         {
         }
-
-        public Identity Id { get; set; }
 
         public string Name { get; set; }
 
@@ -32,9 +30,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Meeting
 
         protected override void ValidateCore()
         {
-            if (Id.IsBlankIdentity())
-                AddError("", "Meeting identity is invalid.");
-
+            base.ValidateCore();
             if (!SetValidator.ValidateItemsAreUnique(InvolvedPersons))
                 AddError(MeetingValidation.InvolvedPersonsErrorKey, MeetingValidation.InvolvedPersonsAreInvalidMessage);
 

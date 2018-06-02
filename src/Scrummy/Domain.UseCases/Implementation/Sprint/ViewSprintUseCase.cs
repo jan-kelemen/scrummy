@@ -6,6 +6,7 @@ using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
+using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
 namespace Scrummy.Domain.UseCases.Implementation.Sprint
@@ -21,7 +22,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
             _workTaskRepository = workTaskRepository;
         }
 
-        public ViewSprintResponse Execute(ViewSprintRequest request)
+        public ViewSprintResponse Execute(AuthorizedIdRequest request)
         {
             request.ThrowExceptionIfInvalid();
 

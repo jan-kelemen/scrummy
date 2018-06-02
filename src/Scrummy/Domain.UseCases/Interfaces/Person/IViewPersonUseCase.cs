@@ -6,13 +6,11 @@ using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Person
 {
-    public class ViewPersonRequest : AuthorizedRequest
+    public class ViewPersonRequest : AuthorizedIdRequest
     {
         public ViewPersonRequest(string userId) : base(userId)
         {
         }
-
-        public Identity Id { get; set; }
 
         public DateTime CurrentTime { get; set; } = DateTime.Now;
 

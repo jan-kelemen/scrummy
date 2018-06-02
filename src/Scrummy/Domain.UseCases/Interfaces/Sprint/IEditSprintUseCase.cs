@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Core.Validators;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
@@ -10,13 +9,11 @@ using BacklogValidation = Scrummy.Domain.Core.Entities.SprintBacklog.Validation;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 {
-    public class EditSprintRequest : AuthorizedRequest
+    public class EditSprintRequest : AuthorizedIdRequest
     {
         public EditSprintRequest(string userId) : base(userId)
         {
         }
-
-        public Identity Id { get; set; }
 
         public string Name { get; set; }
 
@@ -30,9 +27,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 
         protected override void ValidateCore()
         {
-            if (Id.IsBlankIdentity())
-                AddError("", "Idenitity is invalid.");
 
+            base.ValidateCore();
             if (!SprintValidation.ValidateName(Name))
                 AddError(SprintValidation.NameErrorKey, SprintValidation.NameIsInvalidMessage);
 

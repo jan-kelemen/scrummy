@@ -1,28 +1,10 @@
 ﻿using System;
-using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Project
 {
-    public class ProjectReportRequest : AuthorizedRequest
-    {
-        public ProjectReportRequest(string userId) : base(userId)
-        {
-        }
-
-        public Identity Id { get; set; }
-
-        protected override void ValidateCore()
-        {
-            if (Id.IsBlankIdentity())
-            {
-                AddError("", "Idenitity is invalid.");
-            }
-        }
-    }
-
     public class ProjectReportResponse : BaseResponse
     {
         public class Sprint : NavigationInfo
@@ -64,6 +46,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
 
     public interface IProjectReportUseCase
     {
-        ProjectReportResponse Execute(ProjectReportRequest request);
+        ProjectReportResponse Execute(AuthorizedIdRequest request);
     }
 }

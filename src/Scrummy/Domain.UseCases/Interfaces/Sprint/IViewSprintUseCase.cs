@@ -7,21 +7,6 @@ using Scrummy.Domain.UseCases.Boundary.Responses;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 {
-    public class ViewSprintRequest : AuthorizedRequest
-    {
-        public ViewSprintRequest(string userId) : base(userId)
-        {
-        }
-
-        public Identity Id { get; set; }
-
-        protected override void ValidateCore()
-        {
-            if (Id.IsBlankIdentity())
-                AddError("", "Idenitity is invalid.");
-        }
-    }
-
     public class ViewSprintResponse : BaseResponse
     {
         public class Story
@@ -58,6 +43,6 @@ namespace Scrummy.Domain.UseCases.Interfaces.Sprint
 
     public interface IViewSprintUseCase
     {
-        ViewSprintResponse Execute(ViewSprintRequest request);
+        ViewSprintResponse Execute(AuthorizedIdRequest request);
     }
 }

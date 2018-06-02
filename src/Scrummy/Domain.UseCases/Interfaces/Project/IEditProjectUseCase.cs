@@ -6,13 +6,11 @@ using ProjectValidation = Scrummy.Domain.Core.Entities.Project.Validation;
 
 namespace Scrummy.Domain.UseCases.Interfaces.Project
 {
-    public class EditProjectRequest : AuthorizedRequest
+    public class EditProjectRequest : AuthorizedIdRequest
     {
         public EditProjectRequest(string userId) : base(userId)
         {
         }
-
-        public Identity Id { get; set; }
 
         public string Name { get; set; }
 
@@ -24,6 +22,7 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
 
         protected override void ValidateCore()
         {
+            base.ValidateCore();
             if (!ProjectValidation.ValidateName(Name))
                 AddError(ProjectValidation.NameErrorKey, ProjectValidation.NameIsInvalidMessage);
 
