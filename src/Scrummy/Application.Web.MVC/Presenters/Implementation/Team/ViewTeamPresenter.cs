@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Team;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Team;
@@ -24,7 +24,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
         {
             return new ViewTeamViewModel
             {
-                Id = response.Id.ToString(),
+                Id = response.Id.ToPresentationIdentity(),
                 Name = response.Name,
                 TimeOfDailyScrum = response.TimeOfDailyScrum.ToString(@"hh\:mm"),
                 Members = response.Members.Select(x =>
@@ -33,21 +33,12 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
 
                     return new ViewTeamViewModel.Member
                     {
-                        Id = p.Id.ToString(),
+                        Id = p.Id.ToPresentationIdentity(),
                         Text = p.DisplayName,
                         Role = ConvertEnumToRoleString(x.Role),
                     };
                 }),
-                CurrentProjects = response.CurrentProjects.Select(x =>
-                {
-                    var p = RepositoryProvider.Project.Read(x);
-
-                    return new NavigationViewModel
-                    {
-                        Id = p.Id.ToString(),
-                        Text = p.Name,
-                    };
-                }),
+                CurrentProjects = response.CurrentProjects.Select(x => RepositoryProvider.Project.Read(x).ToViewModel()),
                 CanDelete = response.CanDelete,
             };
         }

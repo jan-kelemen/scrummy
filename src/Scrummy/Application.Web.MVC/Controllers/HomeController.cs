@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Models;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Home;
@@ -52,7 +53,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, person.DisplayName),
-                    new Claim(ClaimTypes.NameIdentifier, person.Id.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, person.Id.ToPresentationIdentity())
                 };
 
                 var userIdentity = new ClaimsIdentity(claims, "SecureLogin");

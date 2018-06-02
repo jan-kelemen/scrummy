@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
@@ -24,11 +24,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
         {
             return new ProjectReportViewModel
             {
-                Project = new NavigationViewModel
-                {
-                    Id = response.Project.Id.ToString(),
-                    Text = response.Project.Name,
-                },
+                Project =  response.Project.ToViewModel(),
                 Records = response.Records.Select((x, i) => new ProjectReportViewModel.Record
                 {
                     Date = x.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
@@ -40,7 +36,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                 }).ToArray(),
                 Sprints = response.Sprints.OrderBy(x => x.EndDate).Select(x => new ProjectReportViewModel.Sprint
                 {
-                    Id = x.Id.ToString(),
+                    Id = x.Id.ToPresentationIdentity(),
                     Text = x.Name,
                     EndDate = x.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                     CompletedStories = x.CompletedStories,

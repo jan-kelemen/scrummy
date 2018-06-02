@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Sprint;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
 
@@ -40,11 +40,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
 
             return new EndSprintViewModel
             {
-                Sprint = new NavigationViewModel
-                {
-                    Id = sprint.Id.ToString(),
-                    Text = sprint.Name,
-                },
+                Sprint = sprint.ToViewModel(),
                 Ids = stories.Item1,
                 Names = stories.Item2,
                 Decisions = stories.Item3,
@@ -61,7 +57,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
             foreach (var s in stories)
             {
                 var story = RepositoryProvider.WorkTask.Read(s);
-                ids.Add(s.ToString());
+                ids.Add(s.ToPresentationIdentity());
                 names.Add(story.Name);
                 decisions.Add("Done");
             }

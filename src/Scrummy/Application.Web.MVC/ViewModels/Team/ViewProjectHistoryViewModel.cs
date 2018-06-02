@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
 
 namespace Scrummy.Application.Web.MVC.ViewModels.Team

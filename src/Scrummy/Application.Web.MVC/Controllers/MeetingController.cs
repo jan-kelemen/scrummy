@@ -7,7 +7,7 @@ using Scrummy.Domain.UseCases;
 using Scrummy.Domain.UseCases.Exceptions.Boundary;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 using System;
-using Scrummy.Application.Web.MVC.Controllers.Extensions;
+using Scrummy.Application.Web.MVC.Extensions.Requests;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Meeting;
 

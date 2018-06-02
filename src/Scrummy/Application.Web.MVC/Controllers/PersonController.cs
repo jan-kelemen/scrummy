@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Controllers.Extensions;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
+using Scrummy.Application.Web.MVC.Extensions.Requests;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Person;
 using Scrummy.Application.Web.MVC.Utility;
@@ -75,7 +76,7 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 var uc = _useCaseFactory.Create;
                 var response = uc.Execute(request);
                 presenter.Present(response);
-                return RedirectToAction(nameof(Index), new { id = response.Id.ToString() });
+                return RedirectToAction(nameof(Index), new { id = response.Id.ToPresentationIdentity() });
             }
             catch (InvalidRequestException ire)
             {

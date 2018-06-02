@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrummy.Application.Web.MVC.Controllers.Extensions;
+using Scrummy.Application.Web.MVC.Extensions.Requests;
 using Scrummy.Application.Web.MVC.Presenters;
 using Scrummy.Application.Web.MVC.Presenters.Team;
 using Scrummy.Application.Web.MVC.Utility;

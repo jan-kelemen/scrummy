@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Person;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Person;
@@ -25,18 +25,14 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Person
         {
             return new ViewTeamHistoryViewModel
             {
-                Person = new NavigationViewModel
-                {
-                    Id = response.Person.Id.ToString(),
-                    Text = response.Person.Name,
-                },
+                Person = response.Person.ToViewModel(),
                 Teams = response.Teams.Select(x =>
                 {
                     var project = RepositoryProvider.Team.Read(x.Id);
 
                     return new ViewTeamHistoryViewModel.Team
                     {
-                        Id = project.Id.ToString(),
+                        Id = project.Id.ToPresentationIdentity(),
                         Text = project.Name,
                         Roles = string.Join(", ", x.Roles.Select(ConvertEnumToRoleString)).TrimEnd(' ', ','),
                         To = x.To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),

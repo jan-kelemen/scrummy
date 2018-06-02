@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
@@ -35,16 +35,12 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
 
             return new ViewSprintsViewModel
             {
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
+                Project = project.ToViewModel(),
                 Type = planned ? "Planned" : "Completed",
                 StartSprintAllowed = planned && RepositoryProvider.Sprint.ReadCurrentSprint(project.Id) == null,
                 Sprints = sprints.Select(x => new ViewSprintsViewModel.SprintViewModel
                 {
-                    Id = x.Id.ToString(),
+                    Id = x.Id.ToPresentationIdentity(),
                     Text = x.Name,
                     StartDate = x.TimeSpan.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                     EndDate = x.TimeSpan.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),

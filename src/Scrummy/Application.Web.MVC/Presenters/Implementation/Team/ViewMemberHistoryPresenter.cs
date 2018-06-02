@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Team;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Team;
@@ -25,11 +25,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
         {
             return new ViewMemberHistoryViewModel
             {
-                Team = new NavigationViewModel
-                {
-                    Id = response.Team.Id.ToString(),
-                    Text = response.Team.Name,
-                },
+                Team = response.Team.ToViewModel(),
                 Members = response.Members.Select(x => new ViewMemberHistoryViewModel.TeamMembers
                 {
                     To = x.To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
@@ -40,7 +36,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
 
                         return new ViewMemberHistoryViewModel.Member
                         {
-                            Id = person.Id.ToString(),
+                            Id = person.Id.ToPresentationIdentity(),
                             Text = person.DisplayName,
                             Role = ConvertEnumToRoleString(y.Role),
                         };

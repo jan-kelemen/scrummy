@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Meeting;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Meeting;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
 
@@ -25,11 +25,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
             var project = RepositoryProvider.Project.Read(Identity.FromString(id));
             return new ListMeetingsViewModel
             {
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
+                Project = project.ToViewModel(),
                 Meetings = RepositoryProvider.Meeting
                     .GetMeetingsOfProjectInTimeRange(project.Id, DateTime.MinValue, DateTime.MaxValue)
                     .Select(x =>
@@ -37,7 +33,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
                         var meeting = RepositoryProvider.Meeting.Read(x);
                         return new ListMeetingsViewModel.Meeting
                         {
-                            Id = meeting.Id.ToString(),
+                            Id = meeting.Id.ToPresentationIdentity(),
                             Text = meeting.Name,
                             Time = meeting.Time.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                             Duration = meeting.Duration.ToString(@"hh\:mm", CultureInfo.InvariantCulture),

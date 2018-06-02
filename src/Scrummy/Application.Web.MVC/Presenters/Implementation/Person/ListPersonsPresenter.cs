@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Person;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Person;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Person
@@ -22,11 +22,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Person
         {
             return new ListPersonsViewModel
             {
-                Persons = RepositoryProvider.Person.ListAll().Select(x => new NavigationViewModel
-                {
-                    Id = x.Id.ToString(),
-                    Text = x.Name
-                })
+                Persons = RepositoryProvider.Person.ListAll().Select(x => x.ToViewModel())
             };
         }
     }

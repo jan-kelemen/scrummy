@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
@@ -27,16 +27,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
 
                 return new ListProjectsViewModel.Project
                 {
-                    ProjectViewModel = new NavigationViewModel
-                    {
-                        Id = project.Id.ToString(),
-                        Text = project.Name,
-                    },
-                    TeamViewModel = new NavigationViewModel
-                    {
-                        Id = team.Id.ToString(),
-                        Text = team.Name,
-                    }
+                    ProjectViewModel = project.ToViewModel(),
+                    TeamViewModel = team.ToViewModel(),
                 };
             });
 

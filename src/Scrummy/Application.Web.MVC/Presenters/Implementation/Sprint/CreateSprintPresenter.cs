@@ -2,10 +2,10 @@
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Sprint;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
@@ -30,11 +30,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
 
             return new CreateSprintViewModel
             {
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
+                Project = project.ToViewModel(),
                 StartDate = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 EndDate = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Stories = Stories(id),
@@ -55,16 +51,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
             var readyStories = backlog
                 .Where(x => x.Status == ProductBacklog.WorkTaskStatus.Ready)
                 .Where(x => RepositoryProvider.WorkTask.Read(x.WorkTaskId).Type == WorkTaskType.UserStory)
-                .Select(x =>
-                {
-                    var story = RepositoryProvider.WorkTask.Read(x.WorkTaskId);
-
-                    return new SelectListItem
-                    {
-                        Value = story.Id.ToString(),
-                        Text = story.Name,
-                    };
-                });
+                .Select(x => RepositoryProvider.WorkTask.Read(x.WorkTaskId).ToSelectListItem());
             return readyStories.ToArray();
         }
 
@@ -73,11 +60,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
             var common = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Common);
             var sprint = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Sprint);
 
-            return sprint.Concat(common).Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name,
-            }).ToArray();
+            return sprint.Concat(common).Select(x => x.ToSelectListItem()).ToArray();
         }
     }
 }

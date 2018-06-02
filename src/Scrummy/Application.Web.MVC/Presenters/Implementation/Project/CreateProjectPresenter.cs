@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
@@ -34,13 +35,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
             return vm;
         }
 
-        private SelectListItem[] Teams()
-        {
-            return RepositoryProvider.Team.ListAll().Select(x => new SelectListItem
-            {
-                Text = x.Name,
-                Value = x.Id.ToString(),
-            }).ToArray();
-        }
+        private SelectListItem[] Teams() => RepositoryProvider.Team.ListAll().Select(x => x.ToSelectListItem()).ToArray();
     }
 }

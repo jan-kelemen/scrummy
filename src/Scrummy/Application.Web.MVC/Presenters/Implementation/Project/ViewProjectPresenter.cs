@@ -1,9 +1,9 @@
 ﻿using System;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
@@ -29,13 +29,9 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
             var team = RepositoryProvider.Team.Read(response.TeamId);
             return new ViewProjectViewModel
             {
-                Id = response.Id.ToString(),
+                Id = response.Id.ToPresentationIdentity(),
                 Name = response.Name,
-                Team = new NavigationViewModel
-                {
-                    Id = team.Id.ToString(),
-                    Text = team.Name,
-                },
+                Team = team.ToViewModel(),
                 Description = response.Description,
                 DefinitionOfDone = response.DefinitionOfDone,
                 Sprint = response.Sprint != null ? _viewSprintPresenter.Present(response.Sprint) : null,

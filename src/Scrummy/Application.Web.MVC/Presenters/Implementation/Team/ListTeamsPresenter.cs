@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Team;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Repositories;
 
 namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
@@ -22,11 +22,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
         {
             return new ListTeamsViewModel
             {
-                Teams = RepositoryProvider.Team.ListAll().Select(x => new NavigationViewModel
-                {
-                    Id = x.Id.ToString(),
-                    Text = x.Name
-                })
+                Teams = RepositoryProvider.Team.ListAll().Select(x => x.ToViewModel()),
             };
         }
     }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
@@ -27,11 +27,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
             var pred = FlavorToFilter(f);
             return new ViewDocumentsViewModel
             {
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
+                Project = project.ToViewModel(),
                 Flavor = FlavorToUserFlavor(f),
                 Documents = RepositoryProvider.Document.ListAll()
                     .Select(x =>
@@ -48,7 +44,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                     .Where(x => pred(x.Kind))
                     .Select(x => new ViewDocumentsViewModel.Document
                     {
-                        Id = x.Id.ToString(),
+                        Id = x.Id.ToPresentationIdentity(),
                         Text = x.Name,
                         Type = DocumentKindToUserType(x.Kind)
                     }).ToArray(),

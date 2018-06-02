@@ -4,7 +4,7 @@ using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.UseCases.Interfaces.Document;
 
-namespace Scrummy.Application.Web.MVC.Controllers.Extensions
+namespace Scrummy.Application.Web.MVC.Extensions.Requests
 {
     public static class DocumentRequestExtensions
     {

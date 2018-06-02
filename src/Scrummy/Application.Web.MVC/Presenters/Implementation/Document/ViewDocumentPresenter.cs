@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Document;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Document;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Document;
@@ -26,46 +26,15 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Document
 
             return new ViewDocumentViewModel
             {
-                Id = response.Id.ToString(),
+                Id = response.Id.ToPresentationIdentity(),
                 Name = response.Name,
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
+                Project =  project.ToViewModel(),
                 Content = response.Content,
                 DocumentType = DocumentKindToUserType(response.Kind),
                 Links = response.Links.ToArray(),
-                Tasks = response.Tasks.Select(x =>
-                {
-                    var task = RepositoryProvider.WorkTask.Read(x);
-
-                    return new NavigationViewModel
-                    {
-                        Id = task.Id.ToString(),
-                        Text = task.Name,
-                    };
-                }).ToArray(),
-                Meetings = response.Meetings.Select(x =>
-                {
-                    var meeting = RepositoryProvider.Meeting.Read(x);
-
-                    return new NavigationViewModel
-                    {
-                        Id = meeting.Id.ToString(),
-                        Text = meeting.Name,
-                    };
-                }).ToArray(),
-                Sprints = response.Sprints.Select(x =>
-                {
-                    var sprint = RepositoryProvider.Sprint.Read(x);
-
-                    return new NavigationViewModel
-                    {
-                        Id = sprint.Id.ToString(),
-                        Text = sprint.Name,
-                    };
-                }).ToArray(),
+                Tasks = response.Tasks.Select(x => RepositoryProvider.WorkTask.Read(x).ToViewModel()).ToArray(),
+                Meetings = response.Meetings.Select(x => RepositoryProvider.Meeting.Read(x).ToViewModel()).ToArray(),
+                Sprints = response.Sprints.Select(x => RepositoryProvider.Sprint.Read(x).ToViewModel()).ToArray(),
             };
         }
 

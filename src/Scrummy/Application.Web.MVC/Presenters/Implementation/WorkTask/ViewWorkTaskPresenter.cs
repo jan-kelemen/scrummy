@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.WorkTask;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
@@ -25,13 +26,9 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
             var project = RepositoryProvider.Project.Read(response.ProjectId);
             return new ViewWorkTaskViewModel
             {
-                Id = response.Id.ToString(),
+                Id = response.Id.ToPresentationIdentity(),
                 Name = response.Name,
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
+                Project = project.ToViewModel(),
                 ParentTask = GetTaskOrNull(response.ParentTask),
                 Type = response.Type.ToString(),
                 ChildTasks = response.ChildTasks.Select(GetTaskOrNull),
@@ -43,28 +40,15 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
 
                     return new ViewWorkTaskViewModel.Comment
                     {
-                        Author = new NavigationViewModel
-                        {
-                            Id = author.Id.ToString(),
-                            Text = author.DisplayName,
-                        },
-                        Id = x.Id.ToString(),
+                        Author = author.ToViewModel(),
+                        Id = x.Id.ToPresentationIdentity(),
                         Content = x.Content,
                     };
                 }),
                 Steps = response.Steps.ToList(),
                 CanEdit = response.CanEdit,
                 CanEditParent = response.CanEditParent,
-                Documents = response.Documents.Select(x =>
-                {
-                    var document = RepositoryProvider.Document.Read(x);
-
-                    return new NavigationViewModel
-                    {
-                        Id = document.Id.ToString(),
-                        Text = document.Name,
-                    };
-                }),
+                Documents = response.Documents.Select(x => RepositoryProvider.Document.Read(x).ToViewModel()),
             };
         }
 
@@ -72,13 +56,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
         {
             if (id.IsBlankIdentity()) return null;
 
-            var task = RepositoryProvider.WorkTask.Read(id);
-
-            return new NavigationViewModel
-            {
-                Id = task.Id.ToString(),
-                Text = task.Name
-            };
+            return RepositoryProvider.WorkTask.Read(id).ToViewModel();
         }
     }
 }

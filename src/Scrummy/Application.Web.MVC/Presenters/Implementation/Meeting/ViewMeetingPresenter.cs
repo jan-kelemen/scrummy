@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Meeting;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Meeting;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
@@ -27,43 +27,17 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
 
             return new ViewMeetingViewModel
             {
-                Id = response.Id.ToString(),
+                Id = response.Id.ToPresentationIdentity(),
                 Description = response.Description,
                 Name = response.Name,
                 Time = response.Time.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 Duration = response.Duration.ToString(@"hh\:mm", CultureInfo.InvariantCulture),
                 Log = response.Log,
-                OrganizedBy = new NavigationViewModel
-                {
-                    Id = organizer.Id.ToString(),
-                    Text = organizer.DisplayName,
-                },
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
-                InvolvedPersons = response.InvolvedPersons.Select(x =>
-                {
-                    var person = RepositoryProvider.Person.Read(x);
-
-                    return new NavigationViewModel
-                    {
-                        Id = person.Id.ToString(),
-                        Text = person.DisplayName,
-                    };
-                }),
+                OrganizedBy = organizer.ToViewModel(),
+                Project = project.ToViewModel(),
+                InvolvedPersons = response.InvolvedPersons.Select(x => RepositoryProvider.Person.Read(x).ToViewModel()),
                 CanDelete = response.CanDelete,
-                Documents = response.Documents.Select(x =>
-                {
-                    var document = RepositoryProvider.Document.Read(x);
-
-                    return new NavigationViewModel
-                    {
-                        Id = document.Id.ToString(),
-                        Text = document.Name,
-                    };
-                })
+                Documents = response.Documents.Select(x => RepositoryProvider.Document.Read(x).ToViewModel()),
             };
         }
     }

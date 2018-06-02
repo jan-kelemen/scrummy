@@ -7,7 +7,7 @@ using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask;
 using Scrummy.Domain.UseCases.Interfaces.WorkTask.Comment;
 
-namespace Scrummy.Application.Web.MVC.Controllers.Extensions
+namespace Scrummy.Application.Web.MVC.Extensions.Requests
 {
     public static class WorkTaskRequestExtensions
     {

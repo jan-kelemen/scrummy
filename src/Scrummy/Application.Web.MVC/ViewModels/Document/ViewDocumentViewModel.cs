@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
-using Scrummy.Domain.Core.Entities.Common;
 
 namespace Scrummy.Application.Web.MVC.ViewModels.Document
 {

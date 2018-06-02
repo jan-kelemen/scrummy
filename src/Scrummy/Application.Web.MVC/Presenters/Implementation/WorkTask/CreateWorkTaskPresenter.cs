@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.WorkTask;
 using Scrummy.Application.Web.MVC.Utility;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.WorkTask;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -41,11 +41,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
             var vm = new CreateWorkTaskViewModel
             {
                 Type = type,
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
+                Project = project.ToViewModel(),
                 ParentTasks = ToSelectListWithBlankEntry(possibleParents),
                 ChildTasks = ToSelectListWithBlankEntry(possibleChildren),
                 Documents = Documents(project.Id),
@@ -123,12 +119,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
 
         private SelectListItem[] ToSelectListWithBlankEntry(IEnumerable<Domain.Core.Entities.WorkTask> tasks)
         {
-            var tasksEnumerable = tasks.Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name,
-            });
-
+            var tasksEnumerable = tasks.Select(x => x.ToSelectListItem());
             return new[] {new SelectListItem {Value = "", Text = ""}}.Concat(tasksEnumerable).ToArray();
         }
 
@@ -137,11 +128,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
             var common = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Common);
             var workTask = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.WorkTask);
 
-            return workTask.Concat(common).Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name,
-            }).ToArray();
+            return workTask.Concat(common).Select(x => x.ToSelectListItem()).ToArray();
         }
     }
 }

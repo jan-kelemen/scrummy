@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Boundary.Responses;
@@ -24,7 +25,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation
         public virtual string Present(ConfirmationResponse response)
         {
             PresentMessage(MessageType.Success, response.Message);
-            return response.Id.ToString();
+            return response.Id.ToPresentationIdentity();
         }
 
 

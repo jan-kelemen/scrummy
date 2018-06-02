@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Project;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Project;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
@@ -29,11 +29,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
 
             return new ManageBacklogViewModel
             {
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
+                Project = project.ToViewModel(),
                 Ids = items.Item1,
                 Name = items.Item2,
                 Type = items.Item3,
@@ -56,7 +52,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                 {
                     var task = RepositoryProvider.WorkTask.Read(x.WorkTaskId);
 
-                    id.Add(task.Id.ToString());
+                    id.Add(task.Id.ToPresentationIdentity());
                     name.Add(task.Name);
                     type.Add(task.Type.ToString());
                     point.Add(task.StoryPoints?.ToString());

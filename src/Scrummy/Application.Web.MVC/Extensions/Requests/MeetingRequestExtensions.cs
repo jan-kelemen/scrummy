@@ -5,7 +5,7 @@ using Scrummy.Application.Web.MVC.ViewModels.Meeting;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Interfaces.Meeting;
 
-namespace Scrummy.Application.Web.MVC.Controllers.Extensions
+namespace Scrummy.Application.Web.MVC.Extensions.Requests
 {
     public static class MeetingRequestExtensions
     {

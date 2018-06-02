@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Document;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Document;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
@@ -27,13 +27,9 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Document
 
             return new EditDocumentViewModel
             {
-                Id = document.Id.ToString(),
+                Id = document.Id.ToPresentationIdentity(),
                 Name = document.Name,
-                Project = new NavigationViewModel
-                {
-                    Id = project.Name,
-                    Text = project.Name,
-                },
+                Project = project.ToViewModel(),
                 Content = document.Content,
                 Links = document.Links.ToArray(),
                 DocumentType = DocumentKindToUserType(document.Kind),

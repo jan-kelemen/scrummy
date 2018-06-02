@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.WorkTask;
 using Scrummy.Application.Web.MVC.Utility;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.WorkTask;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
@@ -42,24 +42,20 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
 
             return new EditWorkTaskViewModel
             {
-                Id = task.Id.ToString(),
+                Id = task.Id.ToPresentationIdentity(),
                 Name = task.Name,
                 Description = task.Description,
                 StoryPoints = task.StoryPoints,
                 Type = task.Type.ToString(),
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
-                ParentTaskId = task.ParentTask.ToString(),
-                ChildTaskIds = task.ChildTasks.Select(x => x.ToString()).ToList(),
+                Project = project.ToViewModel(),
+                ParentTaskId = task.ParentTask.ToPresentationIdentity(),
+                ChildTaskIds = task.ChildTasks.Select(x => x.ToPresentationIdentity()).ToList(),
                 ParentTasks = ToSelectListWithBlankEntry(possibleParents),
                 ChildTasks = ToSelectListWithBlankEntry(possibleChildren),
-                OriginalChildTaskIds = task.ChildTasks.Select(x => x.ToString()).ToList(),
+                OriginalChildTaskIds = task.ChildTasks.Select(x => x.ToPresentationIdentity()).ToList(),
                 Steps = task.Steps.ToList(),
                 Documents = Documents(task.ProjectId),
-                SelectedDocumentIds = task.Documents.Select(x => x.ToString()).ToList(),
+                SelectedDocumentIds = task.Documents.Select(x => x.ToPresentationIdentity()).ToList(),
             };
         }
 
@@ -125,7 +121,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
                 .Where(x => statusFilter(x.Status))
                 .Select(x => RepositoryProvider.WorkTask.Read(x.WorkTaskId))
                 .Where(x => typeFilter(x.Type))
-                .Select(AsSelectListItem)
+                .Select(x => x.ToSelectListItem())
                 .ToList();
         }
 
@@ -133,10 +129,10 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
         {
             foreach (var identity in tasks)
             {
-                if (items.All(x => x.Value != identity.ToString()))
+                if (items.All(x => x.Value != identity.ToPresentationIdentity()))
                 {
                     var task = RepositoryProvider.WorkTask.Read(identity);
-                    items.Add(AsSelectListItem(task));
+                    items.Add(task.ToSelectListItem());
                 }
             }
         }
@@ -147,25 +143,12 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask
         private SelectListItem[] ToSelectListWithBlankEntry(IEnumerable<SelectListItem> tasks)
             => new[] { new SelectListItem { Value = "", Text = "" } }.Concat(tasks).ToArray();
 
-        private SelectListItem AsSelectListItem(Domain.Core.Entities.WorkTask task)
-        {
-            return new SelectListItem
-            {
-                Value = task.Id.ToString(),
-                Text = task.Name,
-            };
-        }
-
         private SelectListItem[] Documents(Identity projectId)
         {
             var common = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Common);
             var sprint = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.WorkTask);
 
-            return sprint.Concat(common).Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name,
-            }).ToArray();
+            return sprint.Concat(common).Select(x => x.ToSelectListItem()).ToArray();
         }
     }
 }

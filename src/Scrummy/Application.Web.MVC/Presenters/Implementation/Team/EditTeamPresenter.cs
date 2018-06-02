@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Team;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Team;
@@ -31,7 +32,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
                 TimeOfDailyScrum = entity.TimeOfDailyScrum.ToString(@"hh\:mm"),
                 Persons = Persons(),
                 Roles = Roles(),
-                SelectedMemberIds = entity.Members.Select(x => x.Id.ToString()).ToList(),
+                SelectedMemberIds = entity.Members.Select(x => x.Id.ToPresentationIdentity()).ToList(),
                 SelectedRoles = entity.Members.Select(x => RoleForSelection(x.Role)).ToList(),
             };
         }
@@ -81,13 +82,6 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Team
             throw new ArgumentOutOfRangeException();
         }
 
-        private SelectListItem[] Persons()
-        {
-            return RepositoryProvider.Person.ListAll().Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name,
-            }).ToArray();
-        }
+        private SelectListItem[] Persons() => RepositoryProvider.Person.ListAll().Select(x => x.ToSelectListItem()).ToArray();
     }
 }

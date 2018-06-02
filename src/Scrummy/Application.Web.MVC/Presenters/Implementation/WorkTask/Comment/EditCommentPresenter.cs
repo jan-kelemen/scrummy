@@ -1,7 +1,7 @@
 ﻿using System;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.WorkTask.Comment;
 using Scrummy.Application.Web.MVC.Utility;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.WorkTask.Comment;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories;
@@ -25,12 +25,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.WorkTask.Comment
 
             return new EditCommentViewModel
             {
-                WorkTask = new NavigationViewModel
-                {
-                    Id = task.Id.ToString(),
-                    Text = task.Name,
-                },
-                CommentId = comment.Id.ToString(),
+                WorkTask = task.ToViewModel(),
+                CommentId = comment.Id.ToPresentationIdentity(),
                 Content = comment.Content,
             };
         }

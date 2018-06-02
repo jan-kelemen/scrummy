@@ -5,7 +5,7 @@ using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
-namespace Scrummy.Application.Web.MVC.Controllers.Extensions
+namespace Scrummy.Application.Web.MVC.Extensions.Requests
 {
     public static class ProjectRequestExtensions
     {

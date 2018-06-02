@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Sprint;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Sprint;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Repositories;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
 
@@ -26,22 +26,14 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
 
             return new SprintReportViewModel
             {
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
-                Sprint = new NavigationViewModel
-                {
-                    Id = response.Sprint.Id.ToString(),
-                    Text = response.Sprint.Name,
-                },
+                Project = project.ToViewModel(),
+                Sprint = response.Sprint.ToViewModel(),
                 StartDate = response.TimeSpan.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 EndDate = response.TimeSpan.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Goal = response.Goal,
                 Stories = response.Stories.Select(x => new SprintReportViewModel.Story
                 {
-                    Id = x.Id.ToString(),
+                    Id = x.Id.ToPresentationIdentity(),
                     Text = x.Name,
                     StoryPoints = x.StoryPoints ?? 0,
                     CompletedTasks = x.CompletedTasks,

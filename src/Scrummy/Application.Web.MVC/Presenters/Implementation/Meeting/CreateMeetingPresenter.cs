@@ -2,10 +2,10 @@
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scrummy.Application.Web.MVC.Extensions.Entities;
 using Scrummy.Application.Web.MVC.Presenters.Meeting;
 using Scrummy.Application.Web.MVC.Utility;
 using Scrummy.Application.Web.MVC.ViewModels.Meeting;
-using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories;
@@ -30,16 +30,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
             {
                 Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 Duration = DateTime.Now.ToString("HH:mm", CultureInfo.InvariantCulture),
-                Project = new NavigationViewModel
-                {
-                    Id = project.Id.ToString(),
-                    Text = project.Name,
-                },
-                OrganizedBy = new NavigationViewModel
-                {
-                    Id = person.Id.ToString(),
-                    Text = person.DisplayName,
-                },
+                Project = project.ToViewModel(),
+                OrganizedBy = person.ToViewModel(),
                 Persons = Persons(),
                 Documents = Documents(project.Id),
             };
@@ -52,25 +44,14 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Meeting
             return vm;
         }
 
-        private SelectListItem[] Persons()
-        {
-            return RepositoryProvider.Person.ListAll().Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name,
-            }).ToArray();
-        }
+        private SelectListItem[] Persons() => RepositoryProvider.Person.ListAll().Select(x => x.ToSelectListItem()).ToArray();
 
         private SelectListItem[] Documents(Identity projectId)
         {
             var common = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Common);
             var meeting = RepositoryProvider.Document.ListByKind(projectId, DocumentKind.Meeting);
 
-            return meeting.Concat(common).Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name,
-            }).ToArray();
+            return meeting.Concat(common).Select(x => x.ToSelectListItem()).ToArray();
         }
     }
 }
