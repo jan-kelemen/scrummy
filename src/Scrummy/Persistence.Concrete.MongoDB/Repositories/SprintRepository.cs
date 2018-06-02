@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using MongoDB.Bson;
@@ -7,6 +8,7 @@ using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
 using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
@@ -138,6 +140,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var historyRecord = new MSprint.BacklogHistoryRecord
             {
+                Date = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 DoneTasks = backlog.Tasks.Count(x => x.Status == SprintBacklog.WorkTaskStatus.Done),
                 InProgressTasks = backlog.Tasks.Count(x => x.Status == SprintBacklog.WorkTaskStatus.InProgress),
                 ToDoTasks = backlog.Tasks.Count(x => x.Status == SprintBacklog.WorkTaskStatus.ToDo),
@@ -185,6 +188,23 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                         t.WorkTaskId.ToDomainIdentity(),
                         t.ParentTaskId.ToDomainIdentity(),
                         t.Status))));
+        }
+
+        public IEnumerable<SprintBacklogHistoryRecord> ReadHistoryRecords(Identity id)
+        {
+            if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
+
+            var entity = _sprintCollection.Find(x => x.Id == id.ToPersistenceIdentity()).FirstOrDefault();
+            if (entity == null) { throw CreateEntityNotFoundException(id); }
+
+            return entity.BacklogHistory.Select(x => new SprintBacklogHistoryRecord
+            {
+                Id = entity.Id.ToDomainIdentity(),
+                Date = DateTime.ParseExact(x.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                ToDoTasks = x.ToDoTasks,
+                DoneTasks = x.DoneTasks,
+                InProgressTasks = x.InProgressTasks,
+            });
         }
 
         public override IEnumerable<NavigationInfo> ListAll()

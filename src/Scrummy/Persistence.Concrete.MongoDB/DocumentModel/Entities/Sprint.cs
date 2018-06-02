@@ -11,6 +11,8 @@ namespace Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities
     {
         internal class BacklogHistoryRecord
         {
+            public string Date { get; set; }
+
             public int ToDoTasks { get; set; }
 
             public int InProgressTasks { get; set; }

@@ -19,5 +19,7 @@ namespace Scrummy.Domain.Repositories.Interfaces
         HistoryDTO<Identity> ReadProjectTeamHistory(Identity projectId);
 
         HistoryDTO<Identity> ReadTeamProjectHistory(Identity teamId);
+
+        IEnumerable<ProjectBacklogHistoryRecord> ReadHistoryRecords(Identity id);
     }
 }

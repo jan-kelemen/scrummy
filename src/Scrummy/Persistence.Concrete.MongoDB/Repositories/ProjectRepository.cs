@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
@@ -126,6 +127,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
             var historyRecord = new MProject.BacklogHistoryRecord
             {
+                Date = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 DoneTasks = productBacklog.Count(x => x.Status == ProductBacklog.WorkTaskStatus.Done),
                 InSprintTasks = productBacklog.Count(x => x.Status == ProductBacklog.WorkTaskStatus.InSprint),
                 ReadyTasks = productBacklog.Count(x => x.Status == ProductBacklog.WorkTaskStatus.Ready),
@@ -237,6 +239,24 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 Id = teamId,
                 Records = records.OrderByDescending(x => x.From),
             };
+        }
+
+        public IEnumerable<ProjectBacklogHistoryRecord> ReadHistoryRecords(Identity id)
+        {
+            if (id.IsBlankIdentity()) { throw CreateEntityNotFoundException(id); }
+
+            var entity = _projectCollection.Find(x => x.Id == id.ToPersistenceIdentity()).FirstOrDefault();
+            if (entity == null) { throw CreateEntityNotFoundException(id); }
+
+            return entity.BacklogHistory.Select(x => new ProjectBacklogHistoryRecord
+            {
+                Id = entity.Id.ToDomainIdentity(),
+                Date = DateTime.ParseExact(x.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                InSprintTasks = x.InSprintTasks,
+                ReadyTasks = x.ReadyTasks,
+                ToDoTasks = x.ToDoTasks,
+                DoneTasks = x.DoneTasks,
+            });
         }
     }
 }
