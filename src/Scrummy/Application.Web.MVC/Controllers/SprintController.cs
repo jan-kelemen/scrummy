@@ -224,5 +224,30 @@ namespace Scrummy.Application.Web.MVC.Controllers
                 return RedirectToAction(nameof(Index), new { id });
             }
         }
+
+        [HttpGet]
+        public IActionResult Report(string id)
+        {
+            var presenter = _presenterFactory.Report(MessageHandler, ErrorHandler);
+            try
+            {
+                var uc = _useCaseFactory.Report;
+                var response = uc.Execute(new SprintReportRequest(CurrentUserId)
+                {
+                    Id = Identity.FromString(id),
+                });
+                return View(presenter.Present(response));
+            }
+            catch (InvalidRequestException ire)
+            {
+                presenter.PresentErrors(ire.Message, ire.Errors);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch (Exception e)
+            {
+                presenter.PresentMessage(MessageType.Error, e.Message);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+        }
     }
 }

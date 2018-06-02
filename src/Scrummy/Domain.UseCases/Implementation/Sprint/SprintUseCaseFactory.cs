@@ -19,5 +19,6 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
         public IStartSprintUseCase Start => new StartSprintUseCase(_repositoryProvider.Sprint, _repositoryProvider.WorkTask);
         public IEndSprintUseCase End => new EndSprintUseCase(_repositoryProvider.Sprint, _repositoryProvider.Project);
         public IChangeTaskStatusUseCase ChangeTaskStatus => new ChangeTaskStatusUseCase(_repositoryProvider.Sprint);
+        public ISprintReportUseCase Report => new SprintReportUseCase(_repositoryProvider.Sprint, _repositoryProvider.WorkTask);
     }
 }

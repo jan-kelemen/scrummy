@@ -15,5 +15,7 @@
         IEndSprintUseCase End { get; }
 
         IChangeTaskStatusUseCase ChangeTaskStatus { get; }
+
+        ISprintReportUseCase Report { get; }
     }
 }

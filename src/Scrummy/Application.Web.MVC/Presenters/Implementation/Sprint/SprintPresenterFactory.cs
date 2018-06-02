@@ -22,5 +22,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Sprint
 
         public IEndSprintPresenter End(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
             => new EndSprintPresenter(messageHandler, errorHandler, RepositoryProvider);
+
+        public ISprintReportPresenter Report(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
+            => new SprintReportPresenter(messageHandler, errorHandler, RepositoryProvider);
     }
 }

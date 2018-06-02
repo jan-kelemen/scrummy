@@ -1,0 +1,200 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Sprint.SprintReportViewModel
+
+@{
+    ViewData["Title"] = "Sprint report";
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Sprint.Id">Sprint</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Sprint report - @Model.Sprint.Text</h2> <hr />
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Sprint)
+                </dt>
+                <dd>
+                    <a asp-action="Index" asp-controller="Project" asp-route-id="@Model.Sprint.Id">@Model.Sprint.Text</a>
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Project)
+                </dt>
+                <dd>
+                    <a asp-action="Index" asp-controller="Project" asp-route-id="@Model.Project.Id">@Model.Project.Text</a>
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.StartDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.EndDate)
+                </dd>
+            </dl>
+            <h5><b>Goal</b></h5>
+            <textarea class="form-control" readonly>@Model.Goal</textarea>
+            <h5><b>Stories</b></h5>
+            <div class="row">
+                <div class="col-xs-6">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Planned
+                        </dt>
+                        <dd>
+                            @Model.Stories.Length
+                        </dd>
+                        <dt>
+                            Completed
+                        </dt>
+                        <dd>
+                            @Model.Stories.Count(x => x.Completed)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-xs-6">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Planned value
+                        </dt>
+                        <dd>
+                            @Model.Stories.Sum(x => x.StoryPoints)
+                        </dd>
+                        <dt>
+                            Completed value
+                        </dt>
+                        <dd>
+                            @Model.Stories.Where(x => x.Completed).Sum(x => x.StoryPoints)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Story</th>
+                        <th>Story points</th>
+                        <th>Tasks</th>
+                        <th>Completed</th>
+                        <th class="actionColumn"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model.Stories)
+                    {
+                        <tr>
+                            <td>@p.Text</td>
+                            <td>@p.StoryPoints</td>
+                            <td>@p.CompletedTasks / @p.TotalTasks</td>
+                            <td>
+
+                                @{
+                                    var comp = p.Completed ? "Yes" : "No";
+                                }
+                                @comp
+                            </td>
+                            <td>
+                                <a asp-area="" class="btn btn-default" asp-action="Index" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <h5><b>Burndown chart</b></h5>
+            <canvas id="burndown"></canvas>
+            <h5><b>Burnup chart</b></h5>
+            <canvas id="burnup"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ctx = document.getElementById("burndown");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.Date).ToArray())),
+            datasets: [{
+                    label: 'ToDo Tasks',
+                    data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.ToDoTasks))),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Total',
+                    data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.DoneTasks + x.ToDoTasks + x.InProgressTasks))),
+                    borderColor: ['rgba(0, 0, 0, 1)'],
+                    backgroundColor: ['rgba(0, 0, 0, 0)'],
+                    borderWidth: 2
+                }],
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            elements: {
+                line: {
+                    tension: 0
+                }
+            }
+        },
+    });
+</script>
+
+<script>
+    var ctx = document.getElementById("burnup");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.Date).ToArray())),
+            datasets: [{
+                    label: 'ToDo Tasks',
+                    data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.DoneTasks))),
+                    backgroundColor: [
+                        'rgba(99, 255, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(99, 255,132,1)',
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Total',
+                    data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.DoneTasks + x.ToDoTasks + x.InProgressTasks))),
+                    borderColor: ['rgba(0, 0, 0, 1)'],
+                    backgroundColor: ['rgba(0, 0, 0, 0)'],
+                    borderWidth: 2
+                }],
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            elements: {
+                line: {
+                    tension: 0
+                }
+            }
+        },
+    });
+</script>
