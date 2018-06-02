@@ -1,0 +1,188 @@
+﻿@model Scrummy.Application.Web.MVC.ViewModels.Project.ProjectReportViewModel
+
+@{
+    ViewData["Title"] = "Project report";
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <h2>Actions</h2> <hr />
+        <a asp-action="Index" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id">Project</a>
+    </div>
+    <div class="col-xs-10">
+        <h2>Project report - @Model.Project.Text</h2> <hr />
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Project)
+                </dt>
+                <dd>
+                    <a asp-action="Index" asp-controller="Project" asp-route-id="@Model.Project.Id">@Model.Project.Text</a>
+                </dd>
+                <dt>
+                    @Html.DisplayName("Completed sprints")
+                </dt>
+                <dd>
+                    @Model.Sprints.Length
+                </dd>
+            </dl>
+            <h5><b>Backlog statistics</b></h5>
+            <canvas id="backlog"></canvas>
+            <h5><b>Sprints</b></h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Sprint</th>
+                    <th>Planned stories</th>
+                    <th>Planned value</th>
+                    <th>Completed stories</th>
+                    <th>Completed value</th>
+                    <th class="actionColumn"></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var p in Model.Sprints)
+                {
+                    <tr>
+                        <td>@p.Text</td>
+                        <td>@p.PlannedStories</td>
+                        <td>@p.PlannedValue</td>
+                        <td>@p.CompletedStories</td>
+                        <td>@p.CompletedValue</td>
+                        <td>
+                            <a asp-area="" class="btn btn-default" asp-action="Index" asp-controller="Sprint" asp-route-id="@p.Id"><span class="glyphicon glyphicon-option-horizontal"></span></a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <h5><b>Planned vs Completed</b></h5>
+            <canvas id="pvc"></canvas>
+            <h5><b>Value burnup chart</b></h5>
+            <canvas id="valueburnup"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ctx = document.getElementById("backlog");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.Date).ToArray())),
+            datasets: [
+                {
+                    label: 'ToDo Tasks',
+                    data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.ToDoTasks))),
+                    borderColor: ['rgba(255, 99, 132, 1)'],
+                    backgroundColor: ['rgba(0, 0, 0, 0)'],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Ready Tasks',
+                    data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.ReadyTasks))),
+                    borderColor: ['rgba(102, 51, 99, 1)'],
+                    backgroundColor: ['rgba(0, 0, 0, 0)'],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Planned Tasks',
+                    data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.InSprintTasks))),
+                    borderColor: ['rgba(99, 132, 255, 1)' ],
+                    backgroundColor: ['rgba(0, 0, 0, 0)'],
+                    borderWidth: 2
+                },
+                {
+                    label: 'Done Tasks',
+                    data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.DoneTasks))),
+                    borderColor: ['rgba(99, 255, 132, 1)'],
+                    backgroundColor: ['rgba(0, 0, 0, 0)'],
+                    borderWidth: 1
+                },],
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            elements: {
+                line: {
+                    tension: 0
+                }
+            }
+        },
+    });
+</script>
+
+<script>
+    var ctx = document.getElementById("pvc");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.SprintsForChart.Select(x => x.Text).ToArray())),
+            datasets: [
+                {
+                    label: 'Completed',
+                    data: @Html.Raw(Json.Serialize(Model.SprintsForChart.Select(x => x.CompletedValue))),
+                    borderColor: 'rgba(99, 255, 132, 1)',
+                    backgroundColor: 'rgba(99, 255, 132, 0.5)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Planned',
+                    data: @Html.Raw(Json.Serialize(Model.SprintsForChart.Select(x => x.PlannedValue))),
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.3)',
+                    borderWidth: 1
+                }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: false,
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+<script>
+    var ctx = document.getElementById("valueburnup");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.BurnupNames)),
+            datasets: [
+                {
+                    label: 'Accummulated value',
+                    data: @Html.Raw(Json.Serialize(Model.BurnupValues)),
+                    borderColor: 'rgba(99, 255, 132, 1)',
+                    backgroundColor: 'rgba(99, 255, 132, 0.5)',
+                    borderWidth: 1
+                },],
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            elements: {
+                line: {
+                    tension: 0
+                }
+            }
+        },
+    });
+</script>

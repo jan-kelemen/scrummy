@@ -40,5 +40,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
 
         public IViewDocumentsPresenter ViewDocuments(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
             => new ViewDocumentsPresenter(messageHandler, errorHandler, RepositoryProvider);
+
+        public IProjectReportPresenter Report(Action<MessageType, string> messageHandler, Action<string, string> errorHandler)
+            => new ProjectReportPresenter(messageHandler, errorHandler, RepositoryProvider);
     }
 }
