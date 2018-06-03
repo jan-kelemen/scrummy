@@ -5,7 +5,7 @@ using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.Repositories.Interfaces.DTO;
-using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
+using Scrummy.Persistence.Concrete.MongoDB.Extensions;
 
 using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Person;
 
@@ -71,14 +71,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _personCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll()
-        {
-            return _personCollection.AsQueryable().ToList().Select(x => new NavigationInfo
-            {
-                Id = x.Id.ToDomainIdentity(),
-                Name = x.DisplayName,
-            });
-        }
+        public override IEnumerable<NavigationInfo> ListAll() => _personCollection.AsQueryable().Select(x => x.ToInfo());
 
         public bool CheckIfEmailExists(string email) => 
             _personCollection.Find(x => x.Email.ToLowerInvariant() == email.ToLowerInvariant()).FirstOrDefault() != null;

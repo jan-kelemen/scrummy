@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using MongoDB.Bson;
 using Scrummy.Domain.Core.Entities;
+using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
 using MPerson = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Person;
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
@@ -25,9 +26,9 @@ using Document = Scrummy.Domain.Core.Entities.Document;
 // ReSharper disable ArgumentsStyleOther
 // ReSharper disable ArgumentsStyleNamedExpression
 
-namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
+namespace Scrummy.Persistence.Concrete.MongoDB.Extensions
 {
-    internal static class EntityMappingExtensions
+    internal static class RepositoryMappingExtensions
     {
         public static Person ToDomainEntity(this MPerson person)
         {

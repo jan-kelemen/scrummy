@@ -9,7 +9,7 @@ using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
-using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
+using Scrummy.Persistence.Concrete.MongoDB.Extensions;
 
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
 using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Meeting;
@@ -161,14 +161,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _projectCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll()
-        {
-            return _projectCollection.AsQueryable().ToList().Select(x => new NavigationInfo
-            {
-                Id = x.Id.ToDomainIdentity(),
-                Name = x.Name,
-            });
-        }
+        public override IEnumerable<NavigationInfo> ListAll() => _projectCollection.AsQueryable().ToList().Select(x => x.ToInfo());
 
         public bool CheckIfProjectWithNameExists(string name) =>
             _projectCollection.Find(x => x.Name == name).FirstOrDefault() != null;

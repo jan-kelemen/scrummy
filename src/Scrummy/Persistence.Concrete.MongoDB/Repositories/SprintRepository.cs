@@ -9,7 +9,7 @@ using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.Repositories.Interfaces.DTO;
-using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
+using Scrummy.Persistence.Concrete.MongoDB.Extensions;
 using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
 using MProject = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Project;
 
@@ -207,13 +207,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             });
         }
 
-        public override IEnumerable<NavigationInfo> ListAll()
-        {
-            return _sprintCollection.AsQueryable().ToList().Select(x => new NavigationInfo
-            {
-                Id = x.Id.ToDomainIdentity(),
-                Name = x.Name,
-            });
-        }
+        public override IEnumerable<NavigationInfo> ListAll() => _sprintCollection.AsQueryable().Select(x => x.ToInfo());
     }
 }

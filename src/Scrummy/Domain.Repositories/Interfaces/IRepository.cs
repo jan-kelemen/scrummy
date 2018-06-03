@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Scrummy.Domain.Core.Entities.Common;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 
 namespace Scrummy.Domain.Repositories.Interfaces
 {
@@ -25,12 +26,5 @@ namespace Scrummy.Domain.Repositories.Interfaces
         bool Exists(Identity id);
 
         IEnumerable<NavigationInfo> ListAll();
-    }
-
-    public class NavigationInfo
-    {
-        public Identity Id { get; set; }
-
-        public string Name { get; set; }
     }
 }

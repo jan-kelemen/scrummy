@@ -2,7 +2,7 @@
 using Scrummy.Application.Web.MVC.ViewModels.Utility;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
-using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 
 namespace Scrummy.Application.Web.MVC.Extensions.Entities
 {

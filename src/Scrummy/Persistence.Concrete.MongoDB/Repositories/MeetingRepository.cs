@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
-using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
+using Scrummy.Persistence.Concrete.MongoDB.Extensions;
 using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Meeting;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
@@ -83,15 +83,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _meetingCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll()
-        {
-            return _meetingCollection.AsQueryable().ToList().Select(x => new NavigationInfo
-            {
-                Id = x.Id.ToDomainIdentity(),
-                Name = x.Name,
-            });
-        }
-
+        public override IEnumerable<NavigationInfo> ListAll() => _meetingCollection.AsQueryable().Select(x => x.ToInfo());
 
         public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime,
             DateTime toTime)

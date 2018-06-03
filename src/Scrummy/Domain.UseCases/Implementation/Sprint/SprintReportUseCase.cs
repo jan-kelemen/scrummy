@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Scrummy.Domain.Core.Entities;
+using Scrummy.Domain.Repositories.Extensions;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Interfaces.Sprint;
@@ -67,11 +69,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Sprint
 
             return new SprintReportResponse
             {
-                Sprint = new NavigationInfo
-                {
-                    Id = sprint.Id,
-                    Name = sprint.Name,
-                },
+                Sprint = sprint.ToInfo(),
                 Goal = sprint.Goal,
                 ProjectId = sprint.ProjectId,
                 TimeSpan = sprint.TimeSpan,

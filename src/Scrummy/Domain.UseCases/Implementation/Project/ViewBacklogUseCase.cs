@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using Scrummy.Domain.Repositories.Extensions;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Interfaces.Project;
 
@@ -34,11 +36,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
                     Type = task.Type,
                     Status = x.Status,
                     StoryPoints = task.StoryPoints,
-                    ParentTask = parentTask == null ? null : new NavigationInfo
-                    {
-                        Id = parentTask.Id,
-                        Name = parentTask.Name
-                    }
+                    ParentTask = parentTask?.ToInfo(),
                 };
             });
 

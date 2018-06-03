@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using Scrummy.Domain.Repositories.Extensions;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Domain.UseCases.Boundary.Extensions;
 using Scrummy.Domain.UseCases.Boundary.Requests;
 using Scrummy.Domain.UseCases.Interfaces.Team;
@@ -26,11 +28,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Team
 
             return new ViewProjectHistoryResponse
             {
-                Team = new NavigationInfo
-                {
-                    Id = team.Id,
-                    Name = team.Name,
-                },
+                Team = team.ToInfo(),
                 Projects = projects.Records.Select(x => new ViewProjectHistoryResponse.Project
                 {
                     Id = x.RecordId,

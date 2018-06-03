@@ -6,7 +6,7 @@ using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.Repositories.Interfaces.DTO;
-using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
+using Scrummy.Persistence.Concrete.MongoDB.Extensions;
 using MDocument = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Document;
 using MSprint = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Sprint;
 using MMeeting = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Meeting;
@@ -106,14 +106,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _documentCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll()
-        {
-            return _documentCollection.AsQueryable().ToList().Select(x => new NavigationInfo
-            {
-                Id = x.Id.ToDomainIdentity(),
-                Name = x.Name,
-            });
-        }
+        public override IEnumerable<NavigationInfo> ListAll() => _documentCollection.AsQueryable().Select(x => x.ToInfo());
 
         public DocumentWithReferences ReadWithReferences(Identity id)
         {
@@ -142,11 +135,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             var projectFilter = Builders<MDocument>.Filter.Where(x => x.ProjectId == projectId.ToPersistenceIdentity());
             var kindFilter = Builders<MDocument>.Filter.Where(x => x.Kind == kind);
 
-            return _documentCollection.Find(projectFilter & kindFilter).ToEnumerable().Select(x => new NavigationInfo
-            {
-                Id = x.Id.ToDomainIdentity(),
-                Name = x.Name,
-            });
+            return _documentCollection.Find(projectFilter & kindFilter).ToEnumerable().Select(x => x.ToInfo());
         }
     }
 }

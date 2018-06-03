@@ -4,8 +4,9 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
-using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
+using Scrummy.Persistence.Concrete.MongoDB.Extensions;
 using MWorkTask = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.WorkTask;
 using WorkTask = Scrummy.Domain.Core.Entities.WorkTask;
 
@@ -177,13 +178,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
                 updateDefinition);
         }
 
-        public override IEnumerable<NavigationInfo> ListAll()
-        {
-            return _workTaskCollection.AsQueryable().ToList().Select(x => new NavigationInfo
-            {
-                Id = x.Id.ToDomainIdentity(),
-                Name = x.Name,
-            });
-        }
+        public override IEnumerable<NavigationInfo> ListAll() => _workTaskCollection.AsQueryable().Select(x => x.ToInfo());
     }
 }

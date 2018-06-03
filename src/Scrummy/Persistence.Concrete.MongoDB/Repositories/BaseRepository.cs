@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using Scrummy.Domain.Core.Entities.Common;
 using Scrummy.Domain.Repositories.Exceptions;
 using Scrummy.Domain.Repositories.Interfaces;
+using Scrummy.Domain.Repositories.Interfaces.DTO;
 
 namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 {

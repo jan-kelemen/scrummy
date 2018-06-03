@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
 using Scrummy.Domain.Core.Entities.Common;
 
-namespace Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions
+namespace Scrummy.Persistence.Concrete.MongoDB.Extensions
 {
-    internal static class IdentityMappingExtensions
+    public static class IdentityMappingExtensions
     {
         public static Identity ToDomainIdentity(this ObjectId id) => id == ObjectId.Empty ? Identity.BlankIdentity : Identity.FromString(id.ToString());
 

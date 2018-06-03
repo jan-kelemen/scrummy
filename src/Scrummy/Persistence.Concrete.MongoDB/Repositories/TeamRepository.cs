@@ -7,7 +7,7 @@ using Scrummy.Domain.Core.Entities.Enumerations;
 using Scrummy.Domain.Repositories.Interfaces;
 using Scrummy.Domain.Repositories.Interfaces.DTO;
 using Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities;
-using Scrummy.Persistence.Concrete.MongoDB.Mapping.Extensions;
+using Scrummy.Persistence.Concrete.MongoDB.Extensions;
 using MTeam = Scrummy.Persistence.Concrete.MongoDB.DocumentModel.Entities.Team;
 using Team = Scrummy.Domain.Core.Entities.Team;
 
@@ -168,13 +168,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _teamCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll()
-        {
-            return _teamCollection.AsQueryable().ToList().Select(x => new NavigationInfo
-            {
-                Id = x.Id.ToDomainIdentity(),
-                Name = x.Name,
-            });
-        }
+        public override IEnumerable<NavigationInfo> ListAll() => _teamCollection.AsQueryable().Select(x => x.ToInfo());
     }
 }
