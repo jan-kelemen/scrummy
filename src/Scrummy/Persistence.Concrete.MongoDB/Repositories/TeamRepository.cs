@@ -168,6 +168,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _teamCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll() => _teamCollection.AsQueryable().Select(x => x.ToInfo());
+        public override IEnumerable<NavigationInfo> ListAll() => _teamCollection.AsQueryable().ToEnumerable().Select(x => x.ToInfo());
     }
 }

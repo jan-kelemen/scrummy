@@ -49,7 +49,14 @@
                                     <input type="hidden" value="@Model.StoryPoints[i]" name="StoryPoints[]" />
                                 </td>
                                 <td>
-                                    <select asp-for="@Model.Status[i]" name="Status[]" id="@Model.Ids[i]" asp-items="Model.Statuses" class="form-control"></select>
+                                    @if (Model.Type[i] == "Epic")
+                                    {
+                                        <select asp-for="@Model.Status[i]" name="Status[]" id="@Model.Ids[i]" asp-items="Model.EpicStatuses" class="form-control"></select>
+                                    }
+                                    else
+                                    {
+                                        <select asp-for="@Model.Status[i]" name="Status[]" id="@Model.Ids[i]" asp-items="Model.Statuses" class="form-control"></select>
+                                    }
                                 </td>
                                 <td><button class="btn btn-default" name="up"><span class="glyphicon glyphicon-arrow-up"></span></button></td>
                                 <td><button class="btn btn-default" name="down"><span class="glyphicon glyphicon-arrow-down"></span></button></td>

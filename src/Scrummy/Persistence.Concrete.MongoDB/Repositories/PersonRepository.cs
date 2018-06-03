@@ -71,7 +71,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _personCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll() => _personCollection.AsQueryable().Select(x => x.ToInfo());
+        public override IEnumerable<NavigationInfo> ListAll() => _personCollection.AsQueryable().ToEnumerable().Select(x => x.ToInfo());
 
         public bool CheckIfEmailExists(string email) => 
             _personCollection.Find(x => x.Email.ToLowerInvariant() == email.ToLowerInvariant()).FirstOrDefault() != null;

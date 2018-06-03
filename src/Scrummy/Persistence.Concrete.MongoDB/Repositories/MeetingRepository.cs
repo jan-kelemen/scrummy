@@ -83,7 +83,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _meetingCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll() => _meetingCollection.AsQueryable().Select(x => x.ToInfo());
+        public override IEnumerable<NavigationInfo> ListAll() => _meetingCollection.AsQueryable().ToEnumerable().Select(x => x.ToInfo());
 
         public IEnumerable<Identity> GetMeetingsOfPersonInTimeRange(Identity personId, DateTime fromTime,
             DateTime toTime)

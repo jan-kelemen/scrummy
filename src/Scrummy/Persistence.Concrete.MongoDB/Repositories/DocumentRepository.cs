@@ -106,7 +106,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _documentCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll() => _documentCollection.AsQueryable().Select(x => x.ToInfo());
+        public override IEnumerable<NavigationInfo> ListAll() => _documentCollection.AsQueryable().ToEnumerable().Select(x => x.ToInfo());
 
         public DocumentWithReferences ReadWithReferences(Identity id)
         {

@@ -207,6 +207,6 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
             });
         }
 
-        public override IEnumerable<NavigationInfo> ListAll() => _sprintCollection.AsQueryable().Select(x => x.ToInfo());
+        public override IEnumerable<NavigationInfo> ListAll() => _sprintCollection.AsQueryable().ToEnumerable().Select(x => x.ToInfo());
     }
 }

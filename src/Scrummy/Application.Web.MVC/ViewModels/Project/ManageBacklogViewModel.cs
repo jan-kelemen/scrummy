@@ -27,5 +27,20 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
                 Value = "Ready", Text = "Ready"
             }
         };
+
+        public SelectListItem[] EpicStatuses { get; set; } = {
+            new SelectListItem
+            {
+                Value = "ToDo", Text = "ToDo"
+            },
+            new SelectListItem
+            {
+                Value = "Ready", Text = "Ready"
+            },
+            new SelectListItem
+            {
+                Value = "Done", Text = "Done"
+            },
+        };
     }
 }

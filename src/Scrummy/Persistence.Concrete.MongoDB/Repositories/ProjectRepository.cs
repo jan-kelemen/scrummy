@@ -161,7 +161,7 @@ namespace Scrummy.Persistence.Concrete.MongoDB.Repositories
 
         public override bool Exists(Identity id) => _projectCollection.Count(x => x.Id == id.ToPersistenceIdentity()) == 1;
 
-        public override IEnumerable<NavigationInfo> ListAll() => _projectCollection.AsQueryable().ToList().Select(x => x.ToInfo());
+        public override IEnumerable<NavigationInfo> ListAll() => _projectCollection.AsQueryable().ToEnumerable().Select(x => x.ToInfo());
 
         public bool CheckIfProjectWithNameExists(string name) =>
             _projectCollection.Find(x => x.Name == name).FirstOrDefault() != null;
