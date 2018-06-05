@@ -29,8 +29,8 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                 {
                     Date = x.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                     DoneTasks = x.DoneTasks,
-                    ReadyTasks = x.DoneTasks + x.ReadyTasks,
-                    InSprintTasks = x.DoneTasks + x.ReadyTasks + x.InSprintTasks,
+                    InSprintTasks = x.DoneTasks + x.ReadyTasks,
+                    ReadyTasks = x.DoneTasks + x.ReadyTasks + x.InSprintTasks,
                     ToDoTasks = x.DoneTasks + x.ReadyTasks + x.InSprintTasks + x.ToDoTasks
 
                 }).ToArray(),
