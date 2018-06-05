@@ -27,6 +27,7 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             var entity = ToDomainEntity(request);
             var backlog = _projectRepository.ReadProductBacklog(project.Id);
 
+            var shouldUpdateProductBacklog = true;
             if (entity.Type == WorkTaskType.Epic)
             {
                 backlog.AddTaskToBacklog(new ProductBacklog.WorkTaskWithStatus(entity.Id, ProductBacklog.WorkTaskStatus.ToDo));
@@ -43,9 +44,14 @@ namespace Scrummy.Domain.UseCases.Implementation.WorkTask
             {
                 backlog.AddTaskToBacklog(new ProductBacklog.WorkTaskWithStatus(entity.Id, ProductBacklog.WorkTaskStatus.ToDo));
             }
+            else
+            {
+                shouldUpdateProductBacklog = false;
+            }
 
             _workTaskRepository.Create(entity);
-            _projectRepository.UpdateProductBacklog(backlog);
+            if(shouldUpdateProductBacklog)
+                _projectRepository.UpdateProductBacklog(backlog);
 
             return new ConfirmationResponse("Work task created successfully.")
             {
