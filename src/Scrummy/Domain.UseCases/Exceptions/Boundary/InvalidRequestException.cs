@@ -6,7 +6,7 @@ namespace Scrummy.Domain.UseCases.Exceptions.Boundary
 {
     public class InvalidRequestException : UseCaseException
     {
-        public InvalidRequestException()
+        public InvalidRequestException() : this("Request contains invalid data.")
         {
         }
 
