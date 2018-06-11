@@ -10,7 +10,7 @@
 
 <h2>Create meeting - @Model.Project.Text</h2><hr />
 <div class="row">
-    <div class="col-xs-10">
+    <div class="col-xs-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(x => x.OrganizedBy.Id)
