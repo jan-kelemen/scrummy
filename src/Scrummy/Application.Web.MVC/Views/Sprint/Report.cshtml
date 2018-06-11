@@ -164,7 +164,7 @@
         data: {
             labels: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.Date).ToArray())),
             datasets: [{
-                    label: 'ToDo Tasks',
+                    label: 'Done Tasks',
                     data: @Html.Raw(Json.Serialize(Model.Records.Select(x => x.DoneTasks))),
                     backgroundColor: [
                         'rgba(99, 255, 132, 0.2)',

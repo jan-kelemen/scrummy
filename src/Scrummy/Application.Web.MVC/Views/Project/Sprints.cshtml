@@ -8,13 +8,14 @@
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="Sprint" asp-route-id="@Model.Project.Id">Create</a>
+        <h3>Filter</h3> <hr />
         @if (Model.Type == "Planned")
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Done">View completed</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Done">Completed</a>
         }
         else
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Planned">View planned</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Sprints" asp-controller="Project" asp-route-id="@Model.Project.Id" asp-route-status="Planned">Planned</a>
         }
 
     </div>

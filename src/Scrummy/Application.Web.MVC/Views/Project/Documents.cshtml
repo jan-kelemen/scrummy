@@ -8,29 +8,30 @@
     <div class="col-xs-2">
         <h2>Actions</h2> <hr />
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="Document" asp-route-id="@Model.Project.Id">Create</a>
+        <h3>Filter</h3> <hr/>
         @if (Model.Flavor != "All")
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="All">All documents</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="All">All</a>
         }
         @if (Model.Flavor != "Common")
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Common">Common documents</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Common">Common</a>
         }
         @if (Model.Flavor != "Project")
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Project">Project documents</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Project">Project</a>
         }
         @if (Model.Flavor != "Work task")
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="WorkTask">Work task documents</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="WorkTask">Work task</a>
         }
         @if (Model.Flavor != "Meeting")
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Meeting">Meeting documents</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Meeting">Meeting</a>
         }
         @if (Model.Flavor != "Sprint")
         {
-            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Sprint">Sprint documents</a>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="Documents" asp-route-id="@Model.Project.Id" asp-route-flavor="Sprint">Sprint</a>
         }
     </div>
     <div class="col-xs-10">
