@@ -9,15 +9,22 @@
 
 <div class="row">
     <div class="col-xs-2">
-        <h2>Actions</h2> <hr />
-        <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
-        @if (Model.IsReportAvailable)
+        @if (Model.CanEdit || Model.IsReportAvailable)
         {
-            <a asp-action="Report" class="btn btn-default actionButton" asp-route-id="@Model.Id">Report</a>
+            <h2>Actions</h2> <hr />
+            if (Model.CanEdit)
+            {
+                <a asp-action="Edit" class="btn btn-default actionButton" asp-route-id="@Model.Id">Edit</a>
+            }
+            if (Model.IsReportAvailable)
+            {
+                <a asp-action="Report" class="btn btn-default actionButton" asp-route-id="@Model.Id">Report</a>
+            }
         }
         @if (Model.CanDelete)
         {
-            <h3>Delete</h3> <hr />
+            <h3>Delete</h3>
+            <hr />
             <button type="button" class="btn btn-danger actionButton" id="deleteBtn">Delete</button>
         }
     </div>

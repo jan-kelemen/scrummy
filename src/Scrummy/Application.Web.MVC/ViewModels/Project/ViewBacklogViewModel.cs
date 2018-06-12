@@ -30,5 +30,7 @@ namespace Scrummy.Application.Web.MVC.ViewModels.Project
         public BacklogFlavor Flavor { get; set; }
 
         public IEnumerable<Task> Tasks { get; set; }
+
+        public bool CanManageBacklog { get; set; }
     }
 }

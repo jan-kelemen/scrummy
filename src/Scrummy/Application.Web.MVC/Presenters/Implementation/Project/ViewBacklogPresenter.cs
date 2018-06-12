@@ -35,6 +35,7 @@ namespace Scrummy.Application.Web.MVC.Presenters.Implementation.Project
                     StoryPoints = x.StoryPoints?.ToString(),
                     Status = x.Status.ToString(),
                 }),
+                CanManageBacklog = response.CanManageBacklog,
             };
         }
     }

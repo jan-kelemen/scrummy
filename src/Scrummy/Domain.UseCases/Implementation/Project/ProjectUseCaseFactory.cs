@@ -17,7 +17,7 @@ namespace Scrummy.Domain.UseCases.Implementation.Project
         public IViewProjectUseCase View => new ViewProjectUseCase(_repositoryProvider.Project, _repositoryProvider.Sprint, _repositoryProvider.WorkTask);
         public IDeleteProjectUseCase Delete => new DeleteProjectUseCase(_repositoryProvider.Project);
         public IViewMeetingsUseCase ViewMeetings => new ViewMeetingsUseCase(_repositoryProvider.Meeting);
-        public IViewBacklogUseCase ViewBacklog => new ViewBacklogUseCase(_repositoryProvider.Project, _repositoryProvider.WorkTask);
+        public IViewBacklogUseCase ViewBacklog => new ViewBacklogUseCase(_repositoryProvider.Project, _repositoryProvider.WorkTask, _repositoryProvider.Team);
         public IManageBacklogUseCase ManageBacklog => new ManageBacklogUseCase(_repositoryProvider.Project);
         public IViewTeamHistoryUseCase TeamHistory => new ViewTeamHistoryUseCase(_repositoryProvider.Project);
         public IProjectReportUseCase Report => new ProjectReportUseCase(_repositoryProvider.Project, _repositoryProvider.Sprint, _repositoryProvider.WorkTask);

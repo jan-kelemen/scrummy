@@ -12,9 +12,16 @@
 
 <div class="row">
     <div class="col-xs-2">
-        <h2>Actions</h2> <hr />
-        <a asp-area="" class="btn btn-default actionButton" asp-action="ManageBacklog" asp-controller="Project" asp-route-id="@Model.Project.Id">Manage backlog</a>
-        <h3>Filter</h3> <hr/>
+        @if (Model.CanManageBacklog)
+        {
+            <h2>Actions</h2> <hr/>
+            <a asp-area="" class="btn btn-default actionButton" asp-action="ManageBacklog" asp-controller="Project" asp-route-id="@Model.Project.Id">Manage backlog</a>
+            <h3>Filter</h3> <hr/>
+        }
+        else
+        {
+            <h2>Filter</h2> <hr/>
+        }
         @if (Model.Flavor == ViewBacklogViewModel.BacklogFlavor.Backlog)
         {
             <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-flavor="Done">Completed</a>
@@ -23,7 +30,7 @@
         {
             <a asp-action="Backlog" class="btn btn-default actionButton" asp-route-id="@Model.Project.Id" asp-route-flavor="Backlog">Backlog</a>
         }
-        <h3>Create</h3> <hr />
+        <h3>Create</h3> <hr/>
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="WorkTask" asp-route-id="@Model.Project.Id" asp-route-type="Epic">Epic</a>
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="WorkTask" asp-route-id="@Model.Project.Id" asp-route-type="UserStory">Story</a>
         <a asp-area="" class="btn btn-default actionButton" asp-action="Create" asp-controller="WorkTask" asp-route-id="@Model.Project.Id" asp-route-type="Task">Task</a>

@@ -54,6 +54,8 @@ namespace Scrummy.Domain.UseCases.Interfaces.Project
         public Identity ProjectId { get; set; }
 
         public IEnumerable<Task> Tasks { get; set; }
+
+        public bool CanManageBacklog { get; set; }
     }
 
     public interface IViewBacklogUseCase
